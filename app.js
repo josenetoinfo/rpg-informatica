@@ -41,7 +41,7 @@ const courseModules = [
     title: 'Mundo 1: Infraestrutura Arcana (UC I)',
     description: 'Compreenda os fundamentos das redes, a magia da comunicação de dados e a arquitetura física que sustenta o mundo digital.',
     icon: '🌐',
-    background: './assets/world_map_uc1_1777939448890.png',
+    background: './assets/world_map_uc1.png',
     badgeTitle: 'Guardião da Rede',
     badgeIcon: '🛡️',
     lessons: [
@@ -1269,7 +1269,8 @@ function loginStudent(name, gender = 'male') {
       inventory: [], // IDs de acessórios comprados/ganhos
       equippedItems: [], // IDs de acessórios equipados
       badges: [],
-      answers: {} // Armazena respostas textuais: { "1-1": "Texto da resposta" }
+      answers: {}, // Armazena respostas textuais: { "1-1": "Texto da resposta" }
+      pendingProgress: [] // IDs de missões aguardando aprovação
     };
     students.push(student);
     localStorage.setItem('ava_students', JSON.stringify(students));
@@ -1286,6 +1287,7 @@ function loginStudent(name, gender = 'male') {
   if(!student.completedModules) student.completedModules = [];
   if(!student.badges) student.badges = [];
   if(!student.answers) student.answers = {};
+  if(!student.pendingProgress) student.pendingProgress = [];
 
   currentUser = student;
   initWorldSelect();
@@ -1598,6 +1600,9 @@ function openLesson(index) {
       textAreaContainer.classList.remove('hidden');
       if (isCompleted) {
           textArea.disabled = true;
+          feedback.innerText = 'Missão validada pelo professor. Resposta bloqueada para edição.';
+          feedback.className = 'quiz-feedback success';
+          feedback.classList.remove('hidden');
       } else {
           textArea.disabled = false;
       }
@@ -1605,10 +1610,10 @@ function openLesson(index) {
       optionsContainer.classList.add('hidden');
       textAreaContainer.classList.add('hidden');
       if(fileAreaContainer) fileAreaContainer.classList.remove('hidden');
-      if (isCompleted && currentUser.answers[lesson.id]) {
+      if ((isCompleted || isPending) && currentUser.answers[lesson.id]) {
           document.getElementById('file-preview-image').src = currentUser.answers[lesson.id];
           if(previewContainer) previewContainer.classList.remove('hidden');
-          if(fileInput) fileInput.disabled = true;
+          if(fileInput) fileInput.disabled = isCompleted;
       } else {
           if(fileInput) fileInput.disabled = false;
       }
@@ -1616,16 +1621,26 @@ function openLesson(index) {
       textAreaContainer.classList.add('hidden');
       if(fileAreaContainer) fileAreaContainer.classList.add('hidden');
       optionsContainer.classList.remove('hidden');
-      if (!isCompleted && lesson.quiz) {
+      document.getElementById('quiz-question').innerText = lesson.quiz ? lesson.quiz.question : (lesson.robotMessage || "");
+      
+      if (lesson.quiz) {
         lesson.quiz.options.forEach((opt, idx) => {
           const optEl = document.createElement('div');
           optEl.className = 'quiz-option';
+          if (isCompleted && idx === lesson.quiz.correctIndex) optEl.classList.add('correct');
           optEl.innerText = opt;
-          optEl.addEventListener('click', () => selectQuizOption(idx, optEl));
+          if (!isCompleted && !isPending) {
+              optEl.addEventListener('click', () => selectQuizOption(idx, optEl));
+          } else {
+              optEl.style.cursor = 'default';
+              optEl.style.opacity = '0.8';
+          }
           optionsContainer.appendChild(optEl);
         });
       }
   }
+
+  const isPending = currentUser.pendingProgress && currentUser.pendingProgress.includes(lesson.id);
 
   if (isCompleted) {
     btn.innerText = "Rever Resposta ✓";
@@ -1644,12 +1659,19 @@ function openLesson(index) {
        });
        return;
     } else {
-        btn.disabled = true;
-        btn.innerText = "Unidade Concluída ✓";
+        btn.disabled = false;
+        btn.innerText = "Mundo Concluído! Voltar ao Início";
+        btn.onclick = () => initWorldSelect();
+        return;
     }
+  } else if (isPending) {
+    btn.innerText = "Atualizar Resposta (Pendente)";
+    btn.classList.remove('primary-btn');
+    btn.classList.add('warning-btn');
+    btn.disabled = false;
   } else {
     btn.innerText = "Enviar Resposta e Validar";
-    btn.classList.remove('success-btn');
+    btn.classList.remove('success-btn', 'warning-btn');
     btn.classList.add('primary-btn');
     btn.disabled = false;
   }
@@ -1718,52 +1740,19 @@ function handleValidation() {
   }
 
   if (isValid) {
-    currentUser.progress.push(lesson.id);
-    // RECOMPENSAS RPG UNIFICADAS
-    let xpReward = lesson.xpReward;
-    let coinReward = 50;
-    
-    // Aplicar bônus de itens equipados
-    currentUser.equippedItems.forEach(itemId => {
-        const item = shopItems.find(i => i.id === itemId);
-        if(item) {
-            if(item.xpBonus) xpReward = Math.round(xpReward * (1 + item.xpBonus));
-            if(item.coinBonus) coinReward = Math.round(coinReward * (1 + item.coinBonus));
-        }
-    });
-
-    currentUser.xp += xpReward;
-    currentUser.coins = (currentUser.coins || 0) + coinReward;
-    
-    playSound('correct');
-    showToast(`+${coinReward} Moedas!`, '💰');
-    if(xpReward > lesson.xpReward) showToast(`Bônus de XP Ativo!`, '✨');
-    
-    let keyMessage = "";
-    if (Math.random() < 0.15) { // 15% de chance de ganhar chave
-        currentUser.keys = (currentUser.keys || 0) + 1;
-        keyMessage = " E você encontrou uma CHAVE MÁGICA! 🔑";
-        playSound('coin');
-        showToast(`Você encontrou uma CHAVE!`, '🔑');
-    }
-
-    const allLessonsCompleted = currentModule.lessons.every(l => currentUser.progress.includes(l.id));
-    
-    if(allLessonsCompleted && !currentUser.completedModules.includes(currentModule.id)) {
-        currentUser.completedModules.push(currentModule.id);
-        currentUser.badges.push({ title: currentModule.badgeTitle, icon: currentModule.badgeIcon });
-        feedback.innerText = `Missão Épica Cumprida (+${lesson.xpReward} XP, +${coinReward} Moedas). MÓDULO FECHADO! Você conquistou o selo '${currentModule.badgeTitle}'!${keyMessage}`;
-        
-        if (currentModule.id === 4 || currentModule.title.includes('Projeto Final') || currentModule.title.includes('Projetos')) {
-            if(window.triggerBossBattle) window.triggerBossBattle();
-        }
+    // Se for quiz de múltipla escolha, aprova na hora
+    if (lesson.type === 'choice') {
+        currentUser.progress.push(lesson.id);
+        awardRewards(lesson);
     } else {
-        feedback.innerText = `O Robô diz: "Ótima resposta! Boa sacada." Você ganhou ${lesson.xpReward} XP e ${coinReward} Moedas!${keyMessage}`;
+        // Se for texto ou arquivo, fica pendente
+        if (!currentUser.pendingProgress.includes(lesson.id)) {
+            currentUser.pendingProgress.push(lesson.id);
+        }
+        feedback.innerText = 'O Robô diz: "Recebi sua resposta! Agora o professor precisa validar para você ganhar seus pontos e moedas. Você pode continuar para a próxima missão enquanto isso!"';
+        feedback.className = 'quiz-feedback warning';
+        feedback.classList.remove('hidden');
     }
-    
-    feedback.className = 'quiz-feedback success';
-    feedback.classList.remove('hidden');
-    document.getElementById('quiz-textarea').disabled = true;
     
     saveStudentData();
     
@@ -1778,11 +1767,37 @@ function handleValidation() {
          openLesson(currentLessonIndex);
        });
     } else {
-       btn.innerText = "Unidade Concluída ✓";
+       btn.innerText = "Aguardando Validação do Mundo";
+       if(lesson.type === 'choice') btn.innerText = "Mundo Concluído! Voltar";
        btn.classList.replace('primary-btn', 'success-btn');
-       btn.disabled = true;
+       btn.onclick = () => initWorldSelect();
     }
   }
+}
+
+function awardRewards(lesson) {
+    let xpReward = lesson.xpReward;
+    let coinReward = 50;
+    
+    currentUser.equippedItems.forEach(itemId => {
+        const item = shopItems.find(i => i.id === itemId);
+        if(item) {
+            if(item.xpBonus) xpReward = Math.round(xpReward * (1 + item.xpBonus));
+            if(item.coinBonus) coinReward = Math.round(coinReward * (1 + item.coinBonus));
+        }
+    });
+
+    currentUser.xp += xpReward;
+    currentUser.coins = (currentUser.coins || 0) + coinReward;
+    
+    playSound('correct');
+    showToast(`+${coinReward} Moedas!`, '💰');
+    
+    const allLessonsCompleted = currentModule.lessons.every(l => currentUser.progress.includes(l.id));
+    if(allLessonsCompleted && !currentUser.completedModules.includes(currentModule.id)) {
+        currentUser.completedModules.push(currentModule.id);
+        currentUser.badges.push({ title: currentModule.badgeTitle, icon: currentModule.badgeIcon });
+    }
 }
 
 document.getElementById('back-to-dashboard').addEventListener('click', () => {
@@ -1800,10 +1815,22 @@ document.getElementById('logout-btn').addEventListener('click', () => {
 });
 
 // Área do Professor
-document.getElementById('teacher-btn').addEventListener('click', () => {
-  showScreen('teacher');
-  renderStudentList();
-});
+function openTeacherArea() {
+  const pass = prompt("🔐 Digite a senha do Grande Mestre:");
+  if (pass === 'Joseneto2020') {
+      showScreen('teacher');
+      renderStudentList();
+  } else {
+      showToast("Senha Incorreta!", "❌");
+  }
+}
+
+document.getElementById('teacher-btn').addEventListener('click', openTeacherArea);
+
+const teacherAccessBtn = document.getElementById('teacher-access-btn');
+if(teacherAccessBtn) {
+    teacherAccessBtn.addEventListener('click', openTeacherArea);
+}
 
 document.getElementById('back-to-login-btn').addEventListener('click', () => {
   showScreen('login');
@@ -1826,12 +1853,21 @@ function renderStudentList() {
         btn.classList.add('active');
         document.getElementById(`tab-${btn.dataset.tab}`).classList.remove('hidden');
         if(btn.dataset.tab === 'unlocks') renderModuleUnlocks();
+        if(btn.dataset.tab === 'pending') renderPendingApprovals();
     };
   });
 
   document.getElementById('view-ranking-btn').onclick = () => {
     showScreen('ranking');
     initRanking();
+  };
+
+  document.getElementById('reset-ranking-btn').onclick = () => {
+    if(confirm("ATENÇÃO: Isso apagará TODOS os dados de alunos e resetará o ranking. Deseja continuar?")) {
+        localStorage.removeItem('ava_students');
+        renderStudentList();
+        showToast("Ranking Resetado!", "🧹");
+    }
   };
   
   students.forEach(s => {
@@ -2211,7 +2247,7 @@ function renderPreviewAvatar() {
     const img = document.getElementById('preview-avatar-img');
     
     if (currentUser.gender === 'female') {
-        img.src = './assets/avatar_knight_female_1777939392579.png';
+        img.src = './assets/avatar_knight_female.png';
     } else {
         img.src = './assets/avatar_knight.png';
     }
@@ -2234,7 +2270,7 @@ function renderMainAvatar() {
     if(!container || !img) return;
 
     if (currentUser.gender === 'female') {
-        img.src = './assets/avatar_knight_female_1777939392579.png';
+        img.src = './assets/avatar_knight_female.png';
     } else {
         img.src = './assets/avatar_knight.png';
     }
@@ -2398,14 +2434,124 @@ document.getElementById('import-ranking-input').addEventListener('change', funct
             }
             
             localStorage.setItem('ava_students', JSON.stringify(students));
+            showToast("Dados Importados!", "📥");
+            if(currentUser) {
+                const updated = students.find(s => s.name === currentUser.name);
+                if(updated) currentUser = updated;
+            }
             initRanking();
-            showToast("Dados Importados com Sucesso!", "📥");
-        } catch (err) {
-            alert("Erro ao importar arquivo. Certifique-se de que é um JSON válido exportado pelo jogo.");
+        } catch(err) {
+            alert("Erro ao importar dados.");
         }
     };
     reader.readAsText(file);
 });
+
+function renderPendingApprovals() {
+    const container = document.getElementById('pending-list-container');
+    const students = JSON.parse(localStorage.getItem('ava_students')) || [];
+    container.innerHTML = '';
+    
+    let hasPending = false;
+    students.forEach(student => {
+        if(student.pendingProgress && student.pendingProgress.length > 0) {
+            hasPending = true;
+            student.pendingProgress.forEach(lessonId => {
+                const lesson = findLessonById(lessonId);
+                const item = document.createElement('div');
+                item.className = 'glass-card mb-4';
+                item.style.padding = '1rem';
+                item.style.marginBottom = '1rem';
+                
+                let answerDisplay = student.answers[lessonId];
+                if(answerDisplay && answerDisplay.startsWith('data:image')) {
+                    answerDisplay = `<img src="${answerDisplay}" style="max-width:200px; display:block; margin: 10px 0; border-radius: 8px;">`;
+                } else {
+                    answerDisplay = `<p style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; margin: 10px 0;">${answerDisplay || 'Sem resposta'}</p>`;
+                }
+
+                item.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <strong>${student.name}</strong>
+                        <span class="badge-level">LVL ${student.level || 1}</span>
+                    </div>
+                    <div style="font-size: 0.9rem; color: var(--primary); margin-top: 5px;">${lesson ? lesson.title : lessonId}</div>
+                    ${answerDisplay}
+                    <div style="display:flex; gap: 10px; margin-top: 10px;">
+                        <button class="btn success-btn" onclick="approveMission('${student.name}', '${lessonId}')">Aprovar ✓</button>
+                        <button class="btn error-btn" onclick="rejectMission('${student.name}', '${lessonId}')">Reprovar ✗</button>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+    });
+
+    if(!hasPending) {
+        container.innerHTML = '<p style="text-align:center; padding: 2rem; color: var(--text-secondary);">Nenhuma missão pendente de avaliação.</p>';
+    }
+}
+
+function findLessonById(id) {
+    for(const mod of courseModules) {
+        const l = mod.lessons.find(x => x.id === id);
+        if(l) return l;
+    }
+    return null;
+}
+
+window.approveMission = function(studentName, lessonId) {
+    let students = JSON.parse(localStorage.getItem('ava_students')) || [];
+    const sIdx = students.findIndex(s => s.name === studentName);
+    if(sIdx === -1) return;
+    
+    const student = students[sIdx];
+    student.pendingProgress = student.pendingProgress.filter(id => id !== lessonId);
+    if(!student.progress.includes(lessonId)) {
+        student.progress.push(lessonId);
+        
+        // Award rewards
+        const lesson = findLessonById(lessonId);
+        if(lesson) {
+            let xpReward = lesson.xpReward;
+            let coinReward = 50;
+            student.xp = (student.xp || 0) + xpReward;
+            student.coins = (student.coins || 0) + coinReward;
+            
+            // Check module completion
+            courseModules.forEach(mod => {
+                if(mod.lessons.some(l => l.id === lessonId)) {
+                    const allDone = mod.lessons.every(l => student.progress.includes(l.id));
+                    if(allDone && !student.completedModules.includes(mod.id)) {
+                        student.completedModules.push(mod.id);
+                        student.badges.push({ title: mod.badgeTitle, icon: mod.badgeIcon });
+                    }
+                }
+            });
+        }
+    }
+    
+    localStorage.setItem('ava_students', JSON.stringify(students));
+    renderPendingApprovals();
+    showToast(`Missão de ${studentName.split(' ')[0]} aprovada!`, "✅");
+}
+
+window.rejectMission = function(studentName, lessonId) {
+    if(!confirm("Deseja realmente reprovar esta resposta? O aluno terá que enviar novamente.")) return;
+    
+    let students = JSON.parse(localStorage.getItem('ava_students')) || [];
+    const sIdx = students.findIndex(s => s.name === studentName);
+    if(sIdx === -1) return;
+    
+    const student = students[sIdx];
+    student.pendingProgress = student.pendingProgress.filter(id => id !== lessonId);
+    // Removemos a resposta para que ele possa enviar de novo
+    delete student.answers[lessonId];
+    
+    localStorage.setItem('ava_students', JSON.stringify(students));
+    renderPendingApprovals();
+    showToast(`Missão de ${studentName.split(' ')[0]} reprovada.`, "❌");
+}
 
 // Inicialização
 updateLoginHistory();

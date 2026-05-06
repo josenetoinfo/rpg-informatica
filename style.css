@@ -152,6 +152,32 @@ body::before {
   filter: brightness(1.1);
 }
 
+.warning-btn {
+  background: linear-gradient(180deg, #b8860b 0%, #8b6b0d 100%);
+  color: #1a0f0a;
+  border-color: #d4af37;
+  box-shadow: 0 4px 0 #5d4608;
+}
+
+.warning-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #5d4608;
+  filter: brightness(1.1);
+}
+
+.error-btn {
+  background: linear-gradient(180deg, #ef4444 0%, #b91c1c 100%);
+  color: #fff;
+  border-color: #f87171;
+  box-shadow: 0 4px 0 #7f1d1d;
+}
+
+.error-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #7f1d1d;
+  filter: brightness(1.1);
+}
+
 .text-btn {
   background: rgba(0,0,0,0.3);
   color: var(--text-primary);

@@ -319,18 +319,28 @@
                  
                  <div class="teacher-tabs" style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
                     <button class="btn primary-btn teacher-tab-btn active" data-tab="students">Gerenciar Alunos</button>
+                    <button class="btn primary-btn teacher-tab-btn" data-tab="pending">Avaliações Pendentes</button>
                     <button class="btn primary-btn teacher-tab-btn" data-tab="unlocks">Cronograma de Missões</button>
                  </div>
 
                  <div id="tab-students" class="teacher-tab-content">
                     <p>Relatório de progresso de todos os alunos registrados.</p>
-                    <div class="actions" style="margin: 1.5rem 0;">
+                    <div class="actions" style="margin: 1.5rem 0; display: flex; gap: 0.5rem; flex-wrap: wrap;">
                         <button id="export-csv-btn" class="btn success-btn">Baixar Planilha Geral (CSV)</button>
                         <button id="view-ranking-btn" class="btn primary-btn">🏆 Ver Ranking da Turma</button>
+                        <button id="reset-ranking-btn" class="btn error-btn">🧹 Zerar Ranking/Alunos</button>
                     </div>
                     <div class="student-list">
                         <h3>Alunos Registrados</h3>
                         <ul id="student-list-container"></ul>
+                    </div>
+                 </div>
+
+                 <div id="tab-pending" class="teacher-tab-content hidden">
+                    <h3>Missões Aguardando Validação</h3>
+                    <p style="font-size: 0.85rem; margin-bottom: 1.5rem;">Analise as respostas dos alunos abaixo e aprove para que eles recebam XP e Moedas.</p>
+                    <div id="pending-list-container">
+                        <!-- Itens via JS -->
                     </div>
                  </div>
 
