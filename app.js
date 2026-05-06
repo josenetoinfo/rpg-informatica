@@ -106,12 +106,12 @@ const courseModules = [
         quiz: {
             question: 'Por que o modelo OSI é dividido em 7 camadas?',
             options: [
-                'A) Para tornar o sistema mais lento e complexo.',
-                'B) Para facilitar o entendimento, o desenvolvimento e a solução de problemas de forma modular.',
+                'A) Para facilitar o entendimento, o desenvolvimento e a solução de problemas de forma modular.',
+                'B) Para tornar o sistema mais lento e complexo.',
                 'C) Porque existem 7 continentes no mundo.',
                 'D) Para que cada camada use um cabo de cor diferente.'
             ],
-            correctIndex: 1
+            correctIndex: 0
         }
       },
       {
@@ -213,11 +213,11 @@ const courseModules = [
             question: 'Qual a principal evolução trazida pelo 5G em relação ao 4G?',
             options: [
                 'A) Funciona sem precisar de energia elétrica.',
-                'B) Maior velocidade de transmissão e baixíssima latência.',
-                'C) Só funciona em dias de sol.',
+                'B) Só funciona em dias de sol.',
+                'C) Maior velocidade de transmissão e baixíssima latência.',
                 'D) Usa cabos de cobre mais grossos.'
             ],
-            correctIndex: 1
+            correctIndex: 2
         }
       },
       {
@@ -1050,11 +1050,11 @@ botao.addEventListener('click', function() {
             question: 'Sobre a Ética na Pesquisa, qual afirmação é VERDADEIRA?',
             options: [
                 'A) Posso usar dados de pessoas sem a permissão delas se for para a ciência.',
-                'B) Ética na pesquisa serve para garantir o respeito à dignidade e aos direitos dos participantes.',
-                'C) Cientistas não precisam seguir leis como a LGPD.',
+                'B) Cientistas não precisam seguir leis como a LGPD.',
+                'C) Ética na pesquisa serve para garantir o respeito à dignidade e aos direitos dos participantes.',
                 'D) Posso inventar dados se o resultado original não for o que eu esperava.'
             ],
-            correctIndex: 1
+            correctIndex: 2
         }
       },
       {
@@ -1214,9 +1214,15 @@ function showToast(message, icon = '💰') {
 let selectedGender = 'male';
 document.querySelectorAll('.gender-option').forEach(opt => {
     opt.addEventListener('click', () => {
-        document.querySelectorAll('.gender-option').forEach(o => o.classList.remove('selected'));
+        document.querySelectorAll('.gender-option').forEach(o => {
+            o.classList.remove('selected');
+            o.style.borderColor = 'var(--glass-border)';
+            o.style.boxShadow = 'none';
+        });
         opt.classList.add('selected');
-        selectedGender = opt.dataset.gender;
+        opt.style.borderColor = 'var(--primary)';
+        opt.style.boxShadow = '0 0 15px var(--primary)';
+        selectedGender = opt.getAttribute('data-gender');
     });
 });
 
@@ -1749,9 +1755,10 @@ function handleValidation() {
         if (!currentUser.pendingProgress.includes(lesson.id)) {
             currentUser.pendingProgress.push(lesson.id);
         }
-        feedback.innerText = 'O Robô diz: "Recebi sua resposta! Agora o professor precisa validar para você ganhar seus pontos e moedas. Você pode continuar para a próxima missão enquanto isso!"';
+        feedback.innerText = 'O Robô diz: "Sua resposta foi atualizada! Aguardando a validação final do professor para liberar seus prêmios."';
         feedback.className = 'quiz-feedback warning';
         feedback.classList.remove('hidden');
+        showToast("Resposta Enviada!", "📤");
     }
     
     saveStudentData();
@@ -1820,17 +1827,20 @@ function openTeacherArea() {
   if (pass === 'Joseneto2020') {
       showScreen('teacher');
       renderStudentList();
-  } else {
+  } else if (pass !== null) {
+      alert("Senha Incorreta! Apenas o Grande Mestre tem acesso a esta zona.");
       showToast("Senha Incorreta!", "❌");
   }
 }
 
-document.getElementById('teacher-btn').addEventListener('click', openTeacherArea);
+// Garantir que os botões funcionem após o DOM carregar completamente
+document.addEventListener('DOMContentLoaded', () => {
+    const teacherBtn = document.getElementById('teacher-btn');
+    if(teacherBtn) teacherBtn.onclick = openTeacherArea;
 
-const teacherAccessBtn = document.getElementById('teacher-access-btn');
-if(teacherAccessBtn) {
-    teacherAccessBtn.addEventListener('click', openTeacherArea);
-}
+    const teacherAccessBtn = document.getElementById('teacher-access-btn');
+    if(teacherAccessBtn) teacherAccessBtn.onclick = openTeacherArea;
+});
 
 document.getElementById('back-to-login-btn').addEventListener('click', () => {
   showScreen('login');
