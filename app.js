@@ -1630,6 +1630,25 @@ function openLesson(index) {
       document.getElementById('quiz-question').innerText = lesson.quiz ? lesson.quiz.question : (lesson.robotMessage || "");
       
       if (lesson.quiz) {
+        // Lógica de Dica (Scroll of Oracle)
+        const hasHintPower = currentUser.equippedItems.some(id => {
+            const item = shopItems.find(i => i.id === id);
+            return item && item.hintPower;
+        });
+
+        if (hasHintPower && !isCompleted && !isPending) {
+            const hintBtn = document.createElement('button');
+            hintBtn.className = 'btn warning-btn w-full mb-4';
+            hintBtn.innerHTML = '🔮 Usar Dica do Oráculo';
+            hintBtn.onclick = () => {
+                const correctLetter = ['A', 'B', 'C', 'D'][lesson.quiz.correctIndex];
+                showToast(`O Oráculo sussurra: A resposta correta é a letra ${correctLetter}`, "✨");
+                hintBtn.disabled = true;
+                hintBtn.style.opacity = '0.5';
+            };
+            optionsContainer.appendChild(hintBtn);
+        }
+
         lesson.quiz.options.forEach((opt, idx) => {
           const optEl = document.createElement('div');
           optEl.className = 'quiz-option';
@@ -2063,9 +2082,14 @@ window.triggerBossBattle = function() {
 // RPG - Loja e Inventário
 const shopItems = [
   { id: 'shield_arcane', name: 'Escudo Arcano', price: 200, icon: '🛡️', category: 'accessory', minLevel: 1, effect: 'Defesa contra ignorância (+10% XP)', xpBonus: 0.1 },
+  { id: 'boot_speed', name: 'Botas da Fibra Óptica', price: 250, icon: '🥾', category: 'accessory', minLevel: 1, effect: 'Navegação rápida (+5% XP)', xpBonus: 0.05 },
   { id: 'cloak_master', name: 'Capa do Mestre', price: 350, icon: '🧥', category: 'accessory', minLevel: 3, effect: 'Sorte de explorador (+20% Moedas)', coinBonus: 0.2 },
+  { id: 'scroll_oracle', name: 'Pergaminho do Oráculo', price: 400, icon: '📜', category: 'consumable', minLevel: 2, effect: 'Revela dicas nas missões (Equipe para usar)', hintPower: true },
   { id: 'sword_silicon', name: 'Espada de Silício', price: 500, icon: '⚔️', category: 'weapon', minLevel: 5, effect: 'Necessária para enfrentar Bosses Finais', requiredForBoss: true },
-  { id: 'helmet_gold', name: 'Elmo de Ouro', price: 800, icon: '🪖', category: 'accessory', minLevel: 8, effect: 'Aura de Sabedoria Máxima (+25% XP)', xpBonus: 0.25 }
+  { id: 'ring_double', name: 'Anel do Dobro', price: 700, icon: '💍', category: 'accessory', minLevel: 4, effect: 'Dobra ganhos de moedas (+100% Moedas)', coinBonus: 1.0 },
+  { id: 'helmet_gold', name: 'Elmo de Ouro', price: 800, icon: '🪖', category: 'accessory', minLevel: 8, effect: 'Aura de Sabedoria Máxima (+25% XP)', xpBonus: 0.25 },
+  { id: 'staff_wizard', name: 'Cajado do Mago TI', price: 1500, icon: '🪄', category: 'weapon', minLevel: 10, effect: 'Poder supremo de processamento (+50% XP)', xpBonus: 0.5 },
+  { id: 'gem_intel', name: 'Gema da Intel', price: 2500, icon: '💎', category: 'relic', minLevel: 15, effect: 'Conhecimento total (+100% XP e Moedas)', xpBonus: 1.0, coinBonus: 1.0 }
 ];
 
 document.getElementById('open-shop-btn').addEventListener('click', () => {
