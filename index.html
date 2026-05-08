@@ -1,105 +1,101 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AVA - Curso de Informática</title>
-    <meta name="description" content="Ambiente Virtual de Aprendizagem com recursos de instalação e uso offline.">
-    <link rel="manifest" href="./manifest.json">
-    <link rel="stylesheet" href="./style.css">
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>AVA Matemática - O Reino do Conhecimento</title>
+    <link rel="stylesheet" href="style.css?v=1.0.1">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icons/icon-192x192.png">
+    <meta name="theme-color" content="#0f172a">
 </head>
-<body>
-    <div id="app">
-        <!-- Notificação de Instalação -->
-        <div id="install-banner" class="hidden">
-            <p>Instale o aplicativo para uma melhor experiência!</p>
-            <button id="install-btn">Instalar App</button>
-            <button id="close-install-btn" class="close-btn">&times;</button>
+<body class="dark-theme">
+    <!-- Banner de Instalação PWA -->
+    <div id="install-banner" class="glass-card install-banner hidden">
+        <div class="install-content">
+            <img src="icons/icon-192x192.png" alt="App Icon" class="install-icon">
+            <div class="install-text">
+                <strong>Instalar AVA Matemática</strong>
+                <p>Acesse offline e como um aplicativo real!</p>
+            </div>
         </div>
+        <div class="install-actions">
+            <button id="install-btn" class="btn primary-btn">Instalar</button>
+            <button id="close-install-btn" class="btn text-btn">Depois</button>
+        </div>
+    </div>
 
-        <!-- Tela de Login / Cadastro -->
-        <section id="login-screen" class="screen active">
-            <div class="glass-card login-card">
+    <div id="app">
+        <!-- Tela de Login -->
+        <section id="login-screen" class="screen">
+            <div class="login-container glass-card">
                 <div class="logo-container">
-                    <img src="./icons/icon-192x192.png" alt="AVA Logo" class="logo">
-                    <h1>AVA Digital</h1>
+                    <img src="icons/icon-512x512.png" alt="Logo" class="logo-img">
+                    <h1>AVA Matemática</h1>
+                    <p>Sua jornada heroica pelo mundo dos números</p>
                 </div>
-                <p class="subtitle">Bem-vindo(a) ao seu Ambiente Virtual</p>
                 <form id="login-form">
                     <div class="input-group">
-                        <label for="student-name">Nome Completo</label>
-                        <input type="text" id="student-name" placeholder="Digite seu nome" required>
+                        <label for="student-name">Nome do Herói</label>
+                        <input type="text" id="student-name" required placeholder="Digite seu nome completo">
                     </div>
-
-                    <label style="display:block; font-size:0.9rem; font-weight:700; color:var(--primary); text-transform:uppercase; margin-bottom:0.5rem; text-align:left;">Escolha seu Herói</label>
-                    <div class="gender-selection">
-                        <div class="gender-option selected" data-gender="male">
-                            <span class="gender-icon">🛡️</span>
-                            <span>Cavalheiro</span>
-                        </div>
-                        <div class="gender-option" data-gender="female">
-                            <span class="gender-icon">🗡️</span>
-                            <span>Cavalheira</span>
+                    <div class="input-group mt-4">
+                        <label for="student-password">Senha Secreta</label>
+                        <input type="password" id="student-password" required placeholder="Crie ou digite sua senha">
+                        <small style="color: #94a3b8; display: block; margin-top: 5px;">Atenção: Não esqueça sua senha!</small>
+                    </div>
+                    <div class="gender-selection mt-4">
+                        <p>Escolha sua aparência:</p>
+                        <div class="gender-options">
+                            <label class="gender-opt">
+                                <input type="radio" name="gender" value="male" checked>
+                                <span class="gender-box">♂️ Cavaleiro</span>
+                            </label>
+                            <label class="gender-opt">
+                                <input type="radio" name="gender" value="female">
+                                <span class="gender-box">♀️ Amazona</span>
+                            </label>
                         </div>
                     </div>
-
-                    <button type="submit" class="btn primary-btn w-full">Acessar Plataforma</button>
+                    <button type="submit" class="btn primary-btn w-full mt-6">Iniciar Aventura</button>
+                    <button type="button" id="teacher-access-btn" class="btn text-btn w-full mt-2">🛡️ Acesso do Grande Mestre</button>
                 </form>
-
-                <div id="login-history" class="hidden" style="margin-top: 2rem; border-top: 1px solid var(--glass-border); padding-top: 1.5rem;">
-                    <p style="font-size: 0.85rem; margin-bottom: 1rem;">Continuar como:</p>
-                    <div id="login-history-list" style="display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center;">
-                        <!-- Nomes injetados via JS -->
-                    </div>
-                </div>
-            </div>
-            
-            <div class="teacher-access">
-                <button id="teacher-btn" class="btn text-btn">Acesso do Professor (Exportar Notas)</button>
             </div>
         </section>
 
-        <!-- Tela de Seleção de Mundos -->
-        <section id="world-select-screen" class="screen hidden">
+        <!-- Tela de Seleção de Mundo -->
+        <section id="worldSelect-screen" class="screen">
             <header class="glass-header">
                 <div class="user-info">
-                    <div class="avatar" id="ws-user-avatar">A</div>
+                    <div class="avatar-circle" id="ws-user-avatar">?</div>
                     <div>
-                        <h2 id="ws-welcome-message">Olá, Aluno</h2>
+                        <h3 id="ws-welcome-message">Olá, Herói</h3>
                         <div class="stats-row">
-                            <span class="badge-level">Nível <span id="ws-user-level">1</span></span>
+                            <span class="badge-level">LVL <span id="ws-user-level">1</span></span>
                             <span class="xp-text"><span id="ws-user-xp">0</span> XP</span>
                             <span class="coin-text">💰 <span id="ws-user-coins">0</span></span>
-                            <span class="key-text">🔑 <span id="ws-user-keys">0</span></span>
                         </div>
                     </div>
                 </div>
-                <div class="header-actions">
+                <div style="display: flex; gap: 10px;">
                     <button id="open-shop-btn" class="btn primary-btn">🛒 Loja</button>
+                    <button id="teacher-btn" class="btn text-btn">🛡️</button>
                 </div>
             </header>
-
-            <main class="dashboard-layout">
-                <h3 class="mt-4" style="text-align: center; font-size: 1.8rem; margin-bottom: 2rem;">Selecione o Mundo do Dia</h3>
-                <div class="worlds-grid" id="worlds-container">
-                    <!-- Portais injetados via JS -->
-                </div>
+            <main class="worlds-layout">
+                <h2 class="section-title">Escolha seu Destino</h2>
+                <div id="worlds-container" class="worlds-grid"></div>
             </main>
         </section>
 
-        <!-- Dashboard (Mapa do Mundo Selecionado) -->
-        <section id="dashboard-screen" class="screen hidden">
-            <header class="glass-header" style="justify-content: flex-start; gap: 1rem;">
-                <button id="back-to-worlds-btn" class="btn text-btn">&larr; Voltar aos Mundos</button>
-                <div class="user-info" style="margin-left: auto;">
-                    <div class="avatar" id="user-avatar">A</div>
+        <!-- Tela de Dashboard (Mapa) -->
+        <section id="dashboard-screen" class="screen">
+            <header class="glass-header">
+                <button id="back-to-worlds-btn" class="btn text-btn">&larr; Mundos</button>
+                <div class="user-info">
+                    <div class="avatar-circle" id="user-avatar">?</div>
                     <div>
-                        <h2 id="welcome-message">Olá, Aluno</h2>
+                        <h3 id="welcome-message">Olá, Herói</h3>
                         <div class="stats-row">
                             <span class="badge-level">Nível <span id="user-level">1</span></span>
                             <span class="xp-text"><span id="user-xp">0</span> XP</span>
@@ -111,12 +107,12 @@
                 <button id="logout-btn" class="btn text-btn">Sair</button>
             </header>
 
-            <div class="rpg-dashboard-layout" style="display: grid; grid-template-columns: 350px 1fr; gap: 2rem; margin-top: 1rem;">
+            <div class="rpg-dashboard-layout">
                 <aside class="side-panel">
-                    <div class="avatar-card glass-card" style="text-align: center;">
+                    <div class="avatar-card glass-card">
                         <h3>Seu Herói</h3>
                         <div id="avatar-render-container" class="avatar-render-container">
-                            <img src="./assets/avatar_knight.png" alt="Avatar" id="main-avatar-img" style="width: 100%; max-width: 200px;">
+                            <img src="./assets/avatar_knight.png" alt="Avatar" id="main-avatar-img">
                             <div id="avatar-accessories"></div>
                         </div>
                         <button id="customize-avatar-btn" class="btn text-btn w-full mt-4">Personalizar</button>
@@ -124,237 +120,165 @@
 
                     <div class="inventory-card glass-card mt-4">
                         <h3>Mochila</h3>
-                        <div id="inventory-list" class="inventory-grid">
-                            <!-- Itens via JS -->
-                        </div>
-                        <div class="chest-section mt-4" style="text-align: center; border-top: 1px solid var(--glass-border); padding-top: 1rem;">
-                            <img src="./assets/chest_closed.png" alt="Baú" id="dashboard-chest" style="width: 80px; cursor: pointer; transition: transform 0.3s;">
-                            <p style="font-size: 0.8rem; margin-top: 0.5rem;">Toque no Baú para abrir!</p>
+                        <div id="inventory-list" class="inventory-grid"></div>
+                        <div class="chest-section mt-4">
+                            <img src="./assets/chest_closed.png" id="dashboard-chest" class="chest-img">
+                            <p>Toque para abrir!</p>
                         </div>
                     </div>
                 </aside>
 
-                <main class="dashboard-content">
-                    <div class="student-actions glass-card" style="padding: 1rem; display: flex; justify-content: space-between; align-items: center; border-radius: 16px;">
-                        <p style="margin: 0; font-size: 0.9rem;"><strong>Status:</strong> Envie seu progresso ao final da aula.</p>
-                        <button id="student-export-csv-btn" class="btn report-btn">📄 Meu Relatório (CSV)</button>
+                <main class="main-panel">
+                    <div class="progress-section glass-card">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <span>Progresso Global</span>
+                            <span id="progress-text">0%</span>
+                        </div>
+                        <div class="progress-bar-bg"><div class="progress-bar" id="progress-bar"></div></div>
                     </div>
+
+                    <div class="world-map-container" id="modules-container"></div>
                     
-                    <div class="progress-container" style="margin-top: 1.5rem;">
-                        <div class="progress-bar" id="progress-bar"></div>
+                    <div id="collectibles-album" class="glass-card mt-4">
+                        <h3>🏆 Coleção do Reino</h3>
+                        <div id="album-grid" class="inventory-grid"></div>
                     </div>
 
-                    <div class="achievements-section mt-4">
-                        <h3>Suas Conquistas</h3>
-                        <div class="badges-container" id="badges-container">
-                            <p class="empty-badges" id="empty-badges">Complete módulos para ganhar conquistas!</p>
-                        </div>
-                    </div>
-
-                    <h3 class="mt-4">Mundo de Exploração</h3>
-                    <div class="world-map-container" id="modules-container">
-                        <!-- Nós do mapa gerados via JS -->
-                    </div>
-
-                    <div class="lessons-list-section mt-4" style="margin-top: 2rem;">
-                        <h3 style="font-size: 1.3rem; margin-bottom: 1rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 0.5rem;">Trilhas e Missões</h3>
-                        <div class="lessons-grid" id="lessons-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem;">
-                            <!-- Lista gerada via JS -->
-                        </div>
+                    <div class="lessons-list-section mt-4">
+                        <div class="lessons-grid" id="lessons-grid"></div>
                     </div>
                 </main>
             </div>
         </section>
 
-        <!-- Tela de Loja (SHOP) -->
-        <section id="shop-screen" class="screen hidden">
+        <!-- Tela de Aula -->
+        <section id="course-screen" class="screen">
             <header class="glass-header">
-                <button id="back-from-shop-btn" class="btn text-btn">&larr; Voltar</button>
+                <button id="back-to-dashboard" class="btn text-btn">&larr; Voltar</button>
+                <h2 id="lesson-title">Aula</h2>
+            </header>
+
+            <main class="course-layout">
+                <div id="activity-container" class="glass-card">
+                    <div class="mascot-section">
+                        <img src="./icons/robot.svg" class="mascot-img">
+                        <div class="mascot-dialogue"><p id="mascot-message">Olá!</p></div>
+                        <button id="get-tip-btn" class="btn text-btn" style="margin-left: auto; display: none;">💡 Dica (500 moedas)</button>
+                    </div>
+
+                    <div id="theory-section" class="theory-phase hidden">
+                        <h2 id="theory-title">Título da Teoria</h2>
+                        <div id="theory-body" class="theory-content"></div>
+                        <div id="theory-media" class="mt-4"></div>
+                        <button id="start-activity-btn" class="btn primary-btn w-full mt-6">Começar Desafio</button>
+                    </div>
+                    
+                    <div id="quiz-container" class="quiz-container mt-4">
+                        <h4 id="quiz-question" class="quiz-question">Pergunta?</h4>
+                        <div id="quiz-options" class="quiz-options"></div>
+                        
+                        <div id="quiz-text-area-container" class="quiz-text-area-container hidden">
+                            <textarea id="quiz-textarea" rows="4" placeholder="Sua resposta..."></textarea>
+                            <p class="textarea-hint" id="textarea-hint-msg">Mínimo 30 caracteres.</p>
+                        </div>
+
+                        <div id="drag-drop-container" class="drag-drop-container hidden">
+                            <div id="drag-items" class="drag-items-grid"></div>
+                            <div id="drop-targets" class="drop-targets-grid mt-4"></div>
+                        </div>
+
+                        <div id="hotspot-container" class="hotspot-container hidden">
+                            <div style="position: relative; display: inline-block;">
+                                <img id="hotspot-image" src="" style="max-width: 100%; border-radius: 12px;">
+                                <div id="hotspot-overlay"></div>
+                            </div>
+                        </div>
+
+                        <div id="fill-blanks-container" class="fill-blanks-container hidden">
+                            <div id="fill-blanks-text" class="fill-blanks-text"></div>
+                        </div>
+
+                        <p id="quiz-feedback" class="quiz-feedback hidden"></p>
+                    </div>
+
+                    <button id="complete-lesson-btn" class="btn primary-btn mt-4">Validar</button>
+                </div>
+            </main>
+        </section>
+
+        <!-- Modais -->
+        <div id="theory-modal" class="modal hidden">
+            <div class="modal-content glass-card rpg-modal" style="max-width: 800px;">
+                <h2 id="theory-modal-title">Pílula de Conhecimento</h2>
+                <div id="theory-content" class="lesson-article mt-4"></div>
+                <div id="theory-multimedia" class="mt-4 hidden" style="aspect-ratio: 16/9; background: black; border-radius: 12px;"></div>
+                <button id="start-mission-btn" class="btn primary-btn w-full mt-6">Iniciar Missão</button>
+            </div>
+        </div>
+
+        <div id="chest-modal" class="modal hidden">
+            <div class="modal-content glass-card rpg-modal">
+                <h2 id="chest-modal-title">Baú Tesouro</h2>
+                <img src="./assets/chest_closed.png" id="chest-animation-img" style="width: 150px;">
+                <div id="chest-reward" class="hidden">
+                    <div id="reward-item-display"></div>
+                    <button id="close-chest-modal-btn" class="btn primary-btn mt-4">Coletar</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="customize-modal" class="modal hidden">
+            <div class="modal-content glass-card rpg-modal" style="max-width: 600px;">
+                <h2>Personalizar Herói</h2>
+                <div class="customization-layout">
+                    <div class="avatar-preview-box">
+                        <img src="./assets/avatar_knight.png" id="preview-avatar-img">
+                        <div id="preview-accessories"></div>
+                    </div>
+                    <div id="customization-items-grid" class="inventory-grid"></div>
+                </div>
+                <button id="close-customize-modal-btn" class="btn primary-btn mt-4 w-full">Salvar</button>
+            </div>
+        </div>
+
+        <!-- Loja -->
+        <section id="shop-screen" class="screen">
+            <header class="glass-header">
+                <button id="back-from-shop-btn" class="btn text-btn">Voltar</button>
                 <h2>Loja do Reino</h2>
                 <div class="user-coins">💰 <span id="shop-user-coins">0</span></div>
             </header>
-            <main class="shop-content glass-card">
-                <h3>Itens Disponíveis</h3>
-                <div id="shop-items-grid" class="shop-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem;">
-                    <!-- Itens da loja via JS -->
-                </div>
-            </main>
+            <main class="shop-grid" id="shop-items-grid"></main>
         </section>
 
-        <!-- Modal de Abertura de Baú -->
-        <div id="chest-modal" class="modal hidden">
-            <div class="modal-content glass-card rpg-modal">
-                <h2 id="chest-modal-title">Abrindo Baú Tesouro...</h2>
-                <div class="chest-animation-container">
-                    <img src="./assets/chest_closed.png" alt="Baú" id="chest-animation-img">
-                </div>
-                <div id="chest-reward" class="hidden">
-                    <h3>Você Ganhou!</h3>
-                    <div id="reward-item-display"></div>
-                    <button id="close-chest-modal-btn" class="btn primary-btn mt-4">Coletar Recompensa</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tela de Aula -->
-        <section id="course-screen" class="screen hidden">
-            <header class="glass-header">
-                <button id="back-to-dashboard" class="btn text-btn">&larr; Voltar</button>
-                <h2 id="lesson-title">Título da Aula</h2>
-                <div style="width: 60px;"></div> <!-- Spacer -->
-            </header>
-
-            <main class="course-layout" style="display: block; max-width: 900px; margin: 0 auto;">
-                <!-- Área de conteúdo principal -->
-                <div class="lesson-main-content" style="width: 100%;">
-                    <div class="glass-card article-card">
-                        <img id="lesson-cover-image" src="" alt="Capa da Missão" class="hidden" style="width: 100%; max-height: 300px; object-fit: cover; border-radius: 12px; margin-bottom: 1.5rem; border: 1px solid var(--glass-border); box-shadow: 0 4px 15px rgba(0,0,0,0.4);">
-                        <h3 id="lesson-subtitle">Título da Aula Atual</h3>
-                        <article id="lesson-article" class="lesson-article">
-                            <!-- Conteúdo da aula inserido via JS -->
-                        </article>
-                    </div>
-                    
-                    <div class="lesson-details glass-card mt-4">
-                        <div class="mascot-section">
-                            <img src="./icons/robot.svg" alt="Robô Mascote" class="mascot-img">
-                            <div class="mascot-dialogue">
-                                <p id="mascot-message">Olá! Baseado no que você estudou, resolva o desafio abaixo:</p>
-                            </div>
-                        </div>
-                        
-                        <div id="quiz-container" class="quiz-container mt-4">
-                            <h4 id="quiz-question" class="quiz-question">Pergunta do Quiz?</h4>
-                            
-                            <!-- Opções de Múltipla Escolha (Escondidas se for texto) -->
-                            <div id="quiz-options" class="quiz-options">
-                                <!-- Opções via JS -->
-                            </div>
-                            
-                            <!-- Área de Resposta Textual (Escondida se for múltipla escolha) -->
-                            <div id="quiz-text-area-container" class="quiz-text-area-container hidden">
-                                <textarea id="quiz-textarea" rows="4" placeholder="Digite sua pesquisa ou reflexão aqui..."></textarea>
-                                <p class="textarea-hint">Sua resposta deve conter pelo menos 30 caracteres para garantir uma boa reflexão.</p>
-                            </div>
-
-                            <!-- Área de Upload de Imagem (Escondida se não for do tipo 'file') -->
-                            <div id="quiz-file-area-container" class="quiz-file-area-container hidden" style="text-align: center; margin-top: 1rem;">
-                                <label for="quiz-file-input" class="btn primary-btn w-full" style="cursor: pointer;">
-                                    📸 Anexar Foto da Missão
-                                </label>
-                                <input type="file" id="quiz-file-input" accept="image/*" style="display: none;">
-                                <div id="file-preview-container" class="mt-4 hidden" style="text-align: center;">
-                                    <img id="file-preview-image" src="" alt="Pré-visualização" style="max-width: 100%; max-height: 250px; border-radius: 12px; border: 1px solid var(--glass-border); box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
-                                    <p id="file-status-text" style="color: var(--success); font-weight: bold; margin-top: 0.5rem; font-size: 0.9rem;">Imagem capturada com sucesso!</p>
-                                </div>
-                            </div>
-
-                            <p id="quiz-feedback" class="quiz-feedback hidden"></p>
-                        </div>
-
-                        <button id="complete-lesson-btn" class="btn primary-btn mt-4">Validar Missão</button>
-                    </div>
-                </div>
-            </main>
-        </section>
-        
-        <!-- Modal de Personalização do Avatar -->
-        <div id="customize-modal" class="modal hidden">
-            <div class="modal-content glass-card rpg-modal" style="max-width: 600px;">
-                <h2>Arsenal do Herói</h2>
-                <p>Equipe seus itens conquistados!</p>
-                <div class="customization-layout" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem;">
-                    <div class="current-avatar-preview glass-card" style="background: rgba(0,0,0,0.4);">
-                        <img src="./assets/avatar_knight.png" alt="Avatar" id="preview-avatar-img" style="width: 100%; max-width: 150px;">
-                        <div id="preview-accessories" style="position: absolute; top:0; left:0; width:100%; height:100%;"></div>
-                    </div>
-                    <div class="available-items">
-                        <h3>Sua Mochila</h3>
-                        <div id="customization-items-grid" class="inventory-grid" style="grid-template-columns: repeat(3, 1fr);">
-                            <!-- Itens equipáveis via JS -->
-                        </div>
-                    </div>
-                </div>
-                <button id="close-customize-modal-btn" class="btn primary-btn mt-4 w-full">Salvar e Voltar</button>
-            </div>
-        </div>
-
-        <!-- Sistema de Notificações (Toast) -->
-        <div id="toast-container" style="position: fixed; bottom: 2rem; right: 2rem; z-index: 99999; display: flex; flex-direction: column; gap: 0.5rem;"></div>
-
-        <!-- Tela de Ranking Global -->
-        <section id="ranking-screen" class="screen hidden">
-            <header class="glass-header">
-                <button id="back-from-ranking-btn" class="btn text-btn">&larr; Voltar</button>
-                <h2>Panteão dos Heróis</h2>
-                <div style="width: 80px;"></div>
-            </header>
+        <!-- Ranking -->
+        <section id="ranking-screen" class="screen">
+            <header class="glass-header"><button id="back-from-ranking-btn" class="btn text-btn">Voltar</button><h2>Ranking</h2></header>
             <main class="ranking-layout">
-                <div class="podium-container" id="podium-container">
-                    <!-- Top 3 via JS -->
-                </div>
-                <div class="glass-card ranking-list-card mt-4">
-                    <h3>Ranking da Guilda</h3>
-                    <div id="ranking-list" class="ranking-list">
-                        <!-- Lista completa via JS -->
-                    </div>
-                </div>
-                <div class="ranking-actions mt-4" style="text-align: center;">
-                    <p style="font-size: 0.8rem; margin-bottom: 1rem;">O professor pode importar arquivos de progresso de outros dispositivos para unificar o ranking.</p>
-                    <label for="import-ranking-input" class="btn text-btn" style="border: 1px dashed var(--primary); cursor: pointer;">
-                        📥 Importar Dados de Outro Aluno
-                    </label>
-                    <input type="file" id="import-ranking-input" accept=".json,.csv" style="display: none;">
-                </div>
+                <div id="podium-container" class="podium-container"></div>
+                <div id="ranking-list" class="ranking-list mt-4"></div>
             </main>
         </section>
 
-        <!-- Tela Área do Professor -->
-        <section id="teacher-screen" class="screen hidden">
+        <!-- Professor -->
+        <section id="teacher-screen" class="screen">
              <div class="glass-card teacher-card">
-                 <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 2px solid var(--primary); padding-bottom: 1rem;">
-                    <h2>Cetro do Mestre (Professor)</h2>
-                    <button id="back-to-login-btn" class="btn text-btn">Voltar ao Login</button>
-                 </header>
-                 
-                 <div class="teacher-tabs" style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
-                    <button class="btn primary-btn teacher-tab-btn active" data-tab="students">Gerenciar Alunos</button>
-                    <button class="btn primary-btn teacher-tab-btn" data-tab="pending">Avaliações Pendentes</button>
-                    <button class="btn primary-btn teacher-tab-btn" data-tab="unlocks">Cronograma de Missões</button>
+                 <header><h2>Grande Mestre</h2><button id="back-to-login-btn" class="btn text-btn">Sair</button></header>
+                 <div class="teacher-tabs">
+                    <button class="teacher-tab-btn active" data-tab="students">Alunos</button>
+                    <button class="teacher-tab-btn" data-tab="pending">Avaliações</button>
+                    <button class="teacher-tab-btn" data-tab="unlocks">Missões</button>
                  </div>
-
                  <div id="tab-students" class="teacher-tab-content">
-                    <p>Relatório de progresso de todos os alunos registrados.</p>
-                    <div class="actions" style="margin: 1.5rem 0; display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                        <button id="export-csv-btn" class="btn success-btn">Baixar Planilha Geral (CSV)</button>
-                        <button id="view-ranking-btn" class="btn primary-btn">🏆 Ver Ranking da Turma</button>
-                        <button id="reset-ranking-btn" class="btn error-btn">🧹 Zerar Ranking/Alunos</button>
-                    </div>
-                    <div class="student-list">
-                        <h3>Alunos Registrados</h3>
-                        <ul id="student-list-container"></ul>
-                    </div>
+                    <ul id="student-list-container"></ul>
                  </div>
-
-                 <div id="tab-pending" class="teacher-tab-content hidden">
-                    <h3>Missões Aguardando Validação</h3>
-                    <p style="font-size: 0.85rem; margin-bottom: 1.5rem;">Analise as respostas dos alunos abaixo e aprove para que eles recebam XP e Moedas.</p>
-                    <div id="pending-list-container">
-                        <!-- Itens via JS -->
-                    </div>
-                 </div>
-
-                 <div id="tab-unlocks" class="teacher-tab-content hidden">
-                    <h3>Controle de Liberação (Bimestre)</h3>
-                    <p style="font-size: 0.85rem; margin-bottom: 1.5rem;">Bloqueie módulos que ainda não devem ser acessados pelos alunos.</p>
-                    <div id="module-unlock-list" class="module-unlock-grid" style="display: grid; gap: 1rem;">
-                        <!-- Toggles via JS -->
-                    </div>
-                 </div>
+                 <div id="tab-pending" class="teacher-tab-content hidden"><div id="pending-list-container"></div></div>
+                 <div id="tab-unlocks" class="teacher-tab-content hidden"><div id="module-unlock-list"></div></div>
              </div>
         </section>
+        
+        <div id="toast-container"></div>
     </div>
-
-    <script src="./app.js"></script>
+    <script src="./app.js?v=1.0.2"></script>
 </body>
 </html>
