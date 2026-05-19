@@ -1,8 +1,3 @@
-// ==========================================
-// AVA MATEMÁTICA - SISTEMA RPG PREMIUM
-// Versão: 1.1.0 (Motor Informática Integrado)
-// ==========================================
-
 // Configuração do PWA - Service Worker
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -21,1284 +16,2192 @@ const closeInstallBtn = document.getElementById('close-install-btn');
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  installBanner?.classList.remove('hidden');
+  installBanner.classList.remove('hidden');
 });
 
-installBtn?.addEventListener('click', () => {
-  installBanner?.classList.add('hidden');
+installBtn.addEventListener('click', () => {
+  installBanner.classList.add('hidden');
   deferredPrompt.prompt();
   deferredPrompt.userChoice.then((choiceResult) => {
+    if (choiceResult.outcome === 'accepted') {
+      console.log('User accepted the A2HS prompt');
+    }
     deferredPrompt = null;
   });
 });
 
-closeInstallBtn?.addEventListener('click', () => {
-  installBanner?.classList.add('hidden');
+closeInstallBtn.addEventListener('click', () => {
+  installBanner.classList.add('hidden');
 });
 
-// ==========================================
-// BANCO DE DADOS DE MISSÕES (7 MUNDOS)
-// ==========================================
+// Dados Iniciais dos Módulos: Curso Rico, Lúdico e Livre de Jargões
 const courseModules = [
   {
-    id: 'uc1',
-    title: 'Mundo 1: Trigonometria Avançada',
-    icon: '📐',
+    id: 'uci-1',
+    title: 'Mundo 1: Infraestrutura Arcana (UC I)',
+    description: 'Compreenda os fundamentos das redes, a magia da comunicação de dados e a arquitetura física que sustenta o mundo digital.',
+    icon: '🌐',
     background: './assets/world_map_uc1.png',
-    badgeTitle: 'Mestre do Círculo Trigonométrico',
-    badgeIcon: '📐',
+    badgeTitle: 'Guardião da Rede',
+    badgeIcon: '🛡️',
     lessons: [
       {
-        id: 'm1-1', title: 'Fundamentos: Razões e Identidades', type: 'fill-blanks',
-        theory: { 
-          title: 'Além do Triângulo Retângulo', 
-          content: '<h4>O Ciclo Trigonométrico</h4><p>No 3º ano, a trigonometria deixa de ser apenas sobre triângulos e passa a ser sobre **funções circulares**. O círculo unitário (raio=1) define o Seno no eixo Y e o Cosseno no eixo X.</p><ul><li><strong>Identidade Fundamental:</strong> sen²(θ) + cos²(θ) = 1.</li><li><strong>Relações:</strong> tg(θ) = sen(θ)/cos(θ).</li></ul>',
-          realWorld: 'Engenheiros usam funções senoidais para modelar ondas de rádio, som e até batimentos cardíacos.',
-          curiosity: 'O termo "seno" vem do latim "sinus" (baía ou dobra), uma tradução equivocada do árabe para a corda de um arco.',
-          whyStudy: 'Essencial para Física (MHS) e Engenharia Elétrica.',
-          tips: 'No 2º quadrante, o Seno é positivo e o Cosseno é negativo. Memorize os sinais!'
-        },
-        blanks: { text: "Pela Identidade Fundamental, se sen²(x) é 0.64, então cos²(x) deve ser [[1]]. A tangente de 45° é igual a [[2]].", answers: ["0.36", "1"] },
-        xpReward: 200
+        id: 'uci-1-1',
+        title: 'Sprint 1: O DNA da Conectividade (Teoria e Comunicação)',
+        image: './assets/network_fantasy.png',
+        content: `
+          <h4>Pílula de Conhecimento</h4>
+          <p>Neste semestre, você inicia sua jornada compreendendo como os dispositivos se conectam e trocam informações. Uma <strong>Rede de Computadores</strong> é formada pela interligação de dispositivos autônomos que cooperam entre si por meio de regras padronizadas (protocolos) para compartilhar recursos e serviços.</p>
+          <p>A <strong>Comunicação de Dados</strong> é o processo de envio e recepção dessas informações. Ela envolve cinco elementos essenciais: o <strong>Emissor</strong> (quem envia), o <strong>Receptor</strong> (quem recebe), a <strong>Mensagem</strong> (o dado em si), o <strong>Meio de Transmissão</strong> (o caminho físico) e os <strong>Protocolos</strong> (as regras do idioma).</p>
+          <p>Os dados podem ser transmitidos de forma <strong>Analógica</strong> ou <strong>Digital</strong>, utilizando codificações que garantem a integridade e segurança da informação durante o trajeto.</p>
+
+          <div class="highlight-box" style="background: rgba(16, 185, 129, 0.1); border-left-color: #10b981; margin-top: 20px;">
+            <strong>✨ Item Escondido:</strong> Ao longo do texto, pacotes de dados perdidos podem ser encontrados. 
+            <span style="cursor:pointer; font-size: 1.2rem;" onclick="if(!this.collected){ this.collected=true; currentUser.coins = (currentUser.coins || 0) + 100; showToast('Você capturou um Pacote de Dados Raro! +100 Moedas', '📦'); saveStudentData(); this.style.opacity='0.3'; }">📦</span>
+          </div>
+
+          <h4>Guia de Missão</h4>
+          <ol>
+            <li>Identifique em sua casa ou escola: quem é o <strong>Emissor</strong> e quem é o <strong>Meio</strong> quando você envia um WhatsApp?</li>
+            <li>Desenhe o esquema básico da comunicação (Emissor -> Meio -> Receptor) e identifique onde entram os protocolos.</li>
+          </ol>
+        `,
+        xpReward: 150,
+        type: 'choice',
+        robotMessage: "Do ponto de vista teórico, como podemos definir uma rede de computadores?",
+        quiz: {
+            question: 'O que define melhor uma rede de computadores segundo a teoria?',
+            options: [
+                'A) Um conjunto de cabos coloridos jogados em uma sala.',
+                'B) Um sistema distribuído de dispositivos autônomos que cooperam por meio de regras de comunicação.',
+                'C) Apenas a conexão Wi-Fi do celular.',
+                'D) Um computador isolado que não compartilha dados.'
+            ],
+            correctIndex: 1
+        }
       },
       {
-        id: 'm1-2', title: 'A Lei dos Senos e Cossenos', type: 'choice',
-        theory: { 
-          title: 'Triângulos Quaisquer', 
-          content: '<h4>Quando não há Ângulo Reto</h4><p>Para triângulos que não possuem 90°, usamos as leis generalizadas:</p><ul><li><strong>Lei dos Senos:</strong> a/sen(A) = b/sen(B) = c/sen(C).</li><li><strong>Lei dos Cossenos:</strong> a² = b² + c² - 2bc·cos(A).</li></ul>',
-          realWorld: 'Utilizada em navegação aérea e marítima para calcular distâncias entre pontos fixos e móveis.',
-          curiosity: 'A Lei dos Cossenos é uma generalização do Teorema de Pitágoras para qualquer ângulo.',
-          whyStudy: 'Resolve problemas complexos de topografia e astronomia.',
-          tips: 'Use a Lei dos Cossenos quando conhecer dois lados e o ângulo entre eles.'
-        },
-        quiz: { question: "Em um triângulo com lados b=10, c=10 e ângulo A=60°, qual o valor do lado 'a'? (Dica: cos 60° = 0.5)", options: ["10", "15", "20"], correctIndex: 0 },
-        xpReward: 250
+        id: 'uci-1-2',
+        title: 'Sprint 2: Arquiteturas de Outros Mundos (OSI e TCP/IP)',
+        image: './assets/network_fantasy.png',
+        content: `
+          <h4>Pílula de Conhecimento</h4>
+          <p>Para que a comunicação global funcione, utilizamos modelos de referência. O <strong>Modelo OSI</strong> organiza a rede em 7 camadas teóricas: 1. Física, 2. Enlace, 3. Rede, 4. Transporte, 5. Sessão, 6. Apresentação e 7. Aplicação. Cada camada resolve um problema específico, facilitando o diagnóstico.</p>
+          <p>Já a <strong>Arquitetura TCP/IP</strong> é a base prática da internet, dividida em 4 camadas: Acesso à Rede, Internet, Transporte e Aplicação. O <strong>Protocolo IP</strong> cuida do endereço (onde chegar), enquanto o <strong>TCP</strong> garante que os dados cheguem inteiros e na ordem certa.</p>
+
+          <div class="highlight-box" style="background: rgba(59, 130, 246, 0.1); border-left-color: #3b82f6; margin-top: 20px;">
+            <strong>🔍 Dica de Especialista:</strong> Se a internet cair, o técnico olha primeiro a camada 1 (Física - cabos). Se o IP estiver errado, o problema é na camada 3 (Rede).
+            <span style="cursor:pointer; margin-left: 10px;" onclick="if(!this.collected){ this.collected=true; currentUser.coins = (currentUser.coins || 0) + 150; showToast('Manual do Administrador Encontrado! +150 Moedas', '📜'); saveStudentData(); this.style.opacity='0.3'; }">📜</span>
+          </div>
+
+          <h4>Guia de Missão</h4>
+          <ol>
+            <li>Liste as 7 camadas do modelo OSI em ordem crescente (da base para o topo).</li>
+            <li>Pesquise: Qual camada do modelo OSI é responsável pelo roteamento (endereçamento IP)?</li>
+          </ol>
+        `,
+        xpReward: 150,
+        type: 'choice',
+        robotMessage: "Qual é a principal finalidade da divisão em camadas no modelo OSI?",
+        quiz: {
+            question: 'Por que o modelo OSI é dividido em 7 camadas?',
+            options: [
+                'A) Para facilitar o entendimento, o desenvolvimento e a solução de problemas de forma modular.',
+                'B) Para tornar o sistema mais lento e complexo.',
+                'C) Porque existem 7 continentes no mundo.',
+                'D) Para que cada camada use um cabo de cor diferente.'
+            ],
+            correctIndex: 0
+        }
       },
       {
-        id: 'm1-3', title: 'Equações Trigonométricas', type: 'text', correctValue: "30",
-        theory: {
-          title: 'Resolvendo Incógnitas',
-          content: '<h4>Equações no Círculo</h4><p>Resolver sen(x) = 0.5 envolve encontrar os ângulos que possuem essa projeção no eixo Y.</p>',
-          realWorld: 'Usado para encontrar pontos de interseção em órbitas e ondas.',
-          curiosity: 'Existem infinitas soluções se não limitarmos o domínio!',
-          whyStudy: 'Base para resolver problemas de oscilação.',
-          tips: 'Pense no 1º quadrante primeiro.'
-        },
-        robotMessage: "Se sen(x) = 0.5 e 0 < x < 90, qual o valor de x?",
-        xpReward: 300
+        id: 'uci-1-3',
+        title: 'Sprint 3: Fronteiras Geográficas e Meios Físicos',
+        image: './assets/network_fantasy.png',
+        content: `
+          <h4>Pílula de Conhecimento</h4>
+          <p>As redes são classificadas pela sua abrangência. As <strong>LANs (Local Area Networks)</strong> são redes locais (casas, escolas) com alta velocidade e baixa latência. As <strong>WANs (Wide Area Networks)</strong> conectam grandes áreas (cidades, países) e dependem de infraestruturas externas de provedores.</p>
+          <p>Toda essa comunicação viaja por <strong>Meios Físicos</strong>: sinais elétricos (cobre), ópticos (fibra) ou ondas eletromagnéticas (wireless). A escolha do meio afeta a largura de banda, o alcance e a latência da rede.</p>
+
+          <div class="highlight-box" style="background: rgba(245, 158, 11, 0.1); border-left-color: #f59e0b; margin-top: 20px;">
+            <strong>⚡ Fato Curioso:</strong> A fibra óptica transmite dados por pulsos de luz, sendo imune a interferências magnéticas!
+            <span style="cursor:pointer; margin-left: 10px;" onclick="if(!this.collected){ this.collected=true; currentUser.coins = (currentUser.coins || 0) + 120; showToast('Fragmento de Cristal Óptico! +120 Moedas', '💎'); saveStudentData(); this.style.opacity='0.3'; }">💎</span>
+          </div>
+
+          <h4>Guia de Missão</h4>
+          <ol>
+            <li>Dê um exemplo real de uma LAN e de uma WAN que você utiliza no dia a dia.</li>
+            <li>Explique por que uma rede industrial pode preferir fibra óptica em vez de cabos de cobre.</li>
+          </ol>
+        `,
+        xpReward: 150,
+        type: 'text',
+        robotMessage: "Explique a diferença fundamental entre redes LAN e WAN quanto à sua abrangência e administração.",
       },
       {
-        id: 'm1-4', title: 'Transformações de Arcos', type: 'choice',
-        theory: {
-          title: 'Soma e Diferença',
-          content: '<h4>Fórmulas de Adição</h4><p>sen(a+b) = sen(a)cos(b) + sen(b)cos(a). "Minha terra tem palmeiras onde canta o sabiá..."</p>',
-          realWorld: 'Essencial para processamento de sinais digitais.',
-          curiosity: 'Essa fórmula permite calcular sen(75°) usando 30° e 45°.',
-          whyStudy: 'Ferramenta avançada para simplificação de funções.',
-          tips: 'Cosseno de (a+b) troca o sinal no meio!'
-        },
-        quiz: { question: "Qual o valor de cos(a+b)?", options: ["cos(a)cos(b) - sen(a)sen(b)", "cos(a)cos(b) + sen(a)sen(b)", "sen(a)cos(b) + sen(b)cos(a)"], correctIndex: 0 },
-        xpReward: 350
+        id: 'uci-1-4',
+        title: 'Sprint 4: A Forja do Cabeamento (Par Trançado e Fibra)',
+        image: './assets/cables_fantasy.png',
+        content: `
+          <h4>Pílula de Conhecimento</h4>
+          <p>O <strong>Cabo de Par Trançado (UTP)</strong> é o herói das LANs. Seus fios são entrelaçados para cancelar interferências. Já o <strong>Cabo Coaxial</strong> possui uma blindagem robusta, e a <strong>Fibra Óptica</strong> reina nas conexões de longa distância e alta performance devido à sua imunidade a ruídos.</p>
+          <p>Na prática, o par trançado é o mais comum devido ao custo-benefício, enquanto a fibra é essencial para interligar prédios ou fornecer internet de alta capacidade.</p>
+
+          <div class="highlight-box" style="background: rgba(139, 92, 246, 0.1); border-left-color: #8b5cf6; margin-top: 20px;">
+            <strong>🛠️ Ferramenta de Mestre:</strong> Para montar um cabo de rede, você precisará de um alicate de crimpagem e conectores RJ-45.
+            <span style="cursor:pointer; margin-left: 10px;" onclick="if(!this.collected){ this.collected=true; currentUser.coins = (currentUser.coins || 0) + 200; showToast('Alicate de Ouro Encontrado! +200 Moedas', '🔧'); saveStudentData(); this.style.opacity='0.3'; }">🔧</span>
+          </div>
+
+          <h4>Guia de Missão</h4>
+          <ol>
+            <li>Pesquise as categorias de cabos UTP (Cat5e, Cat6, Cat6a). Qual a diferença de velocidade entre elas?</li>
+            <li>Desenhe os 8 fios coloridos internos de um cabo de rede e tente memorizar a sequência do padrão T568A.</li>
+          </ol>
+        `,
+        xpReward: 150,
+        type: 'text',
+        robotMessage: "Descreva as características dos meios físicos cabeados e destaque a principal diferença entre par trançado e fibra óptica.",
       },
       {
-        id: 'm1-6', title: 'CHEFE: O Guardião dos Radianos', type: 'boss-list',
-        theory: { 
-          title: 'Prova de Maestria Trigonométrica', 
-          content: '<h4>Desafio Final do Mundo 1</h4><p>O Guardião exige precisão absoluta em conversões de arcos e sinais de quadrantes. Lembre-se: π rad = 180°.</p>',
-          realWorld: 'A computação gráfica usa radianos internamente para todos os cálculos de rotação.',
-          curiosity: 'O radiano é a medida natural de um ângulo, relacionando o comprimento do arco com o raio.',
-          whyStudy: 'Base para o cálculo diferencial e integral no ensino superior.',
-          tips: 'Para passar, revise os valores notáveis de 30°, 45° e 60°.'
-        },
-        isBoss: true,
-        exercises: [
-            { level: 'fácil', question: "Converta 90 graus para radianos:", answer: "pi/2" },
-            { level: 'médio', question: "Sinal do Cosseno no 3º quadrante?", answer: "negativo" },
-            { level: 'difícil', question: "Valor de sen(270°)?", answer: "-1" }
-        ],
-        xpReward: 1000
+        id: 'uci-1-5',
+        title: 'Sprint 5: Engenharia e Normas (Cabeamento Estruturado)',
+        image: './assets/cables_fantasy.png',
+        content: `
+          <h4>Pílula de Conhecimento</h4>
+          <p>O <strong>Cabeamento Estruturado</strong> é a padronização que garante organização e facilidade de manutenção. Baseia-se em normas internacionais como a <strong>TIA/EIA-568</strong> e a <strong>ISO/IEC 11801</strong>.</p>
+          <p>Uma rede estruturada utiliza elementos como <strong>Racks</strong> (armários), <strong>Patch Panels</strong> (painéis de manobra), tomadas de rede identificadas e certificação técnica, permitindo que a infraestrutura dure muitos anos e suporte novas tecnologias.</p>
+
+          <div class="highlight-box" style="background: rgba(16, 185, 129, 0.1); border-left-color: #10b981; margin-top: 20px;">
+            <strong>📊 Visão de Projeto:</strong> Um bom projeto de rede evita o "emaranhado de fios" e reduz drasticamente o tempo de manutenção.
+            <span style="cursor:pointer; margin-left: 10px;" onclick="if(!this.collected){ this.collected=true; currentUser.coins = (currentUser.coins || 0) + 150; showToast('Esquema Técnico Perfeito! +150 Moedas', '📐'); saveStudentData(); this.style.opacity='0.3'; }">📐</span>
+          </div>
+
+          <h4>Guia de Missão</h4>
+          <ol>
+            <li>Explique a importância de etiquetar cada cabo e tomada em uma empresa.</li>
+            <li>O que acontece se uma empresa não seguir as normas de cabeamento ao montar sua rede?</li>
+          </ol>
+        `,
+        xpReward: 150,
+        type: 'text',
+        robotMessage: "Qual é a função das normas de cabeamento como a TIA/EIA-568 e por que segui-las é uma exigência profissional?",
+      },
+      {
+        id: 'uci-1-6',
+        title: 'Sprint 6: Ondas Invisíveis e Alternativas (Wireless e Satélite)',
+        image: './assets/network_fantasy.png',
+        content: `
+          <h4>Pílula de Conhecimento</h4>
+          <p>As <strong>Redes Sem Fio (Wireless)</strong> utilizam ondas de rádio (Wi-Fi, Bluetooth) para oferecer mobilidade. Elas operam em frequências e canais definidos para evitar interferências. No entanto, exigem cuidados extras com segurança e controle de acesso.</p>
+          <p>Existem também <strong>Tecnologias Alternativas</strong> como o <strong>PLC</strong> (dados via rede elétrica), rádio enlace, redes móveis (4G/5G) e o <strong>Satélite</strong>, que é a salvação para áreas rurais e remotas.</p>
+
+          <div class="highlight-box" style="background: rgba(139, 92, 246, 0.1); border-left-color: #8b5cf6; margin-top: 20px;">
+            <strong>📡 Sinal Forte:</strong> As redes 5G prometem latências baixíssimas, permitindo até cirurgias remotas!
+            <span style="cursor:pointer; margin-left: 10px;" onclick="if(!this.collected){ this.collected=true; currentUser.coins = (currentUser.coins || 0) + 100; showToast('Antena de Ganho Épico! +100 Moedas', '📡'); saveStudentData(); this.style.opacity='0.3'; }">📡</span>
+          </div>
+
+          <h4>Guia de Missão</h4>
+          <ol>
+            <li>Identifique 3 dispositivos na sua casa que usam Bluetooth e 3 que usam Wi-Fi.</li>
+            <li>Qual a principal desvantagem da internet via satélite comparada à fibra óptica (dica: pense na distância até o espaço)?</li>
+          </ol>
+        `,
+        xpReward: 150,
+        type: 'choice',
+        robotMessage: "Sobre tecnologias sem fio, qual opção descreve uma característica das redes móveis 5G?",
+        quiz: {
+            question: 'Qual a principal evolução trazida pelo 5G em relação ao 4G?',
+            options: [
+                'A) Funciona sem precisar de energia elétrica.',
+                'B) Só funciona em dias de sol.',
+                'C) Maior velocidade de transmissão e baixíssima latência.',
+                'D) Usa cabos de cobre mais grossos.'
+            ],
+            correctIndex: 2
+        }
+      },
+      {
+        id: 'uci-1-7',
+        title: 'Sprint 7: O Domínio dos Ativos (Roteadores, Switches e VLANs)',
+        image: './assets/router_fantasy.png',
+        content: `
+          <h4>Pílula de Conhecimento</h4>
+          <p>Os <strong>Switches</strong> conectam dispositivos em uma mesma rede local de forma inteligente, usando endereços físicos (MAC). Já o <strong>Roteador</strong> é o mestre que interliga redes diferentes, encaminhando pacotes via endereços IP.</p>
+          <p>Uma técnica avançada é a criação de <strong>VLANs (Redes Virtuais)</strong>, que permite segmentar logicamente uma rede física em várias redes independentes, aumentando a segurança e reduzindo o tráfego desnecessário.</p>
+
+          <div class="highlight-box" style="background: rgba(59, 130, 246, 0.1); border-left-color: #3b82f6; margin-top: 20px;">
+            <strong>🛡️ Segurança:</strong> Com VLANs, você pode isolar a rede dos convidados da rede dos servidores da empresa!
+            <span style="cursor:pointer; margin-left: 10px;" onclick="if(!this.collected){ this.collected=true; currentUser.coins = (currentUser.coins || 0) + 250; showToast('Chave de Acesso ao Switch Core! +250 Moedas', '🔑'); saveStudentData(); this.style.opacity='0.3'; }">🔑</span>
+          </div>
+
+          <h4>Guia de Missão</h4>
+          <ol>
+            <li>Acesse a interface do seu roteador (geralmente 192.168.0.1) e veja quantos dispositivos estão conectados agora.</li>
+            <li>Explique por que um Switch é mais eficiente que um antigo Hub.</li>
+          </ol>
+        `,
+        xpReward: 200,
+        type: 'text',
+        robotMessage: "Explique a finalidade da criação de VLANs e como essa prática contribui para a segurança da rede.",
+      },
+      {
+        id: 'uci-1-8',
+        title: 'Sprint 8: Planejamento e Visão Sistêmica (2º Bimestre)',
+        image: './assets/world_map_uc1.png',
+        content: `
+          <h4>Pílula de Conhecimento</h4>
+          <p>Ao iniciar o 2º bimestre, focamos no <strong>Planejamento de uma Rede</strong>. Um projeto bem estruturado começa com o levantamento das necessidades do cliente, o desenho da topologia e a escolha correta dos equipamentos.</p>
+          <p>O profissional deve ter uma visão sistêmica para antecipar problemas, otimizar recursos e garantir que a rede possa crescer no futuro sem precisar ser totalmente refeita.</p>
+
+          <div class="highlight-box" style="background: rgba(16, 185, 129, 0.1); border-left-color: #10b981; margin-top: 20px;">
+            <strong>🏗️ Fundação Sólida:</strong> Planejar economiza tempo e dinheiro, evitando o retrabalho.
+            <span style="cursor:pointer; margin-left: 10px;" onclick="if(!this.collected){ this.collected=true; currentUser.coins = (currentUser.coins || 0) + 150; showToast('Planta Baixa de Rede Aprovada! +150 Moedas', '🏗️'); saveStudentData(); this.style.opacity='0.3'; }">🏗️</span>
+          </div>
+
+          <h4>Guia de Missão</h4>
+          <ol>
+            <li>Imagine que você vai montar a rede de uma pequena biblioteca com 5 computadores. Quais equipamentos básicos você compraria?</li>
+            <li>Por que é importante documentar a rede (fazer um mapa de onde passam os cabos)?</li>
+          </ol>
+        `,
+        xpReward: 200,
+        type: 'text',
+        robotMessage: "Por que a elaboração de um projeto de rede estruturada é essencial antes da instalação física?",
+      },
+      {
+        id: 'uci-1-9',
+        title: 'Sprint 9: O Grande Exame do Guardião da Rede',
+        image: './assets/boss_monster.png',
+        content: `
+          <h4>Desafio Final do Mundo 1</h4>
+          <p>Você percorreu todo o caminho, desde os sinais elétricos até o planejamento lógico. Agora, prove que é um verdadeiro Guardião da Rede respondendo a este exame consolidado.</p>
+          <ol style="margin-left: 20px;">
+            <li>Defina o que é um protocolo de comunicação.</li>
+            <li>Cite as camadas do modelo TCP/IP.</li>
+            <li>Qual a principal vantagem da fibra óptica sobre o par trançado?</li>
+            <li>O que é uma VLAN e para que serve?</li>
+            <li>Qual a diferença entre um Switch e um Roteador?</li>
+          </ol>
+
+          <div class="highlight-box" style="background: rgba(239, 68, 68, 0.1); border-left-color: #ef4444; margin-top: 20px;">
+            <strong>🏆 Tesouro Final:</strong> O conhecimento é o maior prêmio, mas um bônus de moedas não faz mal!
+            <span style="cursor:pointer; margin-left: 10px;" onclick="if(!this.collected){ this.collected=true; currentUser.coins = (currentUser.coins || 0) + 500; showToast('BAÚ DO CONHECIMENTO ABERTO! +500 Moedas', '💰'); saveStudentData(); this.style.opacity='0.3'; }">💰</span>
+          </div>
+        `,
+        xpReward: 500,
+        type: 'text',
+        robotMessage: "Parabéns, Herói! Escreva um resumo detalhado respondendo às 5 questões acima para fechar este Mundo com chave de ouro.",
       }
     ]
   },
-  {
-    id: 'uc2',
-    title: 'Mundo 2: Geometria Analítica',
-    icon: '📍',
+  { 
+    id: 'uc2', 
+    title: 'Mundo 2: A Forja de Silício (UC II)', 
+    description: 'Hardware, Eletrônica, Montagem de Computadores e Manutenção. A base física do mundo digital.', 
+    icon: '⚙️',
     background: './assets/world_map_uc2.png',
-    badgeTitle: 'Cartógrafo do Plano',
-    badgeIcon: '📍',
+    badgeTitle: 'Mestre da Forja',
+    badgeIcon: '🛠️',
     lessons: [
       {
-        id: 'm2-1', title: 'Distância e Ponto Médio', type: 'text', correctValue: "5",
-        theory: { 
-            title: 'Pontos no Espaço', 
-            content: '<h4>Métrica Cartesiana</h4><p>Dados A(x1, y1) e B(x2, y2), a distância d é √(Δx² + Δy²). O ponto médio M é a média aritmética das coordenadas.</p>',
-            realWorld: 'Algoritmos de rotas usam geometria analítica para encontrar o caminho mais curto.',
-            curiosity: 'René Descartes criou este sistema para unificar Álgebra e Geometria.',
-            whyStudy: 'Fundamental para funções e modelagem gráfica.',
-            tips: 'Δx é a diferença entre os X (x2 - x1).'
-        },
-        robotMessage: "Qual a distância entre os pontos (1, 2) e (4, 6)?",
-        xpReward: 200
+        id: 'uc2-1',
+        title: 'Sprint 1: A Centelha da Vida (Eletrônica)',
+        image: './assets/electronics_fantasy.png',
+        content: `
+          <h4>Pílula de Conhecimento</h4>
+          <p>Toda a magia dos computadores depende do controle da energia. A <strong>Eletrônica Básica</strong> lida com Tensão (Volts), Corrente (Amperes) e Resistência (Ohms). Os componentes passivos (resistores, capacitores) e os <strong>transistores</strong> formam a base dos circuitos.</p>
+
+          <h4>Guia de Missão</h4>
+          <ol>
+            <li>No laboratório, meça a voltagem de uma pilha com um Multímetro.</li>
+            <li><strong>Adaptação Mobile:</strong> Como não há multímetro no celular, pesquise na internet qual é a diferença entre um Resistor e um Capacitor e anote as funções de cada um.</li>
+          </ol>
+
+          <div class="highlight-box" style="background: rgba(59, 130, 246, 0.1); border-left-color: #3b82f6; margin-top: 20px;">
+            <strong>📚 Material de Consulta (Apostila Virtual)</strong><br>
+            <ul>
+              <li><a href="https://www.youtube.com/watch?v=vV6yQd9A86M" target="_blank" style="color: #60a5fa; text-decoration: underline;">🎥 Mundo da Elétrica: Tensão, Corrente e Resistência</a></li>
+              <li><a href="https://www.youtube.com/watch?v=0kH8fG-t6Fk" target="_blank" style="color: #60a5fa; text-decoration: underline;">🎥 Como usar um Multímetro</a></li>
+            </ul>
+          </div>
+        `,
+        xpReward: 100,
+        type: 'file',
+        robotMessage: "Envie uma foto do teste do multímetro ou do resumo que você fez sobre Resistores e Capacitores!"
       },
       {
-        id: 'm2-2', title: 'A Equação da Reta', type: 'choice',
-        theory: { 
-            title: 'Linearidade', 
-            content: '<h4>y = mx + n</h4><p>m é o coeficiente angular (inclinação) e n é o coeficiente linear (onde corta o eixo Y).</p>',
-            realWorld: 'Economistas usam retas para modelar oferta e demanda em mercados simples.',
-            curiosity: 'Se m1 · m2 = -1, as retas são perpendiculares!',
-            whyStudy: 'Base para o estudo de derivadas.',
-            tips: 'm = (y2-y1)/(x2-x1).'
-        },
-        quiz: { question: "Qual o coeficiente angular da reta que passa por (0,0) e (2,4)?", options: ["2", "0.5", "4"], correctIndex: 0 },
-        xpReward: 250
+        id: 'uc2-2',
+        title: 'Sprint 2: A Anatomia da Máquina (Hardware)',
+        image: './assets/motherboard_fantasy.png',
+        content: `
+          <h4>Pílula de Conhecimento</h4>
+          <p>O coração é a <strong>Placa-Mãe</strong>. O cérebro é o <strong>Processador (CPU)</strong>. A memória de curto prazo (rápida) é a <strong>RAM</strong>, enquanto a memória permanente vive nos <strong>Discos (HDDs/SSDs)</strong>.</p>
+
+          <h4>Guia de Missão</h4>
+          <ol>
+            <li>Observe uma placa-mãe física e aponte onde fica o Processador e a RAM.</li>
+            <li><strong>Adaptação Mobile:</strong> Acesse imagens de placas-mãe na internet e estude a posição dos conectores. Escreva um resumo sobre a diferença de velocidade entre HDD e SSD.</li>
+          </ol>
+
+          <div class="highlight-box" style="background: rgba(59, 130, 246, 0.1); border-left-color: #3b82f6; margin-top: 20px;">
+            <strong>📚 Material de Consulta (Apostila Virtual)</strong><br>
+            <ul>
+              <li><a href="https://www.youtube.com/watch?v=8V3-L1X1Jow" target="_blank" style="color: #60a5fa; text-decoration: underline;">🎥 Peças de um PC explicadas! (Adrenaline)</a></li>
+              <li><a href="https://www.youtube.com/watch?v=2Tz8DIf1TMA" target="_blank" style="color: #60a5fa; text-decoration: underline;">🎥 HDD x SSD x NVMe (Qual a diferença?)</a></li>
+            </ul>
+          </div>
+        `,
+        xpReward: 100,
+        type: 'choice',
+        robotMessage: "Vamos testar sua visão de Raio-X! Para que serve a memória RAM em comparação com o Disco SSD?",
+        quiz: {
+            question: 'Qual é a principal diferença entre a Memória RAM e o Armazenamento (SSD/HD)?',
+            options: [
+                'A) A RAM guarda fotos para sempre, o HD guarda o sistema operacional temporariamente.',
+                'B) A RAM é a memória volátil onde rodam os programas abertos, enquanto o SSD armazena os dados de forma permanente mesmo sem energia.',
+                'C) A RAM resfria o processador, o HD processa os cálculos visuais.',
+                'D) Não há diferença, ambas servem para exibir vídeo.'
+            ],
+            correctIndex: 1
+        }
       },
       {
-        id: 'm2-5', title: 'CHEFE: O General das Cônicas', type: 'boss-list',
-        theory: {
-            title: 'Equação da Circunferência',
-            content: '<h4>O Lugar Geométrico</h4><p>A equação (x-h)² + (y-k)² = r² define um círculo com centro (h, k) e raio r. É o Teorema de Pitágoras aplicado a todos os pontos!</p>',
-            realWorld: 'Radar e sonar detectam objetos em áreas circulares usando essas equações.',
-            curiosity: 'Qualquer ponto na borda está à mesma distância do centro.',
-            whyStudy: 'Base para o estudo de órbitas e física circular.',
-            tips: 'Se h e k forem zero, o centro é na origem (0,0).'
-        },
-        isBoss: true,
-        exercises: [
-            { level: 'fácil', question: "Raio de x² + y² = 25?", answer: "5" },
-            { level: 'médio', question: "Centro de (x-2)² + (y+3)² = 9? (h,k)", answer: "2,-3" },
-            { level: 'difícil', question: "Reta paralela a y=3x tem m igual a?", answer: "3" }
-        ],
-        xpReward: 1200
+        id: 'uc2-3',
+        title: 'Sprint 3: O Ritual da Montagem (Prática)',
+        image: './assets/assembly_fantasy.png',
+        content: `
+          <h4>Pílula de Conhecimento</h4>
+          <p>A montagem exige pulseira antiestática e cuidado. Começamos pelo processador, pasta térmica, cooler, memórias RAM e depois fixamos a placa no gabinete, antes de conectar a Fonte de Alimentação (que transforma energia alternada da tomada em contínua para o PC).</p>
+
+          <h4>Guia de Missão</h4>
+          <ol>
+            <li>No laboratório, desmonte e monte um computador.</li>
+            <li><strong>Adaptação Celular/Web:</strong> Assista ao vídeo de montagem abaixo e liste no caderno a ordem correta das peças a serem encaixadas, ou jogue o app "PC Creator" no celular.</li>
+          </ol>
+
+          <div class="highlight-box" style="background: rgba(59, 130, 246, 0.1); border-left-color: #3b82f6; margin-top: 20px;">
+            <strong>📚 Material de Consulta (Apostila Virtual)</strong><br>
+            <ul>
+              <li><a href="https://www.youtube.com/watch?v=YmDqK5DXYz0" target="_blank" style="color: #60a5fa; text-decoration: underline;">🎥 Guia de Montagem de PC (MW Informática)</a></li>
+            </ul>
+          </div>
+        `,
+        xpReward: 100,
+        type: 'file',
+        robotMessage: "Ritual completo! Mostre-me uma foto do computador que vocês montaram, ou a lista anotada no seu caderno com os passos de montagem retirados do vídeo."
+      },
+      {
+        id: 'uc2-4',
+        title: 'Sprint 4: O Sopro do Espírito (Sistemas Operacionais)',
+        image: './assets/os_fantasy.png',
+        content: `
+          <h4>Pílula de Conhecimento</h4>
+          <p>Uma máquina precisa de um Sistema Operacional (Windows, Linux). O processo de formatação envolve criar um Pendrive de Boot, acessar a BIOS/UEFI, particionar o disco e, por fim, instalar os <strong>Drivers</strong> (tradutores de hardware) e programas essenciais.</p>
+
+          <h4>Guia de Missão</h4>
+          <ol>
+            <li>Formate um PC no laboratório usando um pendrive bootável feito no Rufus.</li>
+            <li><strong>Adaptação Teórica (Celular):</strong> Descreva passo a passo, em texto, o que é formatação e por que precisamos instalar "Drivers" de vídeo e áudio logo em seguida.</li>
+          </ol>
+
+          <div class="highlight-box" style="background: rgba(59, 130, 246, 0.1); border-left-color: #3b82f6; margin-top: 20px;">
+            <strong>📚 Material de Consulta (Apostila Virtual)</strong><br>
+            <ul>
+              <li><a href="https://www.youtube.com/watch?v=o04K5n4yGDE" target="_blank" style="color: #60a5fa; text-decoration: underline;">🎥 Como criar pendrive de boot com RUFUS</a></li>
+              <li><a href="https://www.techtudo.com.br/noticias/2014/10/o-que-e-um-driver.ghtml" target="_blank" style="color: #60a5fa; text-decoration: underline;">📖 Leitura: O que é um Driver?</a></li>
+            </ul>
+          </div>
+        `,
+        xpReward: 100,
+        type: 'text',
+        robotMessage: "O que é um 'Driver' de hardware e por que o computador pode ficar sem som ou sem internet logo após formatarmos o Windows se não instalarmos os drivers?"
+      },
+      {
+        id: 'uc2-5',
+        title: 'Sprint 5: Os Guardiões da Durabilidade (Manutenção)',
+        image: './assets/maintenance_fantasy.png',
+        content: `
+          <h4>Pílula de Conhecimento</h4>
+          <p>A magia dura anos com <strong>Manutenção Preventiva</strong> (limpeza física, troca de pasta térmica) e segurança de software (Antivírus e Backups em nuvem/externos). A Manutenção <strong>Corretiva</strong> ocorre quando algo queima e precisamos testar as peças e substituir.</p>
+
+          <h4>Guia de Missão</h4>
+          <ol>
+            <li>No laboratório, limpe os contatos da memória RAM usando uma borracha branca e use limpa-contato.</li>
+            <li><strong>Adaptação Mobile:</strong> Pesquise sobre "Sintomas de PC superaquecendo" e liste 3 soluções preventivas que podem ser feitas.</li>
+          </ol>
+
+          <div class="highlight-box" style="background: rgba(59, 130, 246, 0.1); border-left-color: #3b82f6; margin-top: 20px;">
+            <strong>📚 Material de Consulta (Apostila Virtual)</strong><br>
+            <ul>
+              <li><a href="https://www.youtube.com/watch?v=ZfAHEt96vAw" target="_blank" style="color: #60a5fa; text-decoration: underline;">🎥 Como limpar o PC corretamente e trocar pasta térmica</a></li>
+            </ul>
+          </div>
+        `,
+        xpReward: 100,
+        type: 'choice',
+        robotMessage: "Qual é o diagnóstico mais provável para um computador que desliga sozinho sempre que se tenta jogar jogos pesados?",
+        quiz: {
+            question: 'Diagnóstico de Hardware: O PC desliga durante o uso intenso (jogos). O que é?',
+            options: [
+                'A) O Antivírus expirou, bloqueando os jogos.',
+                'B) Superaquecimento do processador ou placa de vídeo. É necessário limpar o cooler e trocar a pasta térmica.',
+                'C) Falta instalar o driver do teclado.',
+                'D) O cabo de rede está com a crimpagem errada.'
+            ],
+            correctIndex: 1
+        }
+      },
+      {
+        id: 'uc2-6',
+        title: 'Sprint 6: O Julgamento da Forja (Avaliação Teórica)',
+        image: './assets/world_map_uc2.png',
+        content: `
+          <h4>Prova de Ascensão - Hardware e Manutenção</h4>
+          <p>Responda às 20 questões abaixo com atenção (numere-as de 1 a 20 na caixa de texto) ou resolva no caderno.</p>
+          <ol style="margin-left: 20px; font-size: 0.9rem; line-height: 1.6;">
+            <li>O que é Tensão Elétrica (Voltagem)?</li>
+            <li>Qual a diferença entre Corrente Contínua (CC/DC) e Corrente Alternada (CA/AC)?</li>
+            <li>O que é a Resistência Elétrica?</li>
+            <li>Qual a função de um Resistor em um circuito?</li>
+            <li>O que faz um Capacitor?</li>
+            <li>Descreva o que é a Placa-Mãe e sua função.</li>
+            <li>Qual o papel do Processador (CPU)?</li>
+            <li>Por que processadores precisam de dissipadores?</li>
+            <li>Qual a diferença entre Memória RAM e ROM?</li>
+            <li>O que é armazenado na memória BIOS/CMOS?</li>
+            <li>Explique a diferença entre HDD magnético e um SSD.</li>
+            <li>Qual a função da Fonte de Alimentação?</li>
+            <li>O que é Eletricidade Estática e por que usar pulseira antiestática?</li>
+            <li>Descreva os passos básicos de montagem de um PC.</li>
+            <li>O que significa POST (Power-On Self-Test)?</li>
+            <li>Para que servem os Drivers do SO?</li>
+            <li>Qual a importância do particionamento de disco?</li>
+            <li>Cite duas ações de Manutenção Preventiva.</li>
+            <li>Cite um exemplo de Manutenção Corretiva.</li>
+            <li>Por que é crucial manter backups regulares?</li>
+          </ol>
+
+          <div class="highlight-box" style="background: rgba(59, 130, 246, 0.1); border-left-color: #3b82f6; margin-top: 20px;">
+            <strong>📚 Material de Consulta (Apostila Virtual)</strong><br>
+            <p>Revise os materiais de leitura e vídeos das 5 missões anteriores para gabaritar a prova!</p>
+          </div>
+        `,
+        xpReward: 300,
+        type: 'text',
+        robotMessage: "O Exame Final da Forja! Digite suas respostas numeradas abaixo ou escreva um resumo consolidado após resolver as 20 questões no caderno."
       }
     ]
   },
-  {
-    id: 'uc3',
-    title: 'Mundo 3: A Conquista do Espaço',
-    icon: '🗺️',
-    background: './assets/world_map_uc3.png',
-    badgeTitle: 'Mestre das Áreas',
-    badgeIcon: '🗺️',
-    lessons: [
-      {
-        id: 'm3-1', title: 'Área vs Perímetro', type: 'drag-drop',
-        theory: {
-          title: 'Área vs Perímetro',
-          image: './assets/mundo_areas.png',
-          content: '<h4>Não confunda as medidas!</h4><p><strong>Perímetro:</strong> É o contorno. Imagine que você está cercando um terreno. Usamos metros (m).</p><p><strong>Área:</strong> É o preenchimento. Imagine que você está pintando o chão. Usamos metros quadrados (m²).</p>',
-          realWorld: 'Pedreiros e arquitetos calculam área para definir quantidade de material.',
-          curiosity: 'Um quadrado de lado 4m tem área 16m², mas um retângulo 1m x 16m tem a mesma área com perímetro bem maior!',
-          whyStudy: 'Fundamental para geometria plana e questões de ENEM.',
-          tips: 'Área do triângulo: (Base × Altura) / 2.'
-        },
-        dragDrop: { items: [{ id: 'm2', text: 'm²' }, { id: 'm', text: 'm' }], targets: [{ id: 'a', label: 'Área', accepts: 'm2' }, { id: 'p', label: 'Perímetro', accepts: 'm' }] },
-        xpReward: 150
-      },
-      {
-        id: 'm3-2', title: 'Área do Retângulo', type: 'choice',
-        theory: {
-          title: 'A Lei do Produto',
-          content: '<h4>Calculando Áreas</h4><p>Para retângulos, basta multiplicar a <strong>Base</strong> pela <strong>Altura</strong>. Simples assim! Se o campo tem 100m de base e 70m de altura, quanto espaço ele ocupa?</p>'
-        },
-        quiz: { question: "Um campo de 100m x 70m. Qual a Área total?", options: ["170m²", "7000m²", "340m²"], correctIndex: 1 },
-        xpReward: 200
-      },
-      {
-        id: 'm3-3', title: 'Cálculo de Cerca', type: 'text', correctValue: "80",
-        theory: {
-          title: 'Somando os Lados',
-          content: '<h4>O Caminho em Volta</h4><p>Um terreno quadrado de 20m tem 4 lados iguais de 20m. Quantos metros de arame você precisa para dar uma volta completa nele?</p>'
-        },
-        robotMessage: "Terreno quadrado de 20m. Quantos metros de cerca?",
-        xpReward: 250
-      },
-      {
-        id: 'm3-4', title: 'Área do Triângulo', type: 'text', correctValue: "24",
-        theory: {
-          title: 'Metade do Retângulo',
-          content: '<h4>A Fórmula do Triângulo</h4><p>Área = (base × altura) / 2. Um triângulo é sempre "metade" do paralelogramo correspondente.</p>',
-          realWorld: 'Usada para calcular a área de lotes triangulares.',
-          curiosity: 'A fórmula de Heron calcula a área usando apenas os 3 lados, sem precisar da altura!',
-          whyStudy: 'Questão clássica de concursos e ENEM.',
-          tips: 'Identifice corretamente a base e a altura perpendicular a ela.'
-        },
-        robotMessage: "Triângulo com base 8m e altura 6m. Qual a área?",
-        xpReward: 300
-      },
-      {
-        id: 'm3-5', title: 'CHEFE: O Agrimensor Real', type: 'boss-list',
-        theory: {
-          title: 'O Grande Loteamento',
-          content: '<h4>Prova de Maestria</h4><p>O Agrimensor exige cálculos precisos de perímetros e áreas. Lembre-se de todas as fórmulas!</p>',
-          realWorld: 'Agrimensores são profissionais que medem e demarcam terrenos oficialmente.',
-          curiosity: 'No Brasil, toda venda de terreno exige um laudo de agrimensor registrado.',
-          whyStudy: 'Para avançar ao reino das Proporções.',
-          tips: 'Revisite as fórmulas de triângulo e retângulo!'
-        },
-        isBoss: true,
-        exercises: [
-          { level: 'fácil', question: "Área de quadrado lado 5?", answer: "25" },
-          { level: 'médio', question: "Perímetro de retângulo 10x5?", answer: "30" },
-          { level: 'difícil', question: "Área triângulo base 10 altura 5?", answer: "25" }
-        ],
-        xpReward: 800
-      }
-    ]
-  },
-  {
-    id: 'uc4',
-    title: 'Mundo 4: A Magia das Proporções',
-    icon: '🧪',
-    background: './assets/world_map_uc4.png',
-    badgeTitle: 'Alquimista das Porcentagens',
-    badgeIcon: '🧪',
-    lessons: [
-      {
-        id: 'm4-1', title: 'Porcentagem é uma Fração!', type: 'drag-drop',
-        theory: {
-          title: 'Partes de Cem',
-          image: './assets/mundo_porcentagem.png',
-          content: '<h4>Porcentagem é uma Fração!</h4><p>50% é o mesmo que a metade (1/2). 25% é o mesmo que a quarta parte (1/4). Entender isso é o segredo para cálculos rápidos!</p>',
-          realWorld: 'Bancos, lojas e governo usam porcentagem o tempo todo para juros, descontos e tributos.',
-          curiosity: 'A palavra "percent" vem do latim "per centum", que significa "por cem".',
-          whyStudy: 'É o conteúdo mais cobrado em ENEM e concursos.',
-          tips: 'Para calcular 10%, divida por 10. Para 1%, divida por 100.'
-        },
-        dragDrop: { items: [{ id: 'p50', text: '50%' }, { id: 'p25', text: '25%' }], targets: [{ id: 'f12', label: 'Frasco 1/2', accepts: 'p50' }, { id: 'f14', label: 'Frasco 1/4', accepts: 'p25' }] },
-        xpReward: 150
-      },
-      {
-        id: 'm4-2', title: 'Desconto em Compras', type: 'choice',
-        theory: {
-          title: 'Economia Prática',
-          content: '<h4>Pague Menos</h4><p>10% de um valor é fácil: basta dividir por 10. Se algo custa R$200, 10% é R$20. O preço com desconto é: 200 - 20 = R$180.</p>'
-        },
-        quiz: { question: "Produto de R$200 com 10% de desconto. Preço final?", options: ["R$180", "R$20", "R$190"], correctIndex: 0 },
-        xpReward: 200
-      },
-      {
-        id: 'm4-3', title: 'Calculando 25%', type: 'choice',
-        theory: {
-          title: 'Quartas Partes',
-          content: '<h4>Calculando 25%</h4><p>25% é metade da metade. Se 80 é o total, a metade é 40, e a metade disso é 20. Viu como é simples?</p>'
-        },
-        quiz: { question: "Qual o valor de 25% de 80?", options: ["20", "40", "10"], correctIndex: 0 },
-        xpReward: 250
-      },
-      {
-        id: 'm4-4', title: 'CHEFE: A Armadilha da Variação', type: 'text', correctValue: "99",
-        theory: {
-          title: 'Cuidado com os Números',
-          content: '<h4>A Pegadinha das Porcentagens</h4><p>Se um valor sobe 10% e depois desce 10%, ele volta ao original? PENSE BEM! O segundo cálculo é sobre o NOVO valor, não sobre o antigo!</p><p>R$100 + 10% = R$110. Agora: R$110 - 10% = R$110 - R$11 = R$99. Não volta!</p>',
-          realWorld: 'Investidores perdem dinheiro por ignorar esse detalhe em quedas e altas da bolsa.',
-          curiosity: 'Uma queda de 50% precisa de uma alta de 100% para recuperar o valor original!',
-          whyStudy: 'Protege seu dinheiro de armadilhas de marketing.',
-          tips: 'Sempre calcule sobre o valor ATUAL, não o original.'
-        },
-        robotMessage: "R$100 sobe 10% e cai 10%. Valor final?",
-        xpReward: 900
-      }
-    ]
-  },
-  {
-    id: 'uc5',
-    title: 'Mundo 5: Os Mestres das Medidas',
-    icon: '⚖️',
-    background: './assets/world_map_ict.png',
-    badgeTitle: 'Equilibrador de Pesos',
-    badgeIcon: '⚖️',
-    lessons: [
-      {
-        id: 'm5-1', title: 'Massa e Tempo', type: 'drag-drop',
-        theory: {
-          title: 'Massa e Tempo',
-          image: './assets/mundo_medidas.png',
-          content: '<h4>O Peso e o Relógio</h4><p>No Brasil, medimos peso (massa) em Quilogramas (Kg) e Gramas (g). O tempo é medido em Horas, Minutos e Segundos. 1 Kg = 1000g, 1h = 60min, 1min = 60s.</p>',
-          realWorld: 'Toda receita culinária usa medidas de massa e tempo.',
-          curiosity: 'O quilograma foi redefinido em 2019 com base na constante de Planck, deixando de depender de um objeto físico.',
-          whyStudy: 'Conversão de unidades é essencial em física e química.',
-          tips: 'Para converter kg em g, multiplique por 1000.'
-        },
-        dragDrop: { items: [{ id: 'kg', text: 'Massa' }, { id: 'min', text: 'Tempo' }], targets: [{ id: 't1', label: 'Kg / Gramas', accepts: 'kg' }, { id: 't2', label: 'Minutos / Horas', accepts: 'min' }] },
-        xpReward: 150
-      },
-      {
-        id: 'm5-2', title: 'A Receita do Mago', type: 'text', correctValue: "1.4",
-        theory: {
-          title: 'De Gramas para Quilos',
-          content: '<h4>De Gramas para Quilos</h4><p>Lembre-se: 1kg = 1000g. Se você tem 4 pacotes de 350g, você tem 1400g no total. Quantos QUILOS isso representa? 1400 ÷ 1000 = 1.4 kg.</p>'
-        },
-        robotMessage: "350g x 4 receitas. Quantos QUILOS (use ponto para decimal)?",
-        xpReward: 200
-      },
-      {
-        id: 'm5-3', title: 'Convertendo Horas', type: 'choice',
-        theory: {
-          title: 'Segundos Preciosos',
-          content: '<h4>Convertendo Horas</h4><p>1 hora tem 60 minutos, e cada minuto tem 60 segundos. Então, 1 hora tem 3600 segundos (60x60). Quanto tempo tem em 2 horas?</p>'
-        },
-        quiz: { question: "Quantos segundos existem em 2 horas completas?", options: ["120", "7200", "3600"], correctIndex: 1 },
-        xpReward: 250
-      },
-      {
-        id: 'm5-4', title: 'CHEFE: Mestre da Ampulheta', type: 'boss-list',
-        theory: {
-          title: 'O Teste da Balança e do Tempo',
-          content: '<h4>O Desafio Final de Medidas</h4><p>Prove que você sabe converter gramas em quilos, minutos em horas e mililitros em litros.</p>',
-          realWorld: 'Farmacêuticos, químicos e chefs precisam dessa habilidade diariamente.',
-          curiosity: 'O sistema métrico foi criado durante a Revolução Francesa para padronizar medidas mundialmente.',
-          whyStudy: 'Para avançar ao Mundo dos Números Racionais.',
-          tips: 'Revise: 1kg=1000g, 1h=60min, 1L=1000ml.'
-        },
-        isBoss: true,
-        exercises: [
-          { level: 'fácil', question: "2kg em gramas?", answer: "2000" },
-          { level: 'médio', question: "1h30min em minutos?", answer: "90" },
-          { level: 'difícil', question: "5000ml em Litros?", answer: "5" }
-        ],
-        xpReward: 900
-      }
-    ]
-  },
-  {
-    id: 'uc6',
-    title: 'Mundo 6: O Universo dos Números',
-    icon: '🌌',
+  { 
+    id: 'uc3', 
+    title: 'Mundo 3: O Reino da Lógica e dos Sistemas (UC III)', 
+    description: 'Aprofunde-se no núcleo das máquinas: Lógica, Algoritmos, Sistemas Operacionais e Servidores.', 
+    icon: '🐧',
     background: './assets/world_map_mario.png',
-    badgeTitle: 'Navegador do Infinito',
-    badgeIcon: '🌌',
+    badgeTitle: 'Administrador de Sistemas',
+    badgeIcon: '🔐',
     lessons: [
       {
-        id: 'm6-1', title: 'Frações Visuais', type: 'hotspot',
-        theory: {
-          title: 'Fatiando a Pizza',
-          image: './assets/mundo_racionais.png',
-          content: '<h4>Fração Visual</h4><p>Frações são partes iguais de um inteiro. Se dividirmos algo em 4 partes e pegarmos 1, temos 1/4. Clique no ponto que representa a fatia correta.</p>',
-          realWorld: 'Frações aparecem em receitas, cortes de tecido e partilha de heranças.',
-          curiosity: 'Os egípcios só usavam frações unitárias (1/n). Eles escreviam 3/4 como 1/2 + 1/4!',
-          whyStudy: 'Base para toda aritmética avançada e álgebra.',
-          tips: 'O número de cima é o numerador (partes que temos), o de baixo é o denominador (total de partes).'
-        },
-        hotspot: { image: './assets/pizza.png', points: [{ id: 'p1', x: 30, y: 30, correct: true }, { id: 'p2', x: 70, y: 70, correct: false }] },
-        xpReward: 150
+        id: 'uc3-1',
+        title: 'Sprint 1: O Despertar da Lógica (Algoritmos e Arduíno)',
+        image: './assets/electronics_fantasy.png',
+        content: `
+          <h4>Pílula de Conhecimento</h4>
+          <p>Utilizamos a lógica (Verdadeiro ou Falso) para construir Estruturas de Decisão (If/Else) e Repetição (For/While) em <strong>Algoritmos</strong>: receitas passo a passo para resolver problemas.</p>
+          <p>No <strong>Arduíno</strong>, o código instrui a eletrônica (ex: acender e apagar LED em loop).</p>
+
+          <h4>Guia de Missão</h4>
+          <ol>
+            <li><strong>Simulador Web/Mobile:</strong> Acesse o site <a href="https://www.tinkercad.com/" target="_blank">Tinkercad Circuits</a> (funciona no navegador e no celular), adicione um Arduíno Uno e faça o LED piscar via blocos ou código.</li>
+            <li>Se não puder acessar o Tinkercad, escreva um Pseudocódigo num papel simulando um Loop que conta de 1 a 10.</li>
+          </ol>
+
+          <div class="highlight-box" style="background: rgba(59, 130, 246, 0.1); border-left-color: #3b82f6; margin-top: 20px;">
+            <strong>📚 Material de Consulta (Apostila Virtual)</strong><br>
+            <ul>
+              <li><a href="https://www.youtube.com/watch?v=8mei6uVttho" target="_blank" style="color: #60a5fa; text-decoration: underline;">🎥 Curso de Lógica de Programação (Curso em Vídeo)</a></li>
+              <li><a href="https://www.youtube.com/watch?v=KzXpWvYm2X8" target="_blank" style="color: #60a5fa; text-decoration: underline;">🎥 Introdução ao Arduíno no Tinkercad</a></li>
+            </ul>
+          </div>
+        `,
+        xpReward: 100,
+        type: 'file',
+        robotMessage: "Envie uma foto da tela do Tinkercad com seu LED piscando ou do Pseudocódigo no caderno!"
       },
       {
-        id: 'm6-2', title: 'Decimais e Frações', type: 'drag-drop',
-        theory: {
-          title: 'A Mesma Coisa com Outro Nome',
-          content: '<h4>A Mesma Coisa com Outro Nome</h4><p>0,5 é a mesma coisa que 1/2. 1,0 é o mesmo que um inteiro. Arraste os valores para suas posições corretas na régua.</p>'
-        },
-        dragDrop: { items: [{ id: 'v05', text: '1/2' }, { id: 'v1', text: '1' }], targets: [{ id: 't1', label: 'Posição 0.5', accepts: 'v05' }, { id: 't2', label: 'Posição 1.0', accepts: 'v1' }] },
-        xpReward: 200
+        id: 'uc3-2',
+        title: 'Sprint 2: Estruturas Avançadas (Busca e Ordenação)',
+        image: './assets/boss_monster.png',
+        content: `
+          <h4>Pílula de Conhecimento</h4>
+          <p>Armazenamos dados em <strong>Vetores (Arrays)</strong>. Para encontrar algo neles, usamos <strong>Algoritmos de Busca</strong> (a Busca Binária ignora metade da lista por vez, sendo extremamente rápida). E para organizar, usamos ordenadores como o Bubble Sort (Bolha).</p>
+
+          <h4>Guia de Missão</h4>
+          <ol>
+            <li><strong>Desafio Analógico:</strong> Embaralhe 5 cartas de baralho. Ordene-as na mão usando o "Bubble Sort" (olhe 2 cartas adjacentes, troque se estiverem fora de ordem, e repita até o fim).</li>
+            <li>Tente descrever como a Notação Big-O mede o tempo gasto pelos programas em pior caso.</li>
+          </ol>
+
+          <div class="highlight-box" style="background: rgba(59, 130, 246, 0.1); border-left-color: #3b82f6; margin-top: 20px;">
+            <strong>📚 Material de Consulta (Apostila Virtual)</strong><br>
+            <ul>
+              <li><a href="https://www.youtube.com/watch?v=lyZQPjUT5B4" target="_blank" style="color: #60a5fa; text-decoration: underline;">🎥 Entendendo o Bubble Sort Visualmente</a></li>
+              <li><a href="https://www.youtube.com/watch?v=D6xkbGLQesk" target="_blank" style="color: #60a5fa; text-decoration: underline;">🎥 Busca Binária Explicada</a></li>
+            </ul>
+          </div>
+        `,
+        xpReward: 100,
+        type: 'choice',
+        robotMessage: "Sobre a Busca Binária, marque a opção correta:",
+        quiz: {
+            question: 'Por que a Busca Binária é mais eficiente que a Busca Simples em listas ordenadas?',
+            options: [
+                'A) Ela usa a placa de vídeo em vez da CPU.',
+                'B) Ela ignora metade da lista a cada verificação.',
+                'C) Ela lê todos os itens simultaneamente.',
+                'D) Nenhuma das anteriores.'
+            ],
+            correctIndex: 1
+        }
       },
       {
-        id: 'm6-3', title: 'Quem é o Diferente?', type: 'choice',
-        theory: {
-          title: 'Equivalência Numérica',
-          content: '<h4>Quem é o Diferente?</h4><p>Aprendemos que 50%, 0,5 e 1/2 são exatamente o mesmo valor. Qual destes números no quiz NÃO representa os outros?</p>'
-        },
-        quiz: { question: "Qual destes é diferente dos outros: 0.5, 1/2, 50%, 0.05?", options: ["1/2", "0.05", "50%"], correctIndex: 1 },
-        xpReward: 250
+        id: 'uc3-3',
+        title: 'Sprint 3: O Alicerce do Software (Arquitetura de SO)',
+        image: './assets/os_fantasy.png',
+        content: `
+          <h4>Pílula de Conhecimento</h4>
+          <p>O coração de todo SO (Windows, Android, Linux) é o <strong>Kernel</strong>, que conversa com o hardware. Podemos rodar múltiplos SOs dentro do Windows criando <strong>Máquinas Virtuais (VM)</strong> com o VirtualBox.</p>
+
+          <h4>Guia de Missão</h4>
+          <ol>
+            <li>No PC, baixe o VirtualBox e crie uma VM alocando memória RAM.</li>
+            <li><strong>Adaptação Mobile/Teórica:</strong> Acesse as configurações de memória e armazenamento do seu smartphone. Pesquise e explique qual é o Sistema Operacional do seu celular e se o Kernel dele é baseado em Linux (sim, o Android é!).</li>
+          </ol>
+
+          <div class="highlight-box" style="background: rgba(59, 130, 246, 0.1); border-left-color: #3b82f6; margin-top: 20px;">
+            <strong>📚 Material de Consulta (Apostila Virtual)</strong><br>
+            <ul>
+              <li><a href="https://www.youtube.com/watch?v=52sS703b0dM" target="_blank" style="color: #60a5fa; text-decoration: underline;">🎥 O que é Kernel de forma simples</a></li>
+              <li><a href="https://www.youtube.com/watch?v=-sIqN6q13H4" target="_blank" style="color: #60a5fa; text-decoration: underline;">🎥 Como instalar e usar o VirtualBox</a></li>
+            </ul>
+          </div>
+        `,
+        xpReward: 100,
+        type: 'file',
+        robotMessage: "Envie um print da sua Máquina Virtual criada ou anote e mande as especificações de memória e Kernel do seu próprio celular."
       },
       {
-        id: 'm6-4', title: 'CHEFE: Imperador dos Racionais', type: 'boss-list',
-        theory: {
-          title: 'Domínio Decimal',
-          content: '<h4>O Teste das Dízimas</h4><p>Transforme frações em decimais e identifique padrões. Dica: Para saber o decimal de uma fração, divida o numerador pelo denominador!</p>',
-          realWorld: 'Notas de provas são expressas como decimais e porcentagens.',
-          curiosity: 'A dízima periódica 0,999... é matematicamente igual a 1 — surpreendente, não?',
-          whyStudy: 'Base para álgebra e cálculo no ensino superior.',
-          tips: '1/3 = 0,333... (dízima periódica).'
-        },
-        isBoss: true,
-        exercises: [
-          { level: 'fácil', question: "1/4 em decimal?", answer: "0.25" },
-          { level: 'médio', question: "0.1 + 0.2?", answer: "0.3" },
-          { level: 'difícil', question: "1/3 é dízima periódica? (sim/não)", answer: "sim" }
-        ],
-        xpReward: 900
+        id: 'uc3-4',
+        title: 'Sprint 4: O Pinguim e a Janela (Terminal Linux)',
+        image: './assets/os_fantasy.png',
+        content: `
+          <h4>Pílula de Conhecimento</h4>
+          <p>O <strong>GNU/Linux</strong> é poderoso no mundo dos servidores por ser controlável totalmente via Interface de Texto (Linha de Comando). Comandos como <code>ls</code> (listar), <code>cd</code> (entrar em pasta) e <code>mkdir</code> (criar pasta) são a mágica de manipular os arquivos sem mouse.</p>
+
+          <h4>Guia de Missão</h4>
+          <ol>
+            <li><strong>Emulador de Bolso (Web/Mobile):</strong> Abra o navegador, acesse <a href="https://bellard.org/jslinux/" target="_blank">bellard.org/jslinux/</a> (Escolha Alpine Linux).</li>
+            <li>Digite no terminal do site os seguintes comandos: <code>mkdir laboratório</code> (Enter) e depois <code>ls</code> (Enter) para ver a pasta criada.</li>
+          </ol>
+
+          <div class="highlight-box" style="background: rgba(59, 130, 246, 0.1); border-left-color: #3b82f6; margin-top: 20px;">
+            <strong>📚 Material de Consulta (Apostila Virtual)</strong><br>
+            <ul>
+              <li><a href="https://www.youtube.com/watch?v=T1u1oYjHXYM" target="_blank" style="color: #60a5fa; text-decoration: underline;">🎥 Comandos Básicos de Linux (Diolinux)</a></li>
+              <li><a href="https://bellard.org/jslinux/" target="_blank" style="color: #60a5fa; text-decoration: underline;">🐧 Emulador: JSLinux na Web</a></li>
+            </ul>
+          </div>
+        `,
+        xpReward: 100,
+        type: 'text',
+        robotMessage: "Acessou o JSLinux? Qual foi a sensação de criar uma pasta escrevendo apenas texto (comandos) em vez de clicar com o botão direito do mouse?"
+      },
+      {
+        id: 'uc3-5',
+        title: 'Sprint 5: Os Mestres da Rede (Servidores Linux)',
+        image: './assets/server_linux.png',
+        content: `
+          <h4>Pílula de Conhecimento</h4>
+          <p>Um servidor não tem tela, ele é acessado remotamente (SSH). Instalamos serviços nele: <strong>Samba</strong> para arquivos compatíveis com Windows, <strong>Apache</strong> para hospedar sites Web e <strong>Proxy</strong> para controle de internet.</p>
+
+          <h4>Guia de Missão</h4>
+          <ol>
+            <li>No laboratório, configure um servidor Samba para compartilhar uma pasta na rede local.</li>
+            <li><strong>Estudo de Caso Teórico (Celular/Web):</strong> Imagine que uma empresa precisa que arquivos importantes sejam acessíveis apenas pelo Setor de RH. Descreva como o recurso de compartilhamento e "Permissões de Diretório" do Linux resolveria isso.</li>
+          </ol>
+
+          <div class="highlight-box" style="background: rgba(59, 130, 246, 0.1); border-left-color: #3b82f6; margin-top: 20px;">
+            <strong>📚 Material de Consulta (Apostila Virtual)</strong><br>
+            <ul>
+              <li><a href="https://www.youtube.com/watch?v=R9nU-Lq0Vtc" target="_blank" style="color: #60a5fa; text-decoration: underline;">🎥 O que é o Servidor Samba?</a></li>
+              <li><a href="https://www.youtube.com/watch?v=FjI5jY1W2wU" target="_blank" style="color: #60a5fa; text-decoration: underline;">🎥 Entendendo Permissões de Arquivos no Linux</a></li>
+            </ul>
+          </div>
+        `,
+        xpReward: 100,
+        type: 'text',
+        robotMessage: "Descreva brevemente como você resolveria o caso do Setor de RH usando compartilhamento (Samba) e gerenciamento de grupos de permissão."
+      },
+      {
+        id: 'uc3-6',
+        title: 'Sprint 6: O Catálogo Global (Windows Server)',
+        image: './assets/server_windows.png',
+        content: `
+          <h4>Pílula de Conhecimento</h4>
+          <p>O <strong>Active Directory (AD)</strong> do Windows Server gerencia quem pode ou não acessar os recursos de uma rede corporativa inteira. O AD organiza tudo em Domínios, Árvores e Florestas, usando GPOs (Políticas de Grupo) para bloquear pendrives, forçar senhas e restringir acesso aos PCs.</p>
+
+          <h4>Guia de Missão</h4>
+          <ol>
+            <li>Suba um Windows Server no VirtualBox, ative o domínio e cadastre 1 usuário.</li>
+            <li><strong>Estudo de Caso (Celular):</strong> A Escola precisa bloquear o uso de Painel de Controle e de USBs nos computadores dos laboratórios, mas os professores devem ter passe livre. Como a configuração de GPOs resolveria esse problema sem precisar alterar máquina por máquina?</li>
+          </ol>
+
+          <div class="highlight-box" style="background: rgba(59, 130, 246, 0.1); border-left-color: #3b82f6; margin-top: 20px;">
+            <strong>📚 Material de Consulta (Apostila Virtual)</strong><br>
+            <ul>
+              <li><a href="https://www.youtube.com/watch?v=R_L-w6dZ5rY" target="_blank" style="color: #60a5fa; text-decoration: underline;">🎥 Introdução ao Active Directory (AD)</a></li>
+              <li><a href="https://www.youtube.com/watch?v=x9q9VfD2_XQ" target="_blank" style="color: #60a5fa; text-decoration: underline;">🎥 O que são GPOs (Políticas de Grupo)?</a></li>
+            </ul>
+          </div>
+        `,
+        xpReward: 100,
+        type: 'choice',
+        robotMessage: "O que é o Active Directory (AD) em um ambiente Windows Server?",
+        quiz: {
+            question: 'Qual a principal função de uma GPO (Group Policy) no Windows Server?',
+            options: [
+                'A) Melhorar a placa de vídeo do servidor para jogos.',
+                'B) Aplicar regras, restrições e configurações em massa para vários usuários e computadores na rede de forma centralizada.',
+                'C) Instalar o Linux dentro do Windows.',
+                'D) Fornecer o endereço IP dinâmico.'
+            ],
+            correctIndex: 1
+        }
       }
     ]
   },
-  {
-    id: 'uc7',
-    title: 'Mundo 7: Funções e Modelagem',
-    icon: '📈',
-    background: './assets/world_map_uc1.png',
-    badgeTitle: 'Lorde dos Modelos',
-    badgeIcon: '📈',
+  { 
+    id: 'uc4', 
+    title: 'Mundo 4: O Vale do Desenvolvimento (UC IV)', 
+    description: 'Foca no desenvolvimento de páginas dinâmicas utilizando HTML, CSS, JavaScript, Arquitetura e Engenharia de Software.', 
+    icon: '✨',
+    background: './assets/world_map_uc3.png',
+    badgeTitle: 'Mago Desenvolvedor',
+    badgeIcon: '🪄',
     lessons: [
       {
-        id: 'm7-1', title: 'Tipos de Funções e Gráficos', type: 'drag-drop',
-        theory: {
-          title: 'Reconhecendo Funções pelo Gráfico',
-          image: './assets/mundo_funcoes.png',
-          content: '<h4>As 4 Famílias de Funções</h4><ul><li><strong>1º Grau (f(x) = ax+b):</strong> gráfico em RETA.</li><li><strong>2º Grau (f(x) = ax²+bx+c):</strong> gráfico em PARÁBOLA.</li><li><strong>Exponencial (f(x) = aˣ):</strong> curva crescente ou decrescente explosiva.</li><li><strong>Logarítmica (f(x) = log x):</strong> curva de crescimento lento.</li></ul>',
-          realWorld: 'Analistas financeiros identificam padrões de crescimento observando o formato do gráfico.',
-          curiosity: 'Uma reta nunca dobra. Se o gráfico curva, é função de 2° grau ou superior!',
-          whyStudy: 'Identificar o tipo de função pela forma é habilidade-chave no ENEM.',
-          tips: 'Parábola abre para cima (a>0) ou para baixo (a<0).'
-        },
-        dragDrop: {
-          items: [{ id: 'r', text: 'f(x) = 2x + 1' }, { id: 'p', text: 'f(x) = x² - 4' }, { id: 'e', text: 'f(x) = 3ˣ' }],
-          targets: [{ id: 't1', label: 'Gráfico: Reta', accepts: 'r' }, { id: 't2', label: 'Gráfico: Parábola', accepts: 'p' }, { id: 't3', label: 'Gráfico: Exponencial', accepts: 'e' }]
-        },
-        xpReward: 250
+        id: 'uc4-1',
+        title: 'Aula 1: HTML e o Famoso "UI/UX"',
+        content: `
+          <h4>Desvendando o Alfabeto da Web (HTML5)</h4>
+          <p>O <strong>HTML</strong> constrói a estrutura com tags. Já os conceitos de <strong>UI</strong> (Interface Visual) e <strong>UX</strong> (Experiência do Usuário) ditam que as telas devem ter boa <em>Ergonomia</em> e <em>Acessibilidade</em> (leitura de tela para deficientes visuais).</p>
+          
+          <h4>Guia de Missão</h4>
+          <p>Abra um editor de texto ou o site <strong>CodePen.io</strong> (funciona em celulares também) e crie um Formulário com as tags <code>&lt;input&gt;</code> e <code>&lt;button&gt;</code>.</p>
+
+          <div class="highlight-box" style="background: rgba(59, 130, 246, 0.1); border-left-color: #3b82f6; margin-top: 20px;">
+            <strong>📚 Material de Consulta (Apostila Virtual)</strong><br>
+            <ul>
+              <li><a href="https://www.youtube.com/watch?v=E6HgYJmMHGw" target="_blank" style="color: #60a5fa; text-decoration: underline;">🎥 Curso de HTML5 e CSS3 - Curso em Vídeo</a></li>
+              <li><a href="https://codepen.io/pen/" target="_blank" style="color: #60a5fa; text-decoration: underline;">💻 Emulador de Código: CodePen (Web e Celular)</a></li>
+            </ul>
+          </div>
+        `,
+        xpReward: 50,
+        type: 'text',
+        robotMessage: "Por que aplicar critérios de 'Ergonomia' e 'Acessibilidade' ao fazer um formulário é importante na web moderna?"
       },
       {
-        id: 'm7-2', title: 'Raízes (Zeros) de uma Função', type: 'text', correctValue: "3",
-        theory: {
-          title: 'Onde a Função Cruza o Eixo X',
-          content: '<h4>O que são Raízes?</h4><p>As <strong>raízes</strong> (ou zeros) de uma função são os valores de x para os quais f(x) = 0, ou seja, onde o gráfico cruza o eixo horizontal.</p><p>Para encontrá-las, basta fazer <strong>f(x) = 0</strong> e resolver a equação.</p><p>Exemplo: f(x) = 2x - 6 → 2x - 6 = 0 → x = 3.</p>',
-          realWorld: 'Físicos encontram os "zeros" de funções para descobrir quando um objeto para ou muda de direção.',
-          curiosity: 'Uma parábola pode ter 0, 1 ou 2 raízes reais dependendo do discriminante Δ.',
-          whyStudy: 'Fundamento para resolução de inequações e análise de comportamento de funções.',
-          tips: 'Iguale f(x) a zero e isole o x.'
-        },
-        robotMessage: "Para f(x) = 2x - 6, qual o valor de x quando f(x) = 0? (a raiz)",
-        xpReward: 300
+        id: 'uc4-2',
+        title: 'Aula 2: CSS na Prática (Minigame)',
+        content: `
+          <h4>A Magia das Cores e Posições (CSS3)</h4>
+          <p>O CSS colore a estrutura do HTML. Para alinhar elementos facilmente, utilizamos a tecnologia <strong>Flexbox</strong> (com <code>justify-content</code> e <code>align-items</code>).</p>
+          
+          <h4>🕹️ Guia de Missão: Flexbox Froggy</h4>
+          <p>Pode ser feito no PC ou celular! Clique no minigame interativo abaixo e use comandos CSS para levar o sapo à vitória-régia.</p>
+          <div class="game-container">
+            <iframe class="game-frame" src="https://flexboxfroggy.com/#pt-br" title="Jogo Flexbox Froggy"></iframe>
+          </div>
+
+          <div class="highlight-box" style="background: rgba(59, 130, 246, 0.1); border-left-color: #3b82f6; margin-top: 20px;">
+            <strong>📚 Material de Consulta (Apostila Virtual)</strong><br>
+            <ul>
+              <li><a href="https://www.youtube.com/watch?v=Qf-jsH2s9y8" target="_blank" style="color: #60a5fa; text-decoration: underline;">🎥 Entendendo o Flexbox na Prática (Origamid)</a></li>
+            </ul>
+          </div>
+        `,
+        xpReward: 50,
+        type: 'text',
+        robotMessage: "Bela jogada! Diga para mim: até que fase você conseguiu chegar no jogo do sapinho e qual comando você mais usou?"
       },
       {
-        id: 'm7-3', title: 'Fórmula de Bhaskara', type: 'choice',
-        theory: {
-          title: 'A Fórmula que Resolve Tudo',
-          content: '<h4>Bhaskara: ax² + bx + c = 0</h4><p>Para resolver qualquer equação de 2° grau, usamos:</p><p style="font-size:1.2rem; text-align:center; margin: 1rem 0; background: rgba(124,58,237,0.15); padding: 1rem; border-radius: 8px;"><strong>Δ = b² - 4ac</strong></p><p style="font-size:1.2rem; text-align:center; margin: 1rem 0; background: rgba(124,58,237,0.15); padding: 1rem; border-radius: 8px;"><strong>x = (-b ± √Δ) / 2a</strong></p><ul><li>Se Δ > 0: duas raízes reais distintas.</li><li>Se Δ = 0: uma raiz real (raiz dupla).</li><li>Se Δ < 0: sem raízes reais.</li></ul>',
-          realWorld: 'Engenheiros usam Bhaskara para calcular trajetórias de projéteis e dimensionar arcos.',
-          curiosity: 'O matemático indiano Bhaskara II formalizou a fórmula no século XII, mas os babilônios já a conheciam.',
-          whyStudy: 'A equação mais cobrada em vestibulares e ENEM de toda a história.',
-          tips: 'Calcule o Δ primeiro! Se for negativo, já sabe que não há raízes reais.'
-        },
+        id: 'uc4-3',
+        title: 'Aula 3: Interatividade com JavaScript',
+        content: `
+          <h4>A Inteligência da Página</h4>
+          <p>O <strong>JavaScript (JS)</strong> manipula o HTML em tempo real. A árvore do HTML é vista pelo JS como o <strong>DOM (Document Object Model)</strong>.</p>
+          <pre style="background:#1e1e1e; color:#d4d4d4; padding:15px; border-radius:8px; overflow-x:auto; margin: 15px 0;"><code>// Exemplo de manipulação do DOM
+const botao = document.getElementById('meuBotao');
+botao.addEventListener('click', function() {
+    alert('Clicou!');
+});</code></pre>
+
+          <div class="highlight-box" style="background: rgba(59, 130, 246, 0.1); border-left-color: #3b82f6; margin-top: 20px;">
+            <strong>📚 Material de Consulta (Apostila Virtual)</strong><br>
+            <ul>
+              <li><a href="https://www.youtube.com/watch?v=Ptbk2af68e8" target="_blank" style="color: #60a5fa; text-decoration: underline;">🎥 Curso de JavaScript (O que é o DOM?)</a></li>
+            </ul>
+          </div>
+        `,
+        xpReward: 50,
+        type: 'choice',
+        robotMessage: "Vamos ver se pegou o conceito! Marque a correta sobre o DOM:",
         quiz: {
-          question: "Em x² - 5x + 6 = 0, qual o valor de Δ? (a=1, b=-5, c=6)",
-          options: ["Δ = 1", "Δ = 25", "Δ = 25 - 24 = 1"],
-          correctIndex: 2
-        },
-        xpReward: 350
+            question: 'O que significa manipular o DOM usando JavaScript?',
+            options: [
+                'A) Significa estilizar cores no servidor Apache.',
+                'B) Interagir dinamicamente com os elementos (botões, textos) do HTML que estão na tela.',
+                'C) É salvar dados no banco MySQL.',
+                'D) Nenhuma das anteriores.'
+            ],
+            correctIndex: 1
+        }
       },
       {
-        id: 'm7-4', title: 'Aplicando Bhaskara na Prática', type: 'text', correctValue: "2",
-        theory: {
-          title: 'Calculando as Raízes',
-          content: '<h4>Passo a Passo</h4><p>f(x) = x² - 5x + 6 = 0</p><p>a=1, b=-5, c=6</p><p><strong>Δ = (-5)² - 4(1)(6) = 25 - 24 = 1</strong></p><p><strong>x = (5 ± 1) / 2</strong></p><p>x₁ = 6/2 = <strong>3</strong> e x₂ = 4/2 = <strong>2</strong></p>',
-          realWorld: 'Usada para calcular quando um foguete atinge o solo: h(t) = 0.',
-          curiosity: 'O símbolo ± indica que existem duas soluções, uma com + e outra com -.',
-          whyStudy: 'Toda equação de 2° grau tem solução com Bhaskara.',
-          tips: 'Lembre: x₁ = (-b + √Δ)/2a e x₂ = (-b - √Δ)/2a.'
-        },
-        robotMessage: "Em x² - 5x + 6 = 0, qual é a MENOR raiz? (use Bhaskara: Δ=1)",
-        xpReward: 400
+        id: 'uc4-4',
+        title: 'Aula 4: Ciclo de Vida e Engenharia',
+        content: `
+          <h4>O Que o Sistema Precisa Ter?</h4>
+          <p>Antes de codar, os Engenheiros de Software criam <strong>Requisitos Funcionais</strong> (o que o sistema FAZ, ex: 'fazer login') e <strong>Requisitos Não-Funcionais</strong> (restrições de qualidade, ex: 'ser seguro' ou 'carregar em 2 segundos').</p>
+
+          <div class="highlight-box" style="background: rgba(59, 130, 246, 0.1); border-left-color: #3b82f6; margin-top: 20px;">
+            <strong>📚 Material de Consulta (Apostila Virtual)</strong><br>
+            <ul>
+              <li><a href="https://www.youtube.com/watch?v=rX_dIofB6G4" target="_blank" style="color: #60a5fa; text-decoration: underline;">🎥 Engenharia de Requisitos (Funcional vs Não Funcional)</a></li>
+            </ul>
+          </div>
+        `,
+        xpReward: 50,
+        type: 'text',
+        robotMessage: "Imagine o App do iFood. Dê um exemplo criado por você de um Requisito Funcional e um Não-Funcional dele."
       },
       {
-        id: 'm7-5', title: 'O Vértice da Parábola e Otimização', type: 'choice',
-        theory: {
-          title: 'Ponto Máximo ou Mínimo',
-          content: '<h4>O Vértice</h4><p>O vértice V(xv, yv) é o ponto de retorno da parábola:</p><ul><li><strong>xv = -b / 2a</strong></li><li><strong>yv = -Δ / 4a</strong></li></ul><p>Se a &gt; 0 → concavidade para cima → vértice é MÍNIMO.</p><p>Se a &lt; 0 → concavidade para baixo → vértice é MÁXIMO.</p>',
-          realWorld: 'Empresas maximizam lucro e minimizam custo usando o vértice de funções quadráticas.',
-          curiosity: 'O lançamento de uma bola segue uma parábola cujo pico é exatamente o vértice!',
-          whyStudy: 'Problemas de otimização são os mais frequentes no ENEM.',
-          tips: 'Calcule xv = -b/2a e depois substitua para achar yv.'
-        },
+        id: 'uc4-5',
+        title: 'Aula 5: Modelagem Visual (UML)',
+        content: `
+          <h4>Desenhando a Planta Baixa do Sistema</h4>
+          <p>A <strong>UML (Unified Modeling Language)</strong> ajuda a visualizar sistemas. O <strong>Diagrama de Casos de Uso</strong> mostra os <em>Atores</em> (usuários, representados por bonecos) interagindo com <em>Casos de Uso</em> (ações, representadas em ovais).</p>
+
+          <div class="highlight-box" style="background: rgba(59, 130, 246, 0.1); border-left-color: #3b82f6; margin-top: 20px;">
+            <strong>📚 Material de Consulta (Apostila Virtual)</strong><br>
+            <ul>
+              <li><a href="https://www.youtube.com/watch?v=A2WpDqZf6sI" target="_blank" style="color: #60a5fa; text-decoration: underline;">🎥 Como criar Diagramas de Casos de Uso (UML)</a></li>
+            </ul>
+          </div>
+        `,
+        xpReward: 50,
+        type: 'choice',
+        robotMessage: "Teste seus conhecimentos:",
         quiz: {
-          question: "Na função f(x) = x² - 4x + 5, qual o valor de xv? (a=1, b=-4)",
-          options: ["xv = 2", "xv = -2", "xv = 4"],
-          correctIndex: 0
-        },
-        xpReward: 350
-      },
+            question: 'Num diagrama UML de um Caixa Eletrônico, quem seriam exemplos válidos de Atores?',
+            options: [
+                'A) As funções "Sacar" e "Depositar".',
+                'B) O banco de dados SQL.',
+                'C) O "Cliente" e o "Administrador do Banco".',
+                'D) A linguagem HTML.'
+            ],
+            correctIndex: 2
+        }
+      }
+    ]
+  },
+  { 
+    id: 'uc5', 
+    title: 'Mundo 5: A Caverna dos Dados (UC V)', 
+    description: 'Bancos de dados integrados a páginas web. Estruture, armazene e recupere informações com eficiência.', 
+    icon: '🗄️',
+    background: './assets/world_map_uc4.png',
+    badgeTitle: 'DBA Mestre',
+    badgeIcon: '💾',
+    lessons: [
       {
-        id: 'm7-6', title: 'Funções Exponenciais e Logarítmicas', type: 'choice',
-        theory: {
-          title: 'Crescimento Explosivo e Escala Logarítmica',
-          content: '<h4>Exponencial vs Logarítmica</h4><p><strong>Exponencial:</strong> f(x) = aˣ (a &gt; 0, a ≠ 1)</p><ul><li>a &gt; 1 → crescimento (Ex: população, vírus).</li><li>0 &lt; a &lt; 1 → decrescimento (Ex: radioatividade).</li></ul><p><strong>Logarítmica:</strong> f(x) = log<sub>a</sub>(x)</p><ul><li>Cresce, mas cada vez mais devagar.</li><li>Escala Richter, pH e decibéis são logarítmicos.</li></ul><p><strong>Propriedade fundamental:</strong> log<sub>a</sub>(aˣ) = x</p>',
-          realWorld: 'Bancos calculam juros compostos com exponencial. Geólogos medem terremotos com logaritmos.',
-          curiosity: 'Uma epidemia começa crescendo exponencialmente — é por isso que medidas rápidas são essenciais!',
-          whyStudy: 'Conecta matemática com biologia, física e economia.',
-          tips: 'log₁₀(100) = 2, porque 10² = 100. O log desfaz a potência!'
-        },
+        id: 'uc5-1',
+        title: 'Aula 1: Bancos Relacionais e o SQL',
+        content: `
+          <h4>A Memória do Mundo</h4>
+          <p>Tudo na web (compras, contas) precisa ser salvo num <strong>Banco de Dados Relacional</strong> (tabelas com linhas e colunas). A linguagem para buscar essas linhas é o <strong>SQL</strong> (ex: <code>SELECT * FROM usuarios WHERE idade > 18;</code>).</p>
+          
+          <h4>🕹️ Hora de Jogar: SQL Murder Mystery</h4>
+          <p>No celular ou no PC: Acesse o mini-terminal integrado abaixo e use <code>SELECT * FROM crime_scene_report;</code> para procurar as pistas do assassinato em SQL City.</p>
+          <div class="game-container" style="background: white;">
+            <iframe class="game-frame" src="https://mystery.knightlab.com/walkthrough.html" title="Jogo SQL Murder Mystery"></iframe>
+          </div>
+
+          <div class="highlight-box" style="background: rgba(59, 130, 246, 0.1); border-left-color: #3b82f6; margin-top: 20px;">
+            <strong>📚 Material de Consulta (Apostila Virtual)</strong><br>
+            <ul>
+              <li><a href="https://www.youtube.com/watch?v=Ofktsne-utM" target="_blank" style="color: #60a5fa; text-decoration: underline;">🎥 Curso de Bancos de Dados MySQL (Curso em Vídeo)</a></li>
+              <li><a href="https://www.w3schools.com/sql/" target="_blank" style="color: #60a5fa; text-decoration: underline;">📖 Tutorial de SQL Interativo (W3Schools)</a></li>
+            </ul>
+          </div>
+        `,
+        xpReward: 100,
+        type: 'text',
+        robotMessage: "Qual comando SQL você testou no terminal interativo acima e o que ele mostrou?"
+      }
+    ]
+  },
+  { 
+    id: 'uc6', 
+    title: 'Mundo 6: O Domínio do Boss (Projetos)', 
+    description: 'Projetos Dinâmicos - Forme sua "Agência Digital" virtual e execute os desafios complexos que unem tudo que você aprendeu.', 
+    icon: '🚀',
+    background: './assets/world_map_mario.png',
+    badgeTitle: 'CEO Digital',
+    badgeIcon: '🏆',
+    lessons: [
+      {
+        id: 'uc6-1',
+        title: 'Projeto Final: Agência Digital',
+        image: './assets/boss_monster.png',
+        content: `
+          <h4>Aplicando o Conhecimento</h4>
+          <p>Identifiquem um problema real na comunidade e projetem a ideia (App ou Site Web) para solucioná-lo, juntando Redes, SO, Programação Web e Banco de Dados.</p>
+          
+          <h4>Entregáveis:</h4>
+          <ol>
+            <li><strong>Nome do App</strong> e sua função.</li>
+            <li><strong>Requisitos:</strong> 2 Funcionais e 1 Não-Funcional.</li>
+            <li><strong>Banco de Dados:</strong> O nome de 2 Tabelas SQL necessárias.</li>
+          </ol>
+
+          <div class="highlight-box" style="background: rgba(59, 130, 246, 0.1); border-left-color: #3b82f6; margin-top: 20px;">
+            <strong>📚 Material de Consulta (Apostila Virtual)</strong><br>
+            <ul>
+              <li><a href="https://www.youtube.com/watch?v=M2_o383A-G4" target="_blank" style="color: #60a5fa; text-decoration: underline;">🎥 Como criar o Escopo de um Projeto de Software</a></li>
+            </ul>
+          </div>
+        `,
+        xpReward: 100,
+        type: 'text',
+        robotMessage: "Descrevam todo o escopo do projeto da Agência de vocês detalhando as 3 etapas solicitadas acima."
+      }
+    ]
+  },
+  { 
+    id: 'uc7', 
+    title: 'Mundo 7: Investigação Científica e Tecnológica (ICT)', 
+    description: 'Desenvolva soluções reais usando o método científico, engenharia e ética. Transforme curiosidade em inovação!', 
+    icon: '🔬',
+    background: './assets/world_map_ict.png',
+    badgeTitle: 'Mestre Investigador',
+    badgeIcon: '🔍',
+    lessons: [
+      {
+        id: 'uc7-1',
+        title: 'Sprint 1: O Detetive da Ciência',
+        image: './assets/detective_science.png',
+        content: `
+          <h4>Pílula de Conhecimento</h4>
+          <p>A <strong>Investigação Científica e Tecnológica (ICT)</strong> é a arte de resolver problemas reais. Imagine-se como um detetive da ciência: seu trabalho não é prender criminosos, mas sim descobrir novos conhecimentos e resolver mistérios sobre o universo e a tecnologia.</p>
+          <p>A investigação científica é metódica: ela começa com uma <strong>curiosidade</strong> ("Por que o céu é azul?") e busca respostas baseadas em evidências sólidas.</p>
+
+          <h4>Guia de Missão</h4>
+          <ol>
+            <li>Pense em um problema simples que você observa na sua escola ou bairro (ex: desperdício de papel, falta de lixeiras, etc).</li>
+            <li>Escreva qual seria a "Pergunta de Pesquisa" para esse problema.</li>
+          </ol>
+
+          <div class="highlight-box">
+            <strong>📚 Contexto Profissional</strong><br>
+            <p>Para um Inspetor de Qualidade, pesquisar é fundamental para entender falhas em processos e aplicar melhorias contínuas.</p>
+          </div>
+        `,
+        xpReward: 100,
+        type: 'choice',
+        robotMessage: "Onde começa toda investigação científica?",
         quiz: {
-          question: "Se f(x) = 2^x, qual o valor de f(5)?",
-          options: ["10", "32", "25"],
-          correctIndex: 1
-        },
-        xpReward: 350
+            question: 'Qual é o ponto de partida de uma investigação científica?',
+            options: [
+                'A) Comprar equipamentos caros.',
+                'B) Uma curiosidade ou uma pergunta sobre o mundo ao nosso redor.',
+                'C) Copiar a resposta de um colega.',
+                'D) Decorar fórmulas matemáticas.'
+            ],
+            correctIndex: 1
+        }
       },
       {
-        id: 'm7-b1', title: '🎨 Bônus: Desenhe a Parábola!', type: 'bonus-draw',
-        isBonus: true,
-        prompt: 'Desenhe no espaço abaixo uma parábola com concavidade para cima e indique onde estaria o vértice e as raízes. Use sua criatividade!',
-        theory: {
-          title: 'Desafio Criativo',
-          content: '<h4>Hora de Desenhar!</h4><p>Coloque no papel (ou na tela) o que você aprendeu sobre parábolas. Não precisa ser perfeito — o importante é representar os conceitos corretamente.</p>',
-          realWorld: 'Matemáticos e engenheiros desenham gráficos à mão para ter intuição sobre os problemas.',
-          curiosity: 'Desenhando, você ativa partes diferentes do cérebro e aprende mais rápido!',
-          whyStudy: 'Visualizar funções é essencial para questões do ENEM.',
-          tips: 'Marque o eixo X, o eixo Y, o vértice e onde a curva cruza o eixo X (raízes).'
-        },
-        xpReward: 200
+        id: 'uc7-2',
+        title: 'Sprint 2: Ciência vs Tecnologia',
+        image: './assets/innovation_technology.png',
+        content: `
+          <h4>Pílula de Conhecimento</h4>
+          <p>Embora andem juntas, há uma diferença importante:</p>
+          <ul>
+            <li><strong>Pesquisa Científica:</strong> Busca entender "Como o mundo funciona" (Ex: Por que as abelhas estão sumindo?).</li>
+            <li><strong>Pesquisa Tecnológica:</strong> Busca "Resolver um problema prático" (Ex: Como criar uma bateria que dure uma semana?).</li>
+          </ul>
+          <p>Ambas são essenciais para melhorar nossa qualidade de vida e nos preparar para os desafios do futuro.</p>
+
+          <h4>Guia de Missão</h4>
+          <ol>
+            <li>Identifique um exemplo de pesquisa tecnológica que você usa todos os dias (Dica: pense no seu celular ou internet).</li>
+            <li>Anote como esse avanço resolveu um problema que as pessoas tinham antigamente.</li>
+          </ol>
+        `,
+        xpReward: 100,
+        type: 'choice',
+        robotMessage: "Qual dessas opções é um exemplo de Pesquisa Tecnológica?",
+        quiz: {
+            question: 'Qual dos exemplos abaixo melhor representa uma pesquisa TECNOLÓGICA?',
+            options: [
+                'A) Estudar o movimento das estrelas para entender a idade do universo.',
+                'B) Desenvolver um novo tipo de filtro para purificar água de baixo custo usando materiais reciclados.',
+                'C) Observar o comportamento de formigas na floresta.',
+                'D) Ler um livro de história antiga.'
+            ],
+            correctIndex: 1
+        }
       },
       {
-        id: 'm7-7', title: 'CHEFE: O Arquiteto de Sistemas', type: 'boss-list',
-        theory: {
-          title: 'Prova de Maestria Final',
-          content: '<h4>Gabarito do Boss</h4><p>Você precisa acertar pelo menos 2 de 3 para vencer. Revise: Bhaskara, raízes e tipos de funções!</p>',
-          realWorld: 'Cientistas de dados usam funções para prever o mercado de ações e o clima.',
-          curiosity: 'A matemática é a linguagem com a qual o universo foi escrito — Galileu Galilei.',
-          whyStudy: 'Dominar funções garante sucesso em toda área de Exatas.',
-          tips: 'Lembre: Δ = b² - 4ac. Se Δ < 0, sem raízes reais!'
-        },
-        isBoss: true,
-        exercises: [
-          { level: 'fácil', question: "Qual a fórmula do discriminante Δ de Bhaskara?", answer: "b2-4ac" },
-          { level: 'médio', question: "f(x) = x² - 9. Qual a raiz positiva?", answer: "3" },
-          { level: 'difícil', question: "log base 10 de 1000?", answer: "3" }
-        ],
-        xpReward: 1500
+        id: 'uc7-3',
+        title: 'Sprint 3: A Bússola Metodológica',
+        image: './assets/science_compass.png',
+        content: `
+          <h4>Pílula de Conhecimento</h4>
+          <p>A <strong>Metodologia Científica</strong> é como uma bússola que nos guia para não nos perdermos em "achismos". Ela garante que nossas soluções sejam baseadas em <strong>evidências sólidas</strong> e não em suposições que parecem boas na teoria, mas falham na prática.</p>
+          <p>Sem método, corremos o risco de gastar tempo e recursos em ideias que não funcionam. Na área de Qualidade, isso significa evitar decisões improvisadas que podem comprometer a segurança ou a eficiência.</p>
+
+          <h4>Guia de Missão</h4>
+          <ol>
+            <li>Imagine que você quer provar que "estudar ouvindo música clássica melhora a nota".</li>
+            <li>Como você faria um teste justo (científico) para provar isso? Escreva sua ideia.</li>
+          </ol>
+        `,
+        xpReward: 100,
+        type: 'text',
+        robotMessage: "Explique com suas palavras: Por que não podemos confiar apenas no nosso 'sentimento' ou 'achismo' ao resolver um problema técnico?"
+      },
+      {
+        id: 'uc7-4',
+        title: 'Sprint 4: A Forja da Inovação (Ideação)',
+        image: './assets/ideation_process.png',
+        content: `
+          <h4>Pílula de Conhecimento</h4>
+          <p>O <strong>Processo de Ideação</strong> é onde a criatividade encontra o método. Ele segue passos claros:</p>
+          <ol>
+            <li><strong>Identificação do Problema:</strong> Pergunta clara e específica.</li>
+            <li><strong>Pesquisa Preliminar:</strong> O que já existe sobre isso?</li>
+            <li><strong>Geração de Ideias:</strong> Brainstorming (chuva de ideias).</li>
+            <li><strong>Prototipagem e Testes:</strong> Criar um modelo simples para testar.</li>
+            <li><strong>Análise de Resultados:</strong> Funcionou? O que os dados dizem?</li>
+            <li><strong>Comunicação:</strong> Compartilhar a descoberta.</li>
+          </ol>
+
+          <h4>Guia de Missão</h4>
+          <p>Escolha um dos passos acima e explique por que ele é crucial para o sucesso de um projeto.</p>
+        `,
+        xpReward: 100,
+        type: 'text',
+        robotMessage: "Descreva: Qual é a importância de criar um 'Protótipo' antes de lançar o produto final?"
+      },
+      {
+        id: 'uc7-5',
+        title: 'Sprint 5: Qualidade com Evidências',
+        image: './assets/quality_research.png',
+        content: `
+          <h4>Pílula de Conhecimento</h4>
+          <p>No cotidiano de um Inspetor de Qualidade, a ICT é aplicada seguindo etapas práticas para garantir que o produto final seja perfeito:</p>
+          <ul>
+            <li><strong>Coleta de Dados:</strong> Entrevistas, relatórios de falhas e questionários.</li>
+            <li><strong>Ferramentas de Análise:</strong> Diagramas de Ishikawa (Espinha de Peixe) ou Pareto.</li>
+            <li><strong>Soluções Colaborativas:</strong> Uso de métodos como 5W2H ou PDCA.</li>
+            <li><strong>Monitoramento:</strong> Uso de indicadores para saber se a melhoria foi real e sustentável.</li>
+          </ul>
+
+          <div class="highlight-box">
+            <strong>Exemplo de Sucesso:</strong> Uma empresa com alta rejeição de peças usou a ICT para criar um checklist digital. Resultado: Redução imediata de falhas e economia de recursos.
+          </div>
+        `,
+        xpReward: 100,
+        type: 'text',
+        robotMessage: "Como a metodologia científica ajuda um Inspetor de Qualidade a tomar decisões melhores no trabalho?"
+      },
+      {
+        id: 'uc7-6',
+        title: 'Sprint 6: O Guardião da Integridade (Ética)',
+        image: './assets/ethics_privacy.png',
+        content: `
+          <h4>Pílula de Conhecimento</h4>
+          <p>Pesquisar não é "fazer qualquer coisa a qualquer custo". A <strong>Ética na Pesquisa</strong> garante o respeito à dignidade, direitos e bem-estar de todos os envolvidos.</p>
+          <p>Pontos principais:</p>
+          <ul>
+            <li><strong>Comitês de Ética:</strong> Avaliam se a pesquisa com humanos ou animais é segura e justa.</li>
+            <li><strong>Integridade:</strong> Não falsificar dados ou resultados.</li>
+            <li><strong>LGPD (Lei Geral de Proteção de Dados):</strong> Respeitar a privacidade e os dados pessoais coletados em pesquisas.</li>
+          </ul>
+        `,
+        xpReward: 100,
+        type: 'choice',
+        robotMessage: "O que significa agir com 'Ética' ao realizar uma pesquisa com pessoas?",
+        quiz: {
+            question: 'Sobre a Ética na Pesquisa, qual afirmação é VERDADEIRA?',
+            options: [
+                'A) Posso usar dados de pessoas sem a permissão delas se for para a ciência.',
+                'B) Cientistas não precisam seguir leis como a LGPD.',
+                'C) Ética na pesquisa serve para garantir o respeito à dignidade e aos direitos dos participantes.',
+                'D) Posso inventar dados se o resultado original não for o que eu esperava.'
+            ],
+            correctIndex: 2
+        }
+      },
+      {
+        id: 'uc7-7',
+        title: 'Sprint 7: O Grande Inquérito (Avaliação)',
+        content: `
+          <h4>Desafio Final de ICT</h4>
+          <p>Para concluir este mundo e ganhar seu selo de <strong>Mestre Investigador</strong>, responda com atenção às questões abaixo:</p>
+          <ol>
+            <li>Qual a importância da investigação científica para o desenvolvimento do conhecimento?</li>
+            <li>Cite um exemplo de pesquisa científica e um de pesquisa tecnológica.</li>
+            <li>Por que o 'Processo de Ideação' é importante antes de construir uma solução?</li>
+            <li>Como a LGPD protege os participantes de uma pesquisa?</li>
+          </ol>
+        `,
+        xpReward: 300,
+        type: 'text',
+        robotMessage: "Este é o seu teste final deste mundo! Responda detalhadamente às 4 questões acima para validar sua ascensão."
       }
     ]
   }
 ];
 
-// ==========================================
-// ITENS DA LOJA (RPG STYLE) - PREÇOS REAJUSTADOS
-// ==========================================
-const shopItems = [
-  { id: 'shield_silver', name: 'Escudo de Prata', icon: '🛡️', price: 1500, description: 'Proteção sólida (+15% XP)', xpBonus: 0.15 },
-  { id: 'shield_gold', name: 'Escudo de Ouro', icon: '🔱', price: 5000, description: 'Brilho divino (+30% XP)', xpBonus: 0.3 },
-  { id: 'book_magic', name: 'Grimório de Thoth', icon: '🔮', price: 3500, description: 'Conhecimento ancestral (+25% XP)', xpBonus: 0.25 },
-  { id: 'boots_speed', name: 'Botas de Hermes', icon: '🥾', price: 2500, description: 'Velocidade de busca (+20% Moedas)', coinBonus: 0.2 },
-  { id: 'amulet_luck', name: 'Amuleto da Sorte', icon: '🧿', price: 4000, description: 'Atrai mais tesouros (+40% Moedas)', coinBonus: 0.4 },
-  { id: 'key_master', name: 'Chave Mestra', icon: '🗝️', price: 1200, description: 'Abre qualquer baú com perfeição', isKey: true },
-  { id: 'map_legendary', name: 'Mapa Lendário', icon: '🗺️', price: 8000, description: 'Dobra todo XP recebido (+100% XP)', xpBonus: 1.0 },
-  { id: 'crown_king', name: 'Coroa do Rei', icon: '👑', price: 15000, description: 'Símbolo de maestria absoluta (Status)', statusSymbol: true }
-];
-
-// ==========================================
-// ESTADO DO SISTEMA E VARIÁVEIS GLOBAIS
-// ==========================================
+// Estado da Aplicação
 let currentUser = null;
 let currentModule = null;
 let currentLessonIndex = 0;
 let selectedQuizOption = null;
-let currentHotspotSelection = null;
-let audioCtx = null;
+let currentUploadedImage = null;
 
-// ==========================================
-// MOTOR DE INTERFACE E NAVEGAÇÃO
-// ==========================================
-function showScreen(screenId) {
-    document.querySelectorAll('.screen').forEach(s => { s.classList.remove('active'); s.classList.add('hidden'); });
-    const target = document.getElementById(`${screenId}-screen`);
-    if(target) { target.classList.add('active'); target.classList.remove('hidden'); }
-    window.scrollTo(0, 0);
-}
-
-function showToast(message, icon = '✨') {
-    const container = document.getElementById('toast-container');
-    if(!container) return;
-    const toast = document.createElement('div');
-    toast.className = 'toast glass-card';
-    toast.innerHTML = `<span>${icon}</span> ${message}`;
-    container.appendChild(toast);
-    setTimeout(() => {
-        toast.style.opacity = '0';
-        setTimeout(() => toast.remove(), 500);
-    }, 3000);
-}
-
+// Sistema de Som (Sintetizador Web Audio)
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 function playSound(type) {
-    try {
-        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        
-        if (type === 'correct') {
-            osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
-            osc.frequency.exponentialRampToValueAtTime(1046.50, audioCtx.currentTime + 0.3); // C6
-            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
-        } else if (type === 'error') {
-            osc.frequency.setValueAtTime(150, audioCtx.currentTime);
-            osc.frequency.linearRampToValueAtTime(50, audioCtx.currentTime + 0.3);
-            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-            gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
-        } else if (type === 'click') {
-            osc.frequency.setValueAtTime(800, audioCtx.currentTime);
-            gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
-            gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-        }
-        
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.3);
-    } catch(e) { console.log("Audio non-critical error"); }
+    const oscillator = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+
+    if (type === 'click') {
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(400, audioCtx.currentTime);
+        gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+        oscillator.start(); oscillator.stop(audioCtx.currentTime + 0.1);
+    } else if (type === 'coin') {
+        oscillator.type = 'triangle';
+        oscillator.frequency.setValueAtTime(800, audioCtx.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.1);
+        gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+        oscillator.start(); oscillator.stop(audioCtx.currentTime + 0.2);
+    } else if (type === 'correct') {
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+        oscillator.frequency.exponentialRampToValueAtTime(659.25, audioCtx.currentTime + 0.1); // E5
+        oscillator.frequency.exponentialRampToValueAtTime(783.99, audioCtx.currentTime + 0.2); // G5
+        gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+        oscillator.start(); oscillator.stop(audioCtx.currentTime + 0.3);
+    } else if (type === 'error') {
+        oscillator.type = 'sawtooth';
+        oscillator.frequency.setValueAtTime(150, audioCtx.currentTime);
+        gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+        oscillator.start(); oscillator.stop(audioCtx.currentTime + 0.3);
+    }
 }
 
-// ==========================================
-// PERSISTÊNCIA DE DADOS
-// ==========================================
-function saveStudentData() {
-    if (!currentUser) return;
-    let students = JSON.parse(localStorage.getItem('ava_students')) || [];
-    const idx = students.findIndex(s => s.name === currentUser.name);
-    if (idx !== -1) students[idx] = currentUser; else students.push(currentUser);
+// Global click sound
+document.addEventListener('click', () => playSound('click'));
+
+// Configurar Event Listener Global do Input de Arquivo
+document.addEventListener('DOMContentLoaded', () => {
+  const fileInput = document.getElementById('quiz-file-input');
+  if (fileInput) {
+    fileInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if(!file) return;
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          const MAX_WIDTH = 400;
+          let width = img.width;
+          let height = img.height;
+          if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
+          canvas.width = width; canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          currentUploadedImage = canvas.toDataURL('image/jpeg', 0.6);
+          document.getElementById('file-preview-image').src = currentUploadedImage;
+          document.getElementById('file-preview-container').classList.remove('hidden');
+        }
+        img.src = event.target.result;
+      }
+      reader.readAsDataURL(file);
+    });
+  }
+});
+
+// Elementos da Interface
+const screens = {
+  login: document.getElementById('login-screen'),
+  worldSelect: document.getElementById('world-select-screen'),
+  dashboard: document.getElementById('dashboard-screen'),
+  course: document.getElementById('course-screen'),
+  teacher: document.getElementById('teacher-screen'),
+  shop: document.getElementById('shop-screen'),
+  ranking: document.getElementById('ranking-screen')
+};
+
+// Navegação
+function showScreen(screenName) {
+  if (screenName === 'login') {
+      updateLoginHistory();
+  }
+  Object.values(screens).forEach(screen => {
+    if(screen) {
+        screen.classList.remove('active');
+        screen.classList.add('hidden');
+    }
+  });
+  if(screens[screenName]) {
+      screens[screenName].classList.remove('hidden');
+      setTimeout(() => screens[screenName].classList.add('active'), 10);
+  }
+}
+
+function showToast(message, icon = '💰') {
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.className = 'glass-card toast-item';
+    toast.style.padding = '0.75rem 1.25rem';
+    toast.style.borderLeft = '4px solid var(--primary)';
+    toast.style.display = 'flex';
+    toast.style.alignItems = 'center';
+    toast.style.gap = '0.75rem';
+    toast.style.animation = 'slideIn 0.3s forwards';
+    toast.style.boxShadow = '0 10px 30px rgba(0,0,0,0.5)';
+    
+    toast.innerHTML = `
+        <span style="font-size: 1.5rem;">${icon}</span>
+        <span style="font-weight: bold; color: white;">${message}</span>
+    `;
+    
+    container.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.style.animation = 'slideOut 0.3s forwards';
+        setTimeout(() => toast.remove(), 300);
+    }, 4000);
+}
+
+// Login
+let selectedGender = 'male';
+document.querySelectorAll('.gender-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+        document.querySelectorAll('.gender-option').forEach(o => {
+            o.classList.remove('selected');
+            o.style.borderColor = 'var(--glass-border)';
+            o.style.boxShadow = 'none';
+        });
+        opt.classList.add('selected');
+        opt.style.borderColor = 'var(--primary)';
+        opt.style.boxShadow = '0 0 15px var(--primary)';
+        selectedGender = opt.getAttribute('data-gender');
+    });
+});
+
+document.getElementById('login-form').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const name = document.getElementById('student-name').value.trim();
+  if (name) loginStudent(name, selectedGender);
+});
+
+function updateLoginHistory() {
+    const students = JSON.parse(localStorage.getItem('ava_students')) || [];
+    const historyContainer = document.getElementById('login-history');
+    const historyList = document.getElementById('login-history-list');
+    
+    if (students.length > 0) {
+        historyContainer.classList.remove('hidden');
+        historyList.innerHTML = '';
+        
+        // Mostrar os últimos 5 alunos que acessaram
+        students.slice(-5).reverse().forEach(s => {
+            const btn = document.createElement('button');
+            btn.className = 'btn text-btn';
+            btn.style.fontSize = '0.8rem';
+            btn.style.padding = '0.4rem 0.8rem';
+            btn.style.background = 'rgba(255,255,255,0.05)';
+            btn.style.border = '1px solid var(--glass-border)';
+            btn.innerText = s.name.split(' ')[0];
+            btn.addEventListener('click', () => loginStudent(s.name));
+            historyList.appendChild(btn);
+        });
+    } else {
+        historyContainer.classList.add('hidden');
+    }
+}
+
+function loginStudent(name, gender = 'male') {
+  let students = JSON.parse(localStorage.getItem('ava_students')) || [];
+  let student = students.find(s => s.name.toLowerCase() === name.toLowerCase());
+  
+  if (!student) {
+    student = {
+      name,
+      gender,
+      progress: [],
+      completedModules: [],
+      xp: 0,
+      level: 1,
+      coins: 100, // Saldo inicial
+      keys: 1,    // Chave inicial
+      inventory: [], // IDs de acessórios comprados/ganhos
+      equippedItems: [], // IDs de acessórios equipados
+      badges: [],
+      answers: {}, // Armazena respostas textuais: { "1-1": "Texto da resposta" }
+      pendingProgress: [] // IDs de missões aguardando aprovação
+    };
+    students.push(student);
     localStorage.setItem('ava_students', JSON.stringify(students));
-    localStorage.setItem('ava_current_user', JSON.stringify(currentUser));
+  }
+  // Garantir compatibilidade com dados antigos salvos no navegador
+  if(!student.gender) student.gender = 'male';
+  if(student.xp === undefined || isNaN(student.xp)) student.xp = 0;
+  if(student.level === undefined || isNaN(student.level)) student.level = 1;
+  if(student.coins === undefined) student.coins = 0;
+  if(student.keys === undefined) student.keys = 0;
+  if(!student.inventory) student.inventory = [];
+  if(!student.equippedItems) student.equippedItems = [];
+  if(!student.progress) student.progress = [];
+  if(!student.completedModules) student.completedModules = [];
+  if(!student.badges) student.badges = [];
+  if(!student.answers) student.answers = {};
+  if(!student.pendingProgress) student.pendingProgress = [];
+
+  currentUser = student;
+  initWorldSelect();
 }
 
-// ==========================================
-// LOGIN E INICIALIZAÇÃO
-// ==========================================
-const loginForm = document.getElementById('login-form');
-if(loginForm) {
-    loginForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const name = document.getElementById('student-name').value.trim();
-        const pass = document.getElementById('student-password').value.trim();
-        const gender = document.querySelector('input[name="gender"]:checked').value;
-        
-        let students = JSON.parse(localStorage.getItem('ava_students')) || [];
-        let user = students.find(s => s.name === name);
-        
-        if (user) {
-            if(user.password && user.password !== pass) { alert("Senha incorreta!"); return; }
-            currentUser = user;
-        } else {
-            currentUser = { 
-                name, password: pass, gender, 
-                level: 1, xp: 0, coins: 100, keys: 1,
-                progress: [], inventory: [], equippedItems: [], 
-                completedModules: [], badges: [], answers: {}, unlocks: [],
-                collectibles: []
-            };
-            saveStudentData();
-        }
-        localStorage.setItem('ava_last_username', name);
-        showToast(`Bem-vindo, ${currentUser.name}!`, '🛡️');
-        initWorldSelect();
-    });
+function saveStudentData() {
+  let students = JSON.parse(localStorage.getItem('ava_students')) || [];
+  const index = students.findIndex(s => s.name === currentUser.name);
+  if (index !== -1) {
+    students[index] = currentUser;
+    localStorage.setItem('ava_students', JSON.stringify(students));
+  }
 }
 
+// World Select
 function initWorldSelect() {
-    showScreen('worldSelect');
-    updateStatsBar('ws');
-    
-    const container = document.getElementById('worlds-container');
-    if(!container) return;
-    container.innerHTML = '';
-    
-    courseModules.forEach(mod => {
-        const card = document.createElement('div');
-        card.className = 'world-card glass-card';
-        const completedLessons = mod.lessons.filter(l => currentUser.progress.includes(l.id)).length;
-        const totalLessons = mod.lessons.length;
-        const isWorldCompleted = completedLessons === totalLessons;
+  showScreen('worldSelect');
+  
+  document.getElementById('ws-welcome-message').innerText = `Olá, ${currentUser.name.split(' ')[0]}`;
+  document.getElementById('ws-user-avatar').innerText = currentUser.name.charAt(0).toUpperCase();
+  document.getElementById('ws-user-level').innerText = Math.floor(currentUser.xp / 200) + 1;
+  document.getElementById('ws-user-xp').innerText = currentUser.xp;
+  document.getElementById('ws-user-coins').innerText = currentUser.coins || 0;
+  document.getElementById('ws-user-keys').innerText = currentUser.keys || 0;
 
-        card.innerHTML = `
-            <div class="world-icon">${mod.icon}</div>
-            <h3>${mod.title}</h3>
-            <div class="progress-info">${completedLessons}/${totalLessons} Missões</div>
-            <button class="btn ${isWorldCompleted ? 'success-btn' : 'primary-btn'} w-full mt-4">
-                ${isWorldCompleted ? '✓ Concluído' : 'Explorar'}
-            </button>
-        `;
-        card.querySelector('button').onclick = () => { playSound('click'); initDashboard(mod); };
-        container.appendChild(card);
-    });
+  const container = document.getElementById('worlds-container');
+  container.innerHTML = '';
+
+  courseModules.forEach(world => {
+    const isCompleted = currentUser.completedModules.includes(world.id);
+    const settings = JSON.parse(localStorage.getItem('ava_settings')) || { lockedModules: [] };
+    const isTeacherLocked = settings.lockedModules.includes(world.id);
+    
+    const card = document.createElement('div');
+    card.className = `world-card ${isTeacherLocked ? 'teacher-locked' : ''}`;
+    card.style.backgroundImage = `url(${world.background})`;
+    if(isTeacherLocked) card.style.filter = 'grayscale(1) brightness(0.5)';
+    
+    const totalLessons = world.lessons.length;
+    const completedLessons = world.lessons.filter(l => currentUser.progress.includes(l.id)).length;
+    
+    card.innerHTML = `
+      <div style="background: rgba(15, 23, 42, 0.8); padding: 1rem; border-radius: 12px; height: 100%; display: flex; flex-direction: column;">
+          <div class="module-icon">${isTeacherLocked ? '🔒' : world.icon}</div>
+          <h4 style="font-size: 1.2rem; margin-bottom: 0.5rem;">${world.title}</h4>
+          <p style="font-size: 0.9rem; flex-grow: 1; margin-bottom: 0.5rem;">${isTeacherLocked ? 'Este mundo ainda não foi liberado pelo professor para o bimestre atual.' : world.description}</p>
+          <p style="font-size: 0.85rem; color: #a855f7; font-weight: bold; margin-bottom: 1rem;">Missões: ${completedLessons}/${totalLessons}</p>
+          <div class="status-badge ${isCompleted ? 'status-completed' : (isTeacherLocked ? 'status-error' : 'status-pending')}">
+            ${isCompleted ? '✓ Mundo Concluído' : (isTeacherLocked ? 'Bloqueado pelo Mestre' : 'Selo: ' + world.badgeTitle)}
+          </div>
+      </div>
+    `;
+    
+    if(!isTeacherLocked) {
+        card.addEventListener('click', () => initDashboard(world));
+    } else {
+        card.addEventListener('click', () => alert("Este mundo está trancado pelo Cetro do Mestre. Aguarde a liberação do professor!"));
+    }
+    container.appendChild(card);
+  });
 }
 
-function updateStatsBar(prefix) {
-    const xp = currentUser.xp || 0;
-    const lvl = Math.floor(xp / 1000) + 1;
-    const coins = currentUser.coins || 0;
-    const keys = currentUser.keys || 0;
-
-    // Elementos da barra de stats
-    const elLvl = document.getElementById(`${prefix}-user-level`) || document.getElementById('user-level');
-    const elXp = document.getElementById(`${prefix}-user-xp`) || document.getElementById('user-xp');
-    const elCoins = document.getElementById(`${prefix}-user-coins`) || document.getElementById('user-coins');
-    const elKeys = document.getElementById(`${prefix}-user-keys`) || document.getElementById('user-keys');
-    const elAvatar = document.getElementById(`${prefix}-user-avatar`) || document.getElementById('user-avatar');
-
-    if(elLvl) elLvl.innerText = lvl;
-    if(elXp) elXp.innerText = xp;
-    if(elCoins) elCoins.innerText = coins;
-    if(elKeys) elKeys.innerText = keys;
-    
-    // Fix: Mostrar inicial do primeiro nome no avatar, mas manter o círculo bonito
-    if(elAvatar) {
-        const firstName = (currentUser.name || 'H').split(' ')[0];
-        elAvatar.innerText = firstName[0].toUpperCase();
-    }
-
-    const elName = document.getElementById(`${prefix}-welcome-message`) || document.getElementById('welcome-message');
-    if (elName) {
-        // Fix: Mostrar nome completo ou primeiro nome de forma elegante
-        elName.innerText = `Herói ${currentUser.name || 'Explorador'}`;
-    }
-    
-    // Atualizar Barra de Progresso no Dashboard
-    const progressBar = document.getElementById('progress-bar');
-    const progressText = document.getElementById('progress-text');
-    if(progressBar && currentModule) {
-        const done = currentModule.lessons.filter(l => currentUser.progress.includes(l.id)).length;
-        const pct = Math.round((done / currentModule.lessons.length) * 100);
-        progressBar.style.width = pct + '%';
-        if(progressText) progressText.innerText = pct + '%';
-    }
-}
-
-// ==========================================
-// DASHBOARD E MAPA
-// ==========================================
+// Dashboard (Map)
 function initDashboard(world) {
-    currentModule = world;
-    showScreen('dashboard');
-    updateStatsBar('db');
-    renderMapNodes(world);
-    updateInventoryUI();
-    renderMainAvatar();
-    renderAlbum();
+  currentModule = world; // Guardando o Mundo Selecionado
+  showScreen('dashboard');
+  
+  // Mostra o Aviso Chamativo do Mundo
+  const introModal = document.getElementById('world-intro-modal');
+  if(introModal) introModal.classList.remove('hidden');
+
+  const apostilaBtn = document.getElementById('dashboard-apostila-btn');
+  if (apostilaBtn) {
+      if (world.id === 'uci-1') {
+          apostilaBtn.href = './uc1.pdf';
+          apostilaBtn.innerText = '📖 Apostila UC1';
+      } else {
+          apostilaBtn.href = './apostila.pdf';
+          apostilaBtn.innerText = '📖 Apostila Geral';
+      }
+  }
+  
+  document.getElementById('welcome-message').innerText = `Olá, ${currentUser.name.split(' ')[0]}`;
+  document.getElementById('user-avatar').innerText = currentUser.name.charAt(0).toUpperCase();
+  
+  updateGamificationStats();
+  updateProgress();
+  renderBadges();
+  renderMapNodes(world);
 }
 
-function renderAlbum() {
-    const grid = document.getElementById('album-grid');
-    if(!grid) return;
-    grid.innerHTML = '';
-    const items = currentUser.collectibles || [];
-    if(items.length === 0) {
-        grid.innerHTML = '<p style="grid-column: 1/-1; font-size: 0.8rem; color: var(--text-secondary);">Nenhum item coletado ainda. Explore o mapa e clique nos 💎!</p>';
-        return;
-    }
-    // Map internal keys to human-readable labels
-    const worldNames = { uc1: 'Trigonometria', uc2: 'Geometria Analítica', uc3: 'Espaço', uc4: 'Proporções', uc5: 'Medidas', uc6: 'Números', uc7: 'Funções' };
-    items.forEach(it => {
-        const div = document.createElement('div');
-        div.className = 'inventory-item';
-        // Parse key like 'coll_uc7_2' into readable label
-        let label = it;
-        const match = it.match(/^coll_(uc\d+)_(\d+)$/);
-        if (match) {
-            const worldLabel = worldNames[match[1]] || match[1];
-            label = `💎 ${worldLabel} #${parseInt(match[2]) + 1}`;
-        }
-        div.innerHTML = `<span title="${it}">${label}</span>`;
-        grid.appendChild(div);
+function updateGamificationStats() {
+  currentUser.level = Math.floor(currentUser.xp / 200) + 1;
+  document.getElementById('user-level').innerText = currentUser.level;
+  document.getElementById('user-xp').innerText = currentUser.xp;
+  document.getElementById('user-coins').innerText = currentUser.coins || 0;
+  document.getElementById('user-keys').innerText = currentUser.keys || 0;
+  updateInventoryUI();
+}
+
+function updateProgress() {
+  const total = courseModules.length;
+  const completed = currentUser.completedModules.length;
+  const percentage = Math.round((completed / total) * 100);
+  
+  const progressText = document.getElementById('progress-text');
+  if (progressText) progressText.innerText = `${percentage}%`;
+  
+  const progressBar = document.getElementById('progress-bar');
+  if (progressBar) progressBar.style.width = `${percentage}%`;
+}
+
+function renderBadges() {
+  const container = document.getElementById('badges-container');
+  const emptyMsg = document.getElementById('empty-badges');
+  
+  container.querySelectorAll('.badge-item').forEach(el => el.remove());
+
+  if (currentUser.badges.length > 0) {
+    emptyMsg.classList.add('hidden');
+    currentUser.badges.forEach(badge => {
+      const badgeEl = document.createElement('div');
+      badgeEl.className = 'badge-item';
+      badgeEl.title = badge.title;
+      badgeEl.innerText = badge.icon;
+      container.appendChild(badgeEl);
     });
+  } else {
+    emptyMsg.classList.remove('hidden');
+  }
 }
 
 function renderMapNodes(world) {
-    const container = document.getElementById('modules-container');
-    if(!container) return;
-    container.innerHTML = '';
-    
-    // Fundo do Mapa
-    if(world.background) container.style.backgroundImage = `url(${world.background})`;
-    else container.style.background = 'rgba(0,0,0,0.4)';
+  const container = document.getElementById('modules-container');
+  container.innerHTML = '';
+  
+  const listContainer = document.getElementById('lessons-grid');
+  if (listContainer) listContainer.innerHTML = '';
 
-    let activeIdx = -1;
+  // O container do mapa precisa ter a imagem da fase atual
+  document.querySelector('.world-map-container').style.backgroundImage = `url(${world.background})`;
 
-    world.lessons.forEach((lesson, index) => {
-        const isCompleted = currentUser.progress.includes(lesson.id);
-        const isLocked = index > 0 && !currentUser.progress.includes(world.lessons[index-1].id);
-        
-        if (!isLocked && !isCompleted && activeIdx === -1) activeIdx = index;
-
-        const node = document.createElement('div');
-        node.className = `map-node ${isCompleted ? 'completed' : ''} ${isLocked ? 'locked' : ''} ${index === activeIdx ? 'current-location' : ''}`;
-        
-        // Posicionamento em Zig-Zag
-        node.style.top = `${(index % 2 === 0) ? 60 : 25}%`;
-        node.style.left = `${15 + (index * (75 / (world.lessons.length - 1 || 1)))}%`;
-
-        if (index === activeIdx || (activeIdx === -1 && index === 0 && !isCompleted)) {
-            const av = document.createElement('div');
-            av.className = 'player-avatar-map';
-            av.style.backgroundImage = `url(${currentUser.gender === 'female' ? './assets/avatar_knight_female.png' : './assets/avatar_knight.png'})`;
-            node.appendChild(av);
-        }
-        
-        node.innerHTML += `<div class="node-number">${index + 1}</div>`;
-        
-        if (!isLocked) {
-            node.onclick = () => { playSound('click'); openTheoryModal(world, index); };
-            
-            // Spawn Collectible Chance
-            const collKey = `coll_${world.id}_${index}`;
-            if (Math.random() > 0.7 && !isCompleted && !currentUser.collectibles?.includes(collKey)) {
-                const coll = document.createElement('div');
-                coll.className = 'map-collectible';
-                coll.innerText = '💎';
-                coll.style.position = 'absolute';
-                coll.style.top = '-20px';
-                coll.style.right = '-20px';
-                coll.style.fontSize = '1.5rem';
-                coll.style.cursor = 'pointer';
-                coll.onclick = (e) => {
-                    e.stopPropagation();
-                    if(!currentUser.collectibles) currentUser.collectibles = [];
-                    currentUser.collectibles.push(collKey);
-                    currentUser.coins += 100;
-                    saveStudentData();
-                    coll.remove();
-                    showToast("Item de Coleção Encontrado! +100 Moedas", "💎");
-                    renderAlbum();
-                };
-                node.appendChild(coll);
-            }
-        } else {
-            node.title = "Complete a missão anterior!";
-        }
-        
-        container.appendChild(node);
-    });
-}
-
-// ==========================================
-// MODAL DE TEORIA (PÍLULA)
-// ==========================================
-function openTheoryModal(world, index) {
-    // Agora não abre mais modal, vai direto para a lição que mostrará a teoria integrada
-    openLesson(world, index);
-}
-
-// ==========================================
-// TELA DE LIÇÃO (GAME ENGINE)
-// ==========================================
-function openLesson(world, index) {
-    currentModule = world;
-    currentLessonIndex = index;
-    showScreen('course');
-    
-    const lesson = world.lessons[index];
+  const numLessons = world.lessons.length;
+  world.lessons.forEach((lesson, index) => {
     const isCompleted = currentUser.progress.includes(lesson.id);
     
-    document.getElementById('lesson-title').innerText = lesson.title;
-    document.getElementById('mascot-message').innerText = "Estude a teoria antes do desafio!";
-    document.getElementById('quiz-feedback').classList.add('hidden');
-    
-    // Reset de estados
-    selectedQuizOption = null;
-    currentHotspotSelection = null;
-    
-    // Gerenciar Dica - sempre visível com custo de 500 moedas
-    const tipBtn = document.getElementById('get-tip-btn');
-    tipBtn.style.display = isCompleted ? 'none' : 'block';
-    const tipText = lesson.theory?.tips || lesson.theory?.hint || null;
-    if (!isCompleted) {
-        tipBtn.onclick = () => {
-            if (tipText) {
-                showTip(tipText);
-            } else {
-                showToast('Nenhuma dica disponível para esta missão.', '💡');
-            }
-        };
+    // LÓGICA DE BLOQUEIO: Só a primeira fase está aberta ou se a anterior foi concluída
+    let isLocked = false;
+    if (index > 0) {
+        const previousLesson = world.lessons[index - 1];
+        if (!currentUser.progress.includes(previousLesson.id)) {
+            isLocked = true;
+        }
     }
 
-    // Mostrar Teoria Integrada
-    const theorySec = document.getElementById('theory-section');
-    const quizCont = document.getElementById('quiz-container');
-    const validateBtn = document.getElementById('complete-lesson-btn');
+    // NÓ DO MAPA
+    const node = document.createElement('div');
+    node.className = `map-node ${isCompleted ? 'completed' : ''} ${isLocked ? 'locked' : ''}`;
     
-    theorySec.classList.remove('hidden');
-    quizCont.classList.add('hidden');
-    validateBtn.classList.add('hidden');
-
-    document.getElementById('theory-title').innerText = lesson.theory?.title || "Conhecimento Requerido";
-    
-    let theoryHTML = lesson.theory?.content || "";
-    if (lesson.theory?.realWorld) theoryHTML += `<div class="real-world-box"><strong>📍 No Mundo Real:</strong><br>${lesson.theory.realWorld}</div>`;
-    if (lesson.theory?.curiosity) theoryHTML += `<div class="curiosity-box"><strong>🤔 Curiosidade:</strong><br>${lesson.theory.curiosity}</div>`;
-    if (lesson.theory?.whyStudy) theoryHTML += `<p><strong>🎯 Por que estudar?</strong> ${lesson.theory.whyStudy}</p>`;
-    if (lesson.theory?.tips) theoryHTML += `<p><strong>💡 Dica do Mestre:</strong> ${lesson.theory.tips}</p>`;
-    
-    document.getElementById('theory-body').innerHTML = theoryHTML;
-
-    const mediaCont = document.getElementById('theory-media');
-    mediaCont.innerHTML = '';
-    if (lesson.theory?.image) mediaCont.innerHTML += `<img src="${lesson.theory.image}" style="width:100%; border-radius:15px; margin-top:1rem;">`;
-    if (lesson.theory?.iframe) mediaCont.innerHTML += `<div style="aspect-ratio: 16/9; margin-top:1rem;"><iframe width="100%" height="100%" src="${lesson.theory.iframe}" frameborder="0" allowfullscreen></iframe></div>`;
-
-    document.getElementById('start-activity-btn').onclick = () => {
-        theorySec.classList.add('hidden');
-        quizCont.classList.remove('hidden');
-        validateBtn.classList.remove('hidden');
-        document.getElementById('mascot-message').innerText = lesson.robotMessage || "Prepare-se para o desafio!";
-        renderActivity(lesson);
-    };
-
-    if (isCompleted) {
-        // Se já completou, pode pular direto para o quiz se quiser, ou ver a teoria
-        validateBtn.innerText = "Próxima Missão";
-        validateBtn.onclick = () => {
-            if (currentLessonIndex < currentModule.lessons.length - 1) openLesson(currentModule, currentLessonIndex + 1);
-            else initDashboard(currentModule);
-        };
+    // Distribuição no eixo X: começa em 15% e vai até 85%
+    let left = 15;
+    if (numLessons > 1) {
+       left = 15 + (index * (70 / (numLessons - 1)));
     } else {
-        validateBtn.innerText = "Validar Resposta";
-        validateBtn.onclick = handleValidation;
+       left = 50; // se só tem 1 fase, fica no meio
     }
+    
+    let top = (index % 2 === 0) ? 65 : 35; // Zig zag
+    
+    // Boss level styling
+    const isBoss = index === numLessons - 1 && (world.id === 'uc4' || world.id === 'uc7' || lesson.title.includes('Projeto Final') || lesson.title.includes('Avaliação'));
+    if (isBoss) {
+        node.classList.add('boss-node');
+        top = 20;
+        left = 85;
+    }
+
+    node.style.top = `${top}%`;
+    node.style.left = `${left}%`;
+
+    let bossReqHtml = "";
+    if(isBoss) {
+        const reqs = shopItems.filter(i => i.requiredForBoss);
+        bossReqHtml = `
+            <div class="boss-requirements">
+                <strong>Requisitos para o Boss:</strong>
+                <ul>
+                    ${reqs.map(r => `<li style="color: ${currentUser.equippedItems.includes(r.id) ? '#10b981' : '#f87171'}">${r.icon} ${r.name}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+    }
+
+    node.innerHTML = `
+      <div class="node-label" style="position:absolute; top:35px; left:50%; transform:translateX(-50%); color:white; font-size:0.85rem; font-weight:700; white-space:nowrap; text-shadow: 2px 2px 4px #000, -2px -2px 4px #000, 2px -2px 4px #000, -2px 2px 4px #000; pointer-events:none;">
+        ${lesson.title.split(':')[0]}
+      </div>
+      <div class="map-tooltip">
+        <h4>${lesson.title}</h4>
+        <p style="color:var(--primary); font-weight:bold; margin-top:5px;">${isLocked ? '🔒 Missão Bloqueada' : (isCompleted ? '✓ Concluída' : 'Fase Pendente')}</p>
+        ${bossReqHtml}
+        <div style="margin-top: 5px; font-size: 0.75rem; background: rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 4px;">
+            ${isLocked ? 'Conclua a missão anterior para liberar' : 'Clique para acessar'}
+        </div>
+      </div>
+    `;
+    
+    if (!isLocked) {
+        node.addEventListener('click', () => openLessonDirectly(world, index));
+    }
+    container.appendChild(node);
+
+    // LISTA DE FASES (Fallback)
+    if (listContainer) {
+      const card = document.createElement('div');
+      card.className = `glass-card ${isCompleted ? 'completed-card' : ''} ${isLocked ? 'locked' : ''}`;
+      card.style.padding = '1.2rem';
+      card.style.cursor = isLocked ? 'not-allowed' : 'pointer';
+      card.style.display = 'flex';
+      card.style.flexDirection = 'column';
+      card.style.gap = '0.5rem';
+      card.style.transition = 'transform 0.2s, border-color 0.2s';
+      card.style.opacity = isLocked ? '0.6' : '1';
+      
+      card.innerHTML = `
+        <h4 style="margin:0; font-size:1.1rem; color: ${isCompleted ? 'var(--success)' : (isLocked ? 'var(--text-secondary)' : 'var(--primary)')};">${isLocked ? '🔒 ' : ''}${lesson.title}</h4>
+        <p style="margin:0; font-size:0.85rem; color:var(--text-secondary);">${isCompleted ? '✓ Missão Cumprida' : (isLocked ? 'Bloqueada' : 'Missão Disponível')}</p>
+        <button class="btn ${isCompleted ? 'success-btn' : 'primary-btn'} w-full" style="margin-top: 0.5rem; padding: 0.5rem;" ${isLocked ? 'disabled' : ''}>
+            ${isCompleted ? 'Revisar Conteúdo' : (isLocked ? 'Bloqueado' : 'Acessar Missão')}
+        </button>
+      `;
+      
+      if (!isLocked) {
+          card.addEventListener('mouseenter', () => {
+            card.style.transform = 'translateY(-3px)';
+            card.style.borderColor = isCompleted ? 'var(--success)' : 'var(--primary)';
+          });
+          card.addEventListener('mouseleave', () => {
+            card.style.transform = 'translateY(0)';
+            card.style.borderColor = 'var(--glass-border)';
+          });
+          card.addEventListener('click', () => openLessonDirectly(world, index));
+      }
+      
+      listContainer.appendChild(card);
+    }
+  });
 }
 
-function showTip(text) {
-    if (currentUser.coins >= 500) {
-        currentUser.coins -= 500;
-        saveStudentData();
-        updateStatsBar('db');
-        alert(`DICA DO MESTRE: ${text}`);
-    } else {
-        showToast("Moedas insuficientes para a dica!", "❌");
-    }
+function openLessonDirectly(world, index) {
+  const lesson = world.lessons[index];
+  const isBoss = index === world.lessons.length - 1 && (world.id === 'uc4' || world.id === 'uc7' || lesson.title.includes('Projeto Final') || lesson.title.includes('Avaliação'));
+
+  if (isBoss) {
+      const missingItems = shopItems.filter(i => i.requiredForBoss && !currentUser.equippedItems.includes(i.id));
+      if (missingItems.length > 0) {
+          playSound('error');
+          alert(`PARE! Você não pode enfrentar o Boss Final sem os itens necessários: ${missingItems.map(i => i.name).join(', ')}. Visite a Loja!`);
+          return;
+      }
+  }
+
+  // Verificação extra de segurança para bloqueio sequencial
+  if (index > 0) {
+      const previousLessonId = world.lessons[index - 1].id;
+      if (!currentUser.progress.includes(previousLessonId)) {
+          alert("Ops! Você precisa concluir a missão anterior antes de avançar para esta.");
+          return;
+      }
+  }
+  
+  currentModule = world;
+  currentLessonIndex = index;
+  showScreen('course');
+  openLesson(currentLessonIndex);
 }
 
-function renderActivity(lesson) {
-    // Esconder todos os containers de atividade
-    ['quiz-options', 'quiz-text-area-container', 'drag-drop-container', 'hotspot-container', 'fill-blanks-container'].forEach(id => {
-        document.getElementById(id).classList.add('hidden');
-    });
+function openLesson(index) {
+  selectedQuizOption = null;
+  const lesson = currentModule.lessons[index];
+  
+  document.getElementById('lesson-title').innerText = currentModule.title;
+  document.getElementById('lesson-subtitle').innerText = lesson.title;
+  
+  const coverImage = document.getElementById('lesson-cover-image');
+  if(coverImage) {
+      if(lesson.image) {
+          coverImage.src = lesson.image;
+          coverImage.classList.remove('hidden');
+      } else {
+          coverImage.classList.add('hidden');
+      }
+  }
 
-    if (lesson.type === 'choice') {
-        const cont = document.getElementById('quiz-options');
-        cont.classList.remove('hidden');
-        cont.innerHTML = `<h4>${lesson.quiz.question}</h4>`;
+  document.getElementById('lesson-article').innerHTML = lesson.content;
+  injectHiddenItem();
+  
+  // Mascote Robô
+  document.getElementById('mascot-message').innerText = lesson.robotMessage || "Vamos resolver mais esse desafio juntos!";
+  
+  // Controle do Textarea do Guia de Missão
+  const guiaContainer = document.getElementById('guia-missao-container');
+  const guiaTextarea = document.getElementById('guia-missao-textarea');
+  const isCompleted = currentUser.progress.includes(lesson.id);
+
+  if(guiaContainer && guiaTextarea) {
+      if(lesson.content.includes("Guia de Missão") || lesson.content.includes("Guia de Missao")) {
+          guiaContainer.classList.remove('hidden');
+          guiaTextarea.value = currentUser.answers[lesson.id + '_guia'] || '';
+          if (isCompleted) {
+              guiaTextarea.disabled = true;
+          } else {
+              guiaTextarea.disabled = false;
+          }
+      } else {
+          guiaContainer.classList.add('hidden');
+      }
+  }
+  
+  const btn = document.getElementById('complete-lesson-btn');
+  const feedback = document.getElementById('quiz-feedback');
+  const optionsContainer = document.getElementById('quiz-options');
+  const textAreaContainer = document.getElementById('quiz-text-area-container');
+  const textArea = document.getElementById('quiz-textarea');
+  const fileAreaContainer = document.getElementById('quiz-file-area-container');
+  const fileInput = document.getElementById('quiz-file-input');
+  
+  feedback.className = 'quiz-feedback hidden';
+  feedback.innerText = '';
+  optionsContainer.innerHTML = '';
+  textArea.value = currentUser.answers[lesson.id] || '';
+  
+  // Limpar Preview de Imagem
+  currentUploadedImage = null;
+  const previewContainer = document.getElementById('file-preview-container');
+  if(previewContainer) previewContainer.classList.add('hidden');
+  if(fileInput) fileInput.value = '';
+
+  if(lesson.type === 'text') {
+      optionsContainer.classList.add('hidden');
+      if(fileAreaContainer) fileAreaContainer.classList.add('hidden');
+      textAreaContainer.classList.remove('hidden');
+      if (isCompleted) {
+          textArea.disabled = true;
+          feedback.innerText = 'Missão validada pelo professor. Resposta bloqueada para edição.';
+          feedback.className = 'quiz-feedback success';
+          feedback.classList.remove('hidden');
+      } else {
+          textArea.disabled = false;
+      }
+  } else if (lesson.type === 'file') {
+      optionsContainer.classList.add('hidden');
+      textAreaContainer.classList.add('hidden');
+      if(fileAreaContainer) fileAreaContainer.classList.remove('hidden');
+      if ((isCompleted || isPending) && currentUser.answers[lesson.id]) {
+          document.getElementById('file-preview-image').src = currentUser.answers[lesson.id];
+          if(previewContainer) previewContainer.classList.remove('hidden');
+          if(fileInput) fileInput.disabled = isCompleted;
+      } else {
+          if(fileInput) fileInput.disabled = false;
+      }
+  } else {
+      textAreaContainer.classList.add('hidden');
+      if(fileAreaContainer) fileAreaContainer.classList.add('hidden');
+      optionsContainer.classList.remove('hidden');
+      document.getElementById('quiz-question').innerText = lesson.quiz ? lesson.quiz.question : (lesson.robotMessage || "");
+      
+      if (lesson.quiz) {
+        // Lógica de Dica (Scroll of Oracle)
+        const hasHintPower = currentUser.equippedItems.some(id => {
+            const item = shopItems.find(i => i.id === id);
+            return item && item.hintPower;
+        });
+
+        if (hasHintPower && !isCompleted && !isPending) {
+            const hintBtn = document.createElement('button');
+            hintBtn.className = 'btn warning-btn w-full mb-4';
+            hintBtn.innerHTML = '🔮 Usar Dica do Oráculo';
+            hintBtn.onclick = () => {
+                const correctLetter = ['A', 'B', 'C', 'D'][lesson.quiz.correctIndex];
+                showToast(`O Oráculo sussurra: A resposta correta é a letra ${correctLetter}`, "✨");
+                hintBtn.disabled = true;
+                hintBtn.style.opacity = '0.5';
+            };
+            optionsContainer.appendChild(hintBtn);
+        }
+
         lesson.quiz.options.forEach((opt, idx) => {
-            const div = document.createElement('div');
-            div.className = 'quiz-option';
-            div.innerText = opt;
-            div.onclick = () => {
-                playSound('click');
-                selectedQuizOption = idx;
-                document.querySelectorAll('.quiz-option').forEach(el => el.classList.remove('selected'));
-                div.classList.add('selected');
-            };
-            cont.appendChild(div);
+          const optEl = document.createElement('div');
+          optEl.className = 'quiz-option';
+          if (isCompleted && idx === lesson.quiz.correctIndex) optEl.classList.add('correct');
+          optEl.innerText = opt;
+          if (!isCompleted && !isPending) {
+              optEl.addEventListener('click', () => selectQuizOption(idx, optEl));
+          } else {
+              optEl.style.cursor = 'default';
+              optEl.style.opacity = '0.8';
+          }
+          optionsContainer.appendChild(optEl);
         });
-    } else if (lesson.type === 'fill-blanks') {
-        const cont = document.getElementById('fill-blanks-container');
-        cont.classList.remove('hidden');
-        let html = lesson.blanks.text;
-        lesson.blanks.answers.forEach((_, i) => {
-            html = html.replace(`[[${i+1}]]`, `<input type="text" class="fill-input" data-idx="${i}" placeholder="...">`);
-        });
-        document.getElementById('fill-blanks-text').innerHTML = html;
-    } else if (lesson.type === 'hotspot') {
-        const cont = document.getElementById('hotspot-container');
-        cont.classList.remove('hidden');
-        document.getElementById('hotspot-image').src = lesson.hotspot.image;
-        const overlay = document.getElementById('hotspot-overlay');
-        overlay.innerHTML = '';
-        lesson.hotspot.points.forEach(p => {
-            const dot = document.createElement('div');
-            dot.className = 'hotspot-dot';
-            dot.style.left = p.x + '%';
-            dot.style.top = p.y + '%';
-            dot.onclick = () => {
-                playSound('click');
-                currentHotspotSelection = p.id;
-                document.querySelectorAll('.hotspot-dot').forEach(d => d.classList.remove('active'));
-                dot.classList.add('active');
-            };
-            overlay.appendChild(dot);
-        });
-    } else if (lesson.type === 'drag-drop') {
-        const cont = document.getElementById('drag-drop-container');
-        cont.classList.remove('hidden');
-        const itemsC = document.getElementById('drag-items');
-        const targetsC = document.getElementById('drop-targets');
-        itemsC.innerHTML = ''; targetsC.innerHTML = '';
-        
-        lesson.dragDrop.items.forEach(item => {
-            const div = document.createElement('div');
-            div.className = 'drag-item';
-            div.innerText = item.text;
-            div.draggable = true;
-            div.id = `drag-${item.id}`;
-            div.ondragstart = (e) => e.dataTransfer.setData('text', item.id);
-            itemsC.appendChild(div);
-        });
-        
-        lesson.dragDrop.targets.forEach(target => {
-            const div = document.createElement('div');
-            div.className = 'drop-target';
-            div.innerHTML = `<span>${target.label}</span>`;
-            div.ondragover = (e) => e.preventDefault();
-            div.ondrop = (e) => {
-                e.preventDefault();
-                const itemId = e.dataTransfer.getData('text');
-                const draggedElement = document.getElementById(`drag-${itemId}`);
-                if (draggedElement) div.appendChild(draggedElement);
-            };
-            targetsC.appendChild(div);
-        });
-    } else if (lesson.type === 'text') {
-        document.getElementById('quiz-text-area-container').classList.remove('hidden');
-        document.getElementById('quiz-textarea').value = '';
-    } else if (lesson.type === 'boss-list') {
-        const cont = document.getElementById('quiz-options');
-        cont.classList.remove('hidden');
-        const needed = Math.ceil(lesson.exercises.length * 0.6);
-        cont.innerHTML = `<h4>⚔️ Desafio do Boss</h4><p style="font-size:0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">Acerte pelo menos ${needed} de ${lesson.exercises.length} questões para vencer!</p>`;
-        lesson.exercises.forEach(ex => {
-            const div = document.createElement('div');
-            div.className = 'boss-item';
-            div.innerHTML = `<p><strong>[${ex.level.toUpperCase()}]</strong> ${ex.question}</p><input type="text" class="boss-input" placeholder="Sua resposta...">`;
-            cont.appendChild(div);
-        });
-    } else if (lesson.type === 'bonus-draw') {
-        const cont = document.getElementById('quiz-options');
-        cont.classList.remove('hidden');
-        cont.innerHTML = `
-            <h4>🎨 Atividade Bônus: Desenho</h4>
-            <p style="font-size:0.9rem; color: var(--text-secondary); margin-bottom: 1rem;">${lesson.prompt || 'Desenhe o que aprendeu sobre este tema!'}</p>
-            <canvas id="bonus-canvas" width="500" height="300" style="border: 2px solid var(--primary); border-radius: 12px; cursor: crosshair; touch-action: none; max-width: 100%; background: #0f172a;"></canvas>
-            <div style="display:flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; align-items: center;">
-                <button class="btn text-btn" onclick="clearBonusCanvas()">🗑️ Apagar</button>
-                <label>Cor: <input type="color" id="draw-color" value="#7c3aed" style="border-radius:8px; padding:2px; height:32px; border:none;"></label>
-                <label>Espessura: <input type="range" id="draw-size" min="2" max="20" value="5" style="flex:1;"></label>
-            </div>
-            <p style="font-size:0.75rem; color: var(--text-secondary); margin-top:8px;">✅ Esta é uma atividade bônus — você ganha XP só por participar!</p>`;
-        setTimeout(() => initBonusCanvas(), 100);
-    } else if (lesson.type === 'bonus-photo') {
-        const cont = document.getElementById('quiz-options');
-        cont.classList.remove('hidden');
-        cont.innerHTML = `
-            <h4>📷 Atividade Bônus: Foto / Anexo</h4>
-            <p style="font-size:0.9rem; color: var(--text-secondary); margin-bottom: 1rem;">${lesson.prompt || 'Tire uma foto da sua resolução no papel ou anexe um arquivo!'}</p>
-            <div style="border: 2px dashed var(--primary); border-radius: 12px; padding: 2rem; text-align: center; cursor: pointer; transition: background 0.2s;" 
-                 onclick="document.getElementById('bonus-file-input').click()"
-                 onmouseover="this.style.background='rgba(124,58,237,0.1)'" onmouseout="this.style.background='transparent'">
-                <div style="font-size:3rem;">📎</div>
-                <p>Clique para tirar foto ou escolher imagem</p>
-                <input type="file" id="bonus-file-input" accept="image/*" capture="environment" style="display:none;" onchange="previewBonusPhoto(this)">
-            </div>
-            <div id="bonus-photo-preview" style="margin-top: 1rem;"></div>
-            <p style="font-size:0.75rem; color: var(--text-secondary); margin-top:8px;">✅ Esta é uma atividade bônus — você ganha XP só por participar!</p>`;
+      }
+  }
+
+  const isPending = currentUser.pendingProgress && currentUser.pendingProgress.includes(lesson.id);
+
+  if (isCompleted) {
+    btn.innerText = "Rever Resposta ✓";
+    btn.classList.remove('primary-btn');
+    btn.classList.add('success-btn');
+    
+    if(index < currentModule.lessons.length - 1) {
+       btn.innerText = "Próxima Missão →";
+       btn.classList.replace('success-btn', 'primary-btn');
+       btn.disabled = false;
+       const newBtn = btn.cloneNode(true);
+       btn.parentNode.replaceChild(newBtn, btn);
+       newBtn.addEventListener('click', () => {
+         currentLessonIndex++;
+         openLesson(currentLessonIndex);
+       });
+       return;
+    } else {
+        btn.disabled = false;
+        btn.innerText = "Mundo Concluído! Voltar ao Início";
+        btn.onclick = () => initWorldSelect();
+        return;
     }
+  } else if (isPending) {
+    btn.innerText = "Atualizar Resposta (Pendente)";
+    btn.classList.remove('primary-btn');
+    btn.classList.add('warning-btn');
+    btn.disabled = false;
+  } else {
+    btn.innerText = "Enviar Resposta e Validar";
+    btn.classList.remove('success-btn', 'warning-btn');
+    btn.classList.add('primary-btn');
+    btn.disabled = false;
+  }
+  
+  const newBtn = btn.cloneNode(true);
+  btn.parentNode.replaceChild(newBtn, btn);
+  newBtn.addEventListener('click', handleValidation);
+}
+
+function selectQuizOption(index, element) {
+  selectedQuizOption = index;
+  const options = document.querySelectorAll('.quiz-option');
+  options.forEach(opt => opt.classList.remove('selected'));
+  element.classList.add('selected');
 }
 
 function handleValidation() {
-    const lesson = currentModule.lessons[currentLessonIndex];
-    const feedback = document.getElementById('quiz-feedback');
-    let ok = false;
-    const norm = (s) => String(s).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[°ºª]/g, "").replace(/[.,]/g, "").replace(/\s+/g, ' ').trim();
+  const lesson = currentModule.lessons[currentLessonIndex];
+  if (currentUser.progress.includes(lesson.id)) return;
 
+  const feedback = document.getElementById('quiz-feedback');
+  
+  let isValid = false;
+
+  // Validação do Guia de Missão (se presente)
+  const guiaContainer = document.getElementById('guia-missao-container');
+  const guiaTextarea = document.getElementById('guia-missao-textarea');
+  if(guiaContainer && !guiaContainer.classList.contains('hidden') && guiaTextarea) {
+      const guiaText = guiaTextarea.value.trim();
+      if(guiaText.length < 5) {
+          feedback.innerText = 'O Robô diz: "Por favor, responda primeiro às perguntas do Guia de Missão logo abaixo do texto da aula!"';
+          feedback.className = 'quiz-feedback error';
+          feedback.classList.remove('hidden');
+          return;
+      }
+      currentUser.answers[lesson.id + '_guia'] = guiaText;
+  }
+
+  if (lesson.type === 'text') {
+      const text = document.getElementById('quiz-textarea').value.trim();
+      if(text.length < 30) {
+          feedback.innerText = 'O Robô diz: "Sua resposta está muito curta. Tente jogar ou revisar a lição mais um pouquinho e explique com detalhes!"';
+          feedback.className = 'quiz-feedback error';
+          feedback.classList.remove('hidden');
+          return;
+      }
+      currentUser.answers[lesson.id] = text;
+      isValid = true;
+  } else if (lesson.type === 'file') {
+      if (!currentUploadedImage && !currentUser.answers[lesson.id]) {
+          feedback.innerText = 'Por favor, anexe uma foto da missão para avançar!';
+          feedback.className = 'quiz-feedback error';
+          feedback.classList.remove('hidden');
+          return;
+      }
+      if (currentUploadedImage) currentUser.answers[lesson.id] = currentUploadedImage;
+      isValid = true;
+      if (currentUploadedImage) currentUser.answers[lesson.id] = currentUploadedImage;
+      isValid = true;
+  } else {
+      if (selectedQuizOption === null) {
+        feedback.innerText = 'Por favor, selecione uma opção primeiro!';
+        feedback.className = 'quiz-feedback error';
+        feedback.classList.remove('hidden');
+        return;
+      }
+      const options = document.querySelectorAll('.quiz-option');
+      if (selectedQuizOption === lesson.quiz.correctIndex) {
+          isValid = true;
+          options[selectedQuizOption].classList.add('correct');
+      } else {
+          playSound('error');
+          feedback.innerText = 'Resposta incorreta. Leia a aula novamente e tente outra opção!';
+          feedback.className = 'quiz-feedback error';
+          feedback.classList.remove('hidden');
+          options[selectedQuizOption].classList.add('incorrect');
+          setTimeout(() => options[selectedQuizOption].classList.remove('incorrect'), 1500);
+          return;
+      }
+  }
+
+  if (isValid) {
+    // Se for quiz de múltipla escolha, aprova na hora
     if (lesson.type === 'choice') {
-        ok = (selectedQuizOption === lesson.quiz.correctIndex);
-    } else if (lesson.type === 'fill-blanks') {
-        const inputs = Array.from(document.querySelectorAll('.fill-input')).map(i => norm(i.value));
-        ok = (JSON.stringify(inputs) === JSON.stringify(lesson.blanks.answers.map(a => norm(a))));
-    } else if (lesson.type === 'hotspot') {
-        const point = lesson.hotspot.points.find(p => p.id === currentHotspotSelection);
-        ok = point && point.correct;
-    } else if (lesson.type === 'text') {
-        const val = norm(document.getElementById('quiz-textarea').value);
-        ok = (val === norm(lesson.correctValue)) || (val.length >= 25);
-    } else if (lesson.type === 'boss-list') {
-        // BOSS MAIS FÁCIL: precisa acertar pelo menos 60% das questões
-        const inputs = Array.from(document.querySelectorAll('.boss-input')).map(i => norm(i.value));
-        const answers = lesson.exercises.map(e => norm(e.answer));
-        const correct = inputs.filter((inp, i) => inp === answers[i]).length;
-        const needed = Math.ceil(answers.length * 0.6);
-        ok = correct >= needed;
-        if (!ok) {
-            feedback.innerText = `Você acertou ${correct} de ${answers.length}. Precisa de ${needed} para derrotar o Boss!`;
-            feedback.className = 'quiz-feedback error';
-            feedback.classList.remove('hidden');
-            playSound('error');
-            return;
-        }
-    } else if (lesson.type === 'drag-drop') {
-        ok = true;
-        document.querySelectorAll('.drop-target').forEach((target, idx) => {
-            const targetData = lesson.dragDrop.targets[idx];
-            const children = Array.from(target.querySelectorAll('.drag-item')).map(c => c.id.replace('drag-', ''));
-            if (Array.isArray(targetData.accepts)) {
-                if (!children.every(c => targetData.accepts.includes(c))) ok = false;
-            } else {
-                if (!children.includes(targetData.accepts)) ok = false;
-            }
-        });
-    } else if (lesson.type === 'bonus-draw' || lesson.type === 'bonus-photo') {
-        // Atividades bônus: sempre aprovadas
-        ok = true;
-    }
-
-    if (ok) {
-        playSound('correct');
-        feedback.innerText = "Excelente trabalho! Missão cumprida.";
-        feedback.className = "quiz-feedback success";
-        feedback.classList.remove('hidden');
-        
-        if (!currentUser.progress.includes(lesson.id)) {
-            let bonusXP = 0;
-            let bonusCoins = 0;
-            currentUser.equippedItems.forEach(id => {
-                const item = shopItems.find(i => i.id === id);
-                if(item?.xpBonus) bonusXP += lesson.xpReward * item.xpBonus;
-                if(item?.coinBonus) bonusCoins += 50 * item.coinBonus;
-            });
-
-            currentUser.progress.push(lesson.id);
-            currentUser.xp += Math.round(lesson.xpReward + bonusXP);
-            currentUser.coins += Math.round(50 + bonusCoins);
-            
-            // Chance de dropar chave
-            if (Math.random() > 0.7) {
-                currentUser.keys = (currentUser.keys || 0) + 1;
-                showToast("Você encontrou uma Chave Mágica! 🔑", "✨");
-            }
-            
-            saveStudentData();
-        }
-        
-        if (lesson.isBoss) {
-            playBossDefeatAnimation(() => {
-                finishLesson(lesson);
-            });
-        } else {
-            finishLesson(lesson);
-        }
+        currentUser.progress.push(lesson.id);
+        awardRewards(lesson);
     } else {
-        playSound('error');
-        feedback.innerText = "Ops! Algo está incorreto. Revise sua resposta.";
-        feedback.className = "quiz-feedback error";
+        // Se for texto ou arquivo, fica pendente
+        if (!currentUser.pendingProgress.includes(lesson.id)) {
+            currentUser.pendingProgress.push(lesson.id);
+        }
+        feedback.innerText = 'O Robô diz: "Sua resposta foi atualizada! Aguardando a validação final do professor para liberar seus prêmios."';
+        feedback.className = 'quiz-feedback warning';
         feedback.classList.remove('hidden');
+        showToast("Resposta Enviada!", "📤");
+    }
+    
+    saveStudentData();
+    
+    const btn = document.getElementById('complete-lesson-btn');
+    if(currentLessonIndex < currentModule.lessons.length - 1) {
+       btn.innerText = "Próxima Missão →";
+       btn.classList.replace('primary-btn', 'success-btn');
+       const newBtn = btn.cloneNode(true);
+       btn.parentNode.replaceChild(newBtn, btn);
+       newBtn.addEventListener('click', () => {
+         currentLessonIndex++;
+         openLesson(currentLessonIndex);
+       });
+    } else {
+       btn.innerText = "Aguardando Validação do Mundo";
+       if(lesson.type === 'choice') btn.innerText = "Mundo Concluído! Voltar";
+       btn.classList.replace('primary-btn', 'success-btn');
+       btn.onclick = () => initWorldSelect();
+    }
+  }
+}
+
+function awardRewards(lesson) {
+    let xpReward = lesson.xpReward;
+    let coinReward = 50;
+    
+    currentUser.equippedItems.forEach(itemId => {
+        const item = shopItems.find(i => i.id === itemId);
+        if(item) {
+            if(item.xpBonus) xpReward = Math.round(xpReward * (1 + item.xpBonus));
+            if(item.coinBonus) coinReward = Math.round(coinReward * (1 + item.coinBonus));
+        }
+    });
+
+    currentUser.xp += xpReward;
+    currentUser.coins = (currentUser.coins || 0) + coinReward;
+    
+    playSound('correct');
+    showToast(`+${coinReward} Moedas!`, '💰');
+    
+    const allLessonsCompleted = currentModule.lessons.every(l => currentUser.progress.includes(l.id));
+    if(allLessonsCompleted && !currentUser.completedModules.includes(currentModule.id)) {
+        currentUser.completedModules.push(currentModule.id);
+        currentUser.badges.push({ title: currentModule.badgeTitle, icon: currentModule.badgeIcon });
     }
 }
 
-function playBossDefeatAnimation(callback) {
-    const overlay = document.createElement('div');
-    overlay.className = 'boss-defeat-overlay';
-    overlay.innerHTML = `
-        <h2 style="color: var(--primary); margin-bottom: 2rem; font-size: 2.5rem;">CHEFE DERROTADO!</h2>
-        <div class="boss-defeat-anim">
-            <img src="${currentUser.gender === 'female' ? './assets/avatar_knight_female.png' : './assets/avatar_knight.png'}" class="anim-hero">
-            <img src="./assets/boss_icon.png" class="anim-boss" onerror="this.src='./icons/robot.svg'">
-        </div>
+document.getElementById('back-to-dashboard').addEventListener('click', () => {
+  initDashboard(currentModule);
+});
+
+document.getElementById('back-to-worlds-btn').addEventListener('click', () => {
+  initWorldSelect();
+});
+
+document.getElementById('logout-btn').addEventListener('click', () => {
+  currentUser = null;
+  document.getElementById('login-form').reset();
+  showScreen('login');
+});
+
+const closeIntroBtn = document.getElementById('close-world-intro-btn');
+if(closeIntroBtn) {
+    closeIntroBtn.addEventListener('click', () => {
+        document.getElementById('world-intro-modal').classList.add('hidden');
+    });
+}
+
+// Área do Professor
+function openTeacherArea() {
+  const pass = prompt("🔐 Digite a senha do Grande Mestre:");
+  if (pass === 'Joseneto2020') {
+      showScreen('teacher');
+      renderStudentList();
+  } else if (pass !== null) {
+      alert("Senha Incorreta! Apenas o Grande Mestre tem acesso a esta zona.");
+      showToast("Senha Incorreta!", "❌");
+  }
+}
+
+// Garantir que os botões funcionem após o DOM carregar completamente
+document.addEventListener('DOMContentLoaded', () => {
+    const teacherBtn = document.getElementById('teacher-btn');
+    if(teacherBtn) teacherBtn.onclick = openTeacherArea;
+
+    const teacherAccessBtn = document.getElementById('teacher-access-btn');
+    if(teacherAccessBtn) teacherAccessBtn.onclick = openTeacherArea;
+});
+
+document.getElementById('back-to-login-btn').addEventListener('click', () => {
+  showScreen('login');
+});
+
+function renderStudentList() {
+  const list = document.getElementById('student-list-container');
+  const students = JSON.parse(localStorage.getItem('ava_students')) || [];
+  list.innerHTML = '';
+  
+  if (students.length === 0) {
+    list.innerHTML = '<li class="glass-card" style="margin-bottom: 1rem; border-color: rgba(239, 68, 68, 0.5); padding: 1rem;">Nenhum herói registrado neste dispositivo ainda.</li>';
+  }
+
+  // Abas do Professor
+  document.querySelectorAll('.teacher-tab-btn').forEach(btn => {
+    btn.onclick = () => {
+        document.querySelectorAll('.teacher-tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.teacher-tab-content').forEach(c => c.classList.add('hidden'));
+        btn.classList.add('active');
+        document.getElementById(`tab-${btn.dataset.tab}`).classList.remove('hidden');
+        if(btn.dataset.tab === 'unlocks') renderModuleUnlocks();
+        if(btn.dataset.tab === 'pending') renderPendingApprovals();
+    };
+  });
+
+  document.getElementById('view-ranking-btn').onclick = () => {
+    showScreen('ranking');
+    initRanking();
+  };
+
+  document.getElementById('reset-ranking-btn').onclick = () => {
+    if(confirm("ATENÇÃO: Isso apagará TODOS os dados de alunos e resetará o ranking. Deseja continuar?")) {
+        localStorage.removeItem('ava_students');
+        renderStudentList();
+        showToast("Ranking Resetado!", "🧹");
+    }
+  };
+  
+  students.forEach(s => {
+    const cModules = s.completedModules || [];
+    const percentage = Math.round((cModules.length / courseModules.length) * 100);
+    const textAnswersCount = s.answers ? Object.keys(s.answers).length : 0;
+
+    const li = document.createElement('li');
+    li.style.flexDirection = "column";
+    li.style.gap = "0.5rem";
+    li.innerHTML = `
+      <div style="display:flex; justify-content:space-between; width:100%;">
+        <span><strong>${s.name}</strong> (Nível ${s.level || 1})</span>
+        <span>Progressão: ${percentage}%</span>
+      </div>
+      <div style="font-size: 0.85rem; color: var(--text-secondary);">
+        XP Acumulado: ${s.xp || 0} | Missões Descritivas Entregues: ${textAnswersCount} | Badges (Conquistas): ${s.badges ? s.badges.length : 0}
+      </div>
+      <button class="btn text-btn mt-2" style="padding: 0; text-align: left; font-size: 0.85rem; text-decoration: underline;" onclick="viewStudentImages('${s.name}')">📸 Visualizar Fotos das Missões</button>
     `;
-    document.body.appendChild(overlay);
-    playSound('correct');
+    list.appendChild(li);
+  });
+}
+
+// Exportar CSV - Lógica Unificada
+function downloadCSV(dataArray, filename) {
+  if (dataArray.length === 0) {
+    alert("Não há dados para exportar.");
+    return;
+  }
+  
+  let csvContent = "data:text/csv;charset=utf-8,";
+  
+  // Cabeçalhos Fixos
+  let headers = "Nome do Estudante,Nível,XP Acumulado,Missões Finalizadas,Conquistas,Progresso (%)";
+  
+  // Cabeçalhos Dinâmicos (Todas as lições de todos os módulos)
+  const allLessonIds = [];
+  courseModules.forEach(mod => {
+      mod.lessons.forEach(l => {
+          allLessonIds.push(l.id);
+          let safeTitle = l.title.replace(/,/g, '').replace(/"/g, '""');
+          headers += `,"Resposta: ${safeTitle}"`;
+      });
+  });
+  csvContent += headers + "\n";
+  
+  dataArray.forEach(s => {
+    const cModules = s.completedModules || [];
+    const percentage = Math.round((cModules.length / courseModules.length) * 100);
+    const level = s.level || 1;
+    const xp = s.xp || 0;
+    const badgesCount = s.badges ? s.badges.length : 0;
+    const aulas = s.progress ? s.progress.length : 0;
+    
+    let row = `"${s.name}","${level}","${xp}","${aulas}","${badgesCount}","${percentage}%"`;
+    
+    allLessonIds.forEach(id => {
+        let answer = s.answers && s.answers[id] ? s.answers[id] : "Não realizada";
+        let guia = s.answers && s.answers[id + '_guia'] ? s.answers[id + '_guia'] : "";
+        if (typeof answer === 'string' && answer.startsWith('data:image')) {
+            answer = "[ FOTO ANEXADA ]";
+        } else {
+            answer = answer.replace(/"/g, '""').replace(/\n/g, ' - ');
+        }
+        if(guia) {
+            guia = guia.replace(/"/g, '""').replace(/\n/g, ' - ');
+            answer = "Guia: " + guia + " | Desafio: " + answer;
+        }
+        row += `,"${answer}"`;
+    });
+
+    csvContent += row + "\n";
+  });
+  
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", filename);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+// Botão do Professor (Todos os Alunos)
+document.getElementById('export-csv-btn').addEventListener('click', () => {
+  const students = JSON.parse(localStorage.getItem('ava_students')) || [];
+  downloadCSV(students, "relatorio_geral_classe.csv");
+});
+
+// Botão do Aluno (Apenas o Próprio Progresso)
+document.getElementById('student-export-csv-btn').addEventListener('click', () => {
+  if (currentUser) {
+    downloadCSV([currentUser], `meu_progresso_${currentUser.name.replace(/\s+/g, '_').toLowerCase()}.csv`);
+  }
+});
+
+// Ver imagens do Aluno (Área do Professor)
+window.viewStudentImages = function(studentName) {
+  const students = JSON.parse(localStorage.getItem('ava_students')) || [];
+  const student = students.find(s => s.name === studentName);
+  if(!student || !student.answers) return alert("Nenhuma resposta encontrada.");
+  
+  let html = `<div style="padding: 20px; background: var(--glass-bg); backdrop-filter: blur(16px); color: white; border-radius: 12px; border: 1px solid var(--glass-border); max-height: 85vh; width: 90%; max-width: 500px; overflow-y: auto;">
+      <h3 style="margin-bottom: 15px; color: var(--primary);">Fotos: ${studentName}</h3>`;
+  
+  let hasImages = false;
+  Object.keys(student.answers).forEach(key => {
+      const ans = student.answers[key];
+      if(typeof ans === 'string' && ans.startsWith('data:image')) {
+          hasImages = true;
+          let lessonTitle = "Missão " + key;
+          courseModules.forEach(mod => {
+             const l = mod.lessons.find(x => x.id === key);
+             if(l) lessonTitle = l.title;
+          });
+          html += `<div style="margin-bottom: 20px;">
+                      <strong style="display:block; margin-bottom: 5px;">${lessonTitle}</strong>
+                      <img src="${ans}" style="max-width: 100%; border: 1px solid var(--glass-border); border-radius: 8px;">
+                   </div>`;
+      }
+  });
+
+  if(!hasImages) {
+      html += `<p style="margin-bottom: 20px; color: var(--text-secondary);">O aluno não possui fotos anexadas.</p>`;
+  }
+  
+  html += `<button onclick="document.getElementById('image-modal').remove()" class="btn primary-btn w-full">Fechar</button></div>`;
+  
+  const modal = document.createElement('div');
+  modal.id = 'image-modal';
+  modal.style.position = 'fixed';
+  modal.style.top = '0'; modal.style.left = '0'; modal.style.width = '100vw'; modal.style.height = '100vh';
+  modal.style.backgroundColor = 'rgba(0,0,0,0.6)';
+  modal.style.display = 'flex'; modal.style.justifyContent = 'center'; modal.style.alignItems = 'center';
+  modal.style.zIndex = '9999';
+  modal.innerHTML = html;
+  
+  document.body.appendChild(modal);
+}
+
+// Boss Battle Trigger
+window.triggerBossBattle = function() {
+  const modal = document.createElement('div');
+  modal.id = 'boss-modal';
+  modal.style.position = 'fixed';
+  modal.style.top = '0'; modal.style.left = '0'; modal.style.width = '100vw'; modal.style.height = '100vh';
+  modal.style.backgroundColor = 'rgba(0,0,0,0.95)';
+  modal.style.display = 'flex'; modal.style.justifyContent = 'center'; modal.style.alignItems = 'center';
+  modal.style.zIndex = '99999';
+  modal.style.transition = 'all 2s ease';
+  
+  modal.innerHTML = `
+    <div style="text-align:center; color:white; animation: shake 0.5s infinite;">
+      <h1 style="color: #ef4444; font-size: 3rem; text-transform: uppercase; margin-bottom: 20px;">Monstro da Ignorância</h1>
+      <img src="./assets/boss_monster.png" style="max-width: 80%; max-height: 60vh; border-radius: 20px; border: 5px solid #ef4444; box-shadow: 0 0 50px #ef4444;" id="boss-img">
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  if(!document.getElementById('boss-keyframes')) {
+      const style = document.createElement('style');
+      style.id = 'boss-keyframes';
+      style.innerHTML = `
+        @keyframes shake { 0% { transform: translate(1px, 1px) rotate(0deg); } 10% { transform: translate(-1px, -2px) rotate(-1deg); } 20% { transform: translate(-3px, 0px) rotate(1deg); } 30% { transform: translate(3px, 2px) rotate(0deg); } 40% { transform: translate(1px, -1px) rotate(1deg); } 50% { transform: translate(-1px, 2px) rotate(-1deg); } 60% { transform: translate(-3px, 1px) rotate(0deg); } 70% { transform: translate(3px, 1px) rotate(-1deg); } 80% { transform: translate(-1px, -1px) rotate(1deg); } 90% { transform: translate(1px, 2px) rotate(0deg); } 100% { transform: translate(1px, -2px) rotate(-1deg); } }
+        @keyframes flashAndFade { 0% { filter: brightness(1); } 50% { filter: brightness(10) invert(1); opacity: 1; transform: scale(1.1); } 100% { filter: brightness(0); opacity: 0; transform: scale(0.1); } }
+      `;
+      document.head.appendChild(style);
+  }
+
+  setTimeout(() => {
+    const img = document.getElementById('boss-img');
+    if(img) img.style.animation = 'flashAndFade 3s forwards';
     
     setTimeout(() => {
-        overlay.style.opacity = '0';
-        overlay.style.transition = 'opacity 0.5s';
-        setTimeout(() => {
-            overlay.remove();
-            callback();
-        }, 500);
-    }, 2500);
+      modal.innerHTML = `
+        <div style="text-align:center; color:white; animation: fadeIn 2s forwards;">
+          <h1 style="color: #10b981; font-size: 4rem; text-transform: uppercase; text-shadow: 0 0 20px #10b981;">VITÓRIA!</h1>
+          <p style="font-size: 1.5rem; max-width: 600px; margin: 20px auto;">Sua Guilda destruiu a Ignorância. O conhecimento flui livremente pelos cabos do reino.</p>
+          <p style="font-size: 1.2rem; color: #a855f7;">Módulo Boss Concluído! XP Máximo adquirido!</p>
+          <button onclick="document.getElementById('boss-modal').remove()" class="btn success-btn mt-4">Retornar como Herói</button>
+        </div>
+      `;
+    }, 3000);
+  }, 3000);
 }
 
-function finishLesson(lesson) {
-    setTimeout(() => {
-        if (currentLessonIndex < currentModule.lessons.length - 1) openLesson(currentModule, currentLessonIndex + 1);
-        else {
-            showToast("Mundo Concluído!", "🏆");
-            initDashboard(currentModule);
-        }
-    }, 1500);
-}
+// RPG - Loja e Inventário
+const shopItems = [
+  { id: 'shield_arcane', name: 'Escudo Arcano', price: 200, icon: '🛡️', category: 'accessory', minLevel: 1, effect: 'Defesa contra ignorância (+10% XP)', xpBonus: 0.1 },
+  { id: 'boot_speed', name: 'Botas da Fibra Óptica', price: 250, icon: '🥾', category: 'accessory', minLevel: 1, effect: 'Navegação rápida (+5% XP)', xpBonus: 0.05 },
+  { id: 'cloak_master', name: 'Capa do Mestre', price: 350, icon: '🧥', category: 'accessory', minLevel: 3, effect: 'Sorte de explorador (+20% Moedas)', coinBonus: 0.2 },
+  { id: 'scroll_oracle', name: 'Pergaminho do Oráculo', price: 400, icon: '📜', category: 'consumable', minLevel: 2, effect: 'Revela dicas nas missões (Equipe para usar)', hintPower: true },
+  { id: 'sword_silicon', name: 'Espada de Silício', price: 500, icon: '⚔️', category: 'weapon', minLevel: 5, effect: 'Necessária para enfrentar Bosses Finais', requiredForBoss: true },
+  { id: 'ring_double', name: 'Anel do Dobro', price: 700, icon: '💍', category: 'accessory', minLevel: 4, effect: 'Dobra ganhos de moedas (+100% Moedas)', coinBonus: 1.0 },
+  { id: 'helmet_gold', name: 'Elmo de Ouro', price: 800, icon: '🪖', category: 'accessory', minLevel: 8, effect: 'Aura de Sabedoria Máxima (+25% XP)', xpBonus: 0.25 },
+  { id: 'staff_wizard', name: 'Cajado do Mago TI', price: 1500, icon: '🪄', category: 'weapon', minLevel: 10, effect: 'Poder supremo de processamento (+50% XP)', xpBonus: 0.5 },
+  { id: 'gem_intel', name: 'Gema da Intel', price: 2500, icon: '💎', category: 'relic', minLevel: 15, effect: 'Conhecimento total (+100% XP e Moedas)', xpBonus: 1.0, coinBonus: 1.0 }
+];
 
-// ==========================================
-// ATIVIDADES BÔNUS: CANVAS E FOTO
-// ==========================================
-let bonusCtx = null, bonusDrawing = false;
+document.getElementById('open-shop-btn').addEventListener('click', () => {
+    showScreen('shop');
+    initShop();
+});
 
-function initBonusCanvas() {
-    const canvas = document.getElementById('bonus-canvas');
-    if (!canvas) return;
-    bonusCtx = canvas.getContext('2d');
-    bonusCtx.lineCap = 'round';
-    bonusCtx.lineJoin = 'round';
+document.getElementById('back-from-shop-btn').addEventListener('click', () => {
+    initWorldSelect();
+});
 
-    const getPos = (e) => {
-        const rect = canvas.getBoundingClientRect();
-        const scaleX = canvas.width / rect.width;
-        const scaleY = canvas.height / rect.height;
-        const src = e.touches ? e.touches[0] : e;
-        return { x: (src.clientX - rect.left) * scaleX, y: (src.clientY - rect.top) * scaleY };
-    };
-
-    const startDraw = (e) => { e.preventDefault(); bonusDrawing = true; const p = getPos(e); bonusCtx.beginPath(); bonusCtx.moveTo(p.x, p.y); };
-    const draw = (e) => {
-        if (!bonusDrawing) return; e.preventDefault();
-        const color = document.getElementById('draw-color')?.value || '#7c3aed';
-        const size = document.getElementById('draw-size')?.value || 5;
-        bonusCtx.strokeStyle = color;
-        bonusCtx.lineWidth = size;
-        const p = getPos(e);
-        bonusCtx.lineTo(p.x, p.y);
-        bonusCtx.stroke();
-    };
-    const stopDraw = () => bonusDrawing = false;
-
-    canvas.addEventListener('mousedown', startDraw);
-    canvas.addEventListener('mousemove', draw);
-    canvas.addEventListener('mouseup', stopDraw);
-    canvas.addEventListener('mouseleave', stopDraw);
-    canvas.addEventListener('touchstart', startDraw, { passive: false });
-    canvas.addEventListener('touchmove', draw, { passive: false });
-    canvas.addEventListener('touchend', stopDraw);
-}
-
-function clearBonusCanvas() {
-    const canvas = document.getElementById('bonus-canvas');
-    if (canvas && bonusCtx) bonusCtx.clearRect(0, 0, canvas.width, canvas.height);
-}
-
-function previewBonusPhoto(input) {
-    const preview = document.getElementById('bonus-photo-preview');
-    if (!preview || !input.files[0]) return;
-    const reader = new FileReader();
-    reader.onload = (e) => {
-        preview.innerHTML = `
-            <p style="color: var(--success); margin-bottom: 8px;">✅ Imagem anexada com sucesso!</p>
-            <img src="${e.target.result}" style="max-width: 100%; border-radius: 12px; border: 2px solid var(--primary);">`;
-    };
-    reader.readAsDataURL(input.files[0]);
-}
-
-
-// ==========================================
-// LOJA E INVENTÁRIO
-// ==========================================
 function initShop() {
     const grid = document.getElementById('shop-items-grid');
-    if(!grid) return;
     document.getElementById('shop-user-coins').innerText = currentUser.coins;
     grid.innerHTML = '';
-    
+
     shopItems.forEach(item => {
         const isOwned = currentUser.inventory.includes(item.id);
+        const isLevelLocked = (currentUser.level || 1) < item.minLevel;
+        
         const card = document.createElement('div');
-        card.className = 'glass-card shop-item-card';
+        card.className = `glass-card shop-item-card ${isLevelLocked ? 'locked-item' : ''}`;
+        card.style.textAlign = 'center';
+        card.style.opacity = isLevelLocked ? '0.7' : '1';
+
         card.innerHTML = `
-            <div style="font-size: 2.5rem; margin-bottom: 10px;">${item.icon}</div>
+            <div style="font-size: 3rem; margin-bottom: 1rem; filter: ${isLevelLocked ? 'grayscale(1) blur(2px)' : 'none'}">${item.icon}</div>
             <h4>${item.name}</h4>
-            <p style="font-size: 0.8rem; color: var(--text-secondary);">${item.description}</p>
-            <p style="color: var(--primary); font-weight: bold; margin: 10px 0;">${item.price} Moedas</p>
-            <button class="btn ${isOwned ? 'success-btn' : 'primary-btn'} w-full" ${isOwned ? 'disabled' : ''}>
-                ${isOwned ? 'Adquirido' : 'Comprar'}
+            <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 0.3rem 0;">${item.effect}</p>
+            <p style="color: var(--primary); font-weight: bold; margin: 0.5rem 0;">${item.price} Moedas</p>
+            ${isLevelLocked ? `<div class="item-requirement-locked">🔒 Requer Nível ${item.minLevel}</div>` : ''}
+            <button class="btn ${isOwned ? 'success-btn' : 'primary-btn'} w-full" 
+                    ${isOwned || isLevelLocked ? 'disabled' : ''} 
+                    onclick="buyItem('${item.id}')">
+                ${isOwned ? 'Adquirido' : (isLevelLocked ? 'Bloqueado' : 'Comprar')}
             </button>
         `;
-        card.querySelector('button').onclick = () => buyItem(item);
         grid.appendChild(card);
     });
 }
 
-function buyItem(item) {
+window.buyItem = function(itemId) {
+    const item = shopItems.find(i => i.id === itemId);
+    if (!item) return;
+
     if (currentUser.coins >= item.price) {
         currentUser.coins -= item.price;
         currentUser.inventory.push(item.id);
         playSound('correct');
         saveStudentData();
         initShop();
-        showToast(`Você comprou: ${item.name}`, '🛒');
+        alert(`Você adquiriu o ${item.name}!`);
     } else {
-        playSound('error');
-        showToast("Moedas insuficientes!", "❌");
+        alert("Moedas insuficientes! Complete mais missões para ganhar ouro.");
     }
 }
 
@@ -1306,245 +2209,441 @@ function updateInventoryUI() {
     const list = document.getElementById('inventory-list');
     if(!list) return;
     list.innerHTML = '';
-    
-    if(currentUser.inventory.length === 0) {
-        list.innerHTML = '<p style="grid-column: 1/-1; font-size: 0.8rem; color: var(--text-secondary);">Vazio</p>';
+
+    if (currentUser.inventory.length === 0) {
+        list.innerHTML = '<p style="grid-column: 1/-1; font-size: 0.8rem; color: var(--text-secondary);">Sua mochila está vazia.</p>';
     } else {
-        currentUser.inventory.forEach(id => {
-            const item = shopItems.find(i => i.id === id);
+        currentUser.inventory.forEach(itemId => {
+            const item = shopItems.find(i => i.id === itemId);
             if(item) {
-                const el = document.createElement('div');
-                el.className = `inventory-item ${currentUser.equippedItems.includes(id) ? 'equipped' : ''}`;
-                el.innerHTML = `<span>${item.icon}</span>`;
-                el.onclick = () => { playSound('click'); toggleEquip(id); };
-                list.appendChild(el);
+                const itemEl = document.createElement('div');
+                itemEl.className = 'inventory-item';
+                itemEl.title = item.name;
+                itemEl.innerHTML = `<span>${item.icon}</span>`;
+                list.appendChild(itemEl);
             }
         });
     }
 }
 
-function toggleEquip(id) {
-    const idx = currentUser.equippedItems.indexOf(id);
-    if(idx > -1) currentUser.equippedItems.splice(idx, 1);
-    else currentUser.equippedItems.push(id);
+// Sistema de Baús
+document.getElementById('dashboard-chest').addEventListener('click', () => {
+    if (currentUser.keys > 0) {
+        openChest();
+    } else {
+        alert("Você precisa de uma Chave Mágica 🔑 para abrir este baú! Complete missões para encontrar chaves.");
+    }
+});
+
+function openChest() {
+    currentUser.keys--;
     saveStudentData();
-    updateInventoryUI();
-    renderMainAvatar();
+    updateGamificationStats();
+
+    const modal = document.getElementById('chest-modal');
+    const rewardDiv = document.getElementById('chest-reward');
+    const animImg = document.getElementById('chest-animation-img');
+    const title = document.getElementById('chest-modal-title');
+    
+    modal.classList.remove('hidden');
+    rewardDiv.classList.add('hidden');
+    animImg.src = './assets/chest_closed.png';
+    title.innerText = "Abrindo Baú Tesouro...";
+
+    // Animação de tremor
+    animImg.style.animation = 'shake 0.5s infinite';
+
+    setTimeout(() => {
+        animImg.style.animation = 'none';
+        animImg.src = './assets/chest_open.png';
+        title.innerText = "BAÚ ABERTO!";
+        
+        // Gerar recompensa aleatória
+        const rewards = [
+            { type: 'coins', amount: 150, text: '150 Moedas de Ouro!', icon: '💰' },
+            { type: 'coins', amount: 300, text: '300 Moedas de Ouro! (RARO)', icon: '💰' },
+            { type: 'key', amount: 2, text: '2 Chaves Mágicas!', icon: '🔑' },
+            { type: 'xp', amount: 500, text: '500 XP de Sabedoria!', icon: '✨' }
+        ];
+        
+        const reward = rewards[Math.floor(Math.random() * rewards.length)];
+        
+        if(reward.type === 'coins') currentUser.coins += reward.amount;
+        if(reward.type === 'key') currentUser.keys += reward.amount;
+        if(reward.type === 'xp') currentUser.xp += reward.amount;
+        
+        playSound('correct');
+        document.getElementById('reward-item-display').innerHTML = `
+            <div style="font-size: 3rem;">${reward.icon}</div>
+            <p style="font-size: 1.2rem; font-weight: bold; color: var(--primary);">${reward.text}</p>
+        `;
+        
+        rewardDiv.classList.remove('hidden');
+        saveStudentData();
+        updateGamificationStats();
+    }, 2000);
 }
 
-function renderMainAvatar() {
-    const img = document.getElementById('main-avatar-img');
-    const acc = document.getElementById('avatar-accessories');
-    if(!img || !acc) return;
+document.getElementById('close-chest-modal-btn').addEventListener('click', () => {
+    document.getElementById('chest-modal').classList.add('hidden');
+});
+
+// Personalização do Avatar
+document.getElementById('customize-avatar-btn').addEventListener('click', () => {
+    initCustomization();
+    document.getElementById('customize-modal').classList.remove('hidden');
+});
+
+document.getElementById('close-customize-modal-btn').addEventListener('click', () => {
+    document.getElementById('customize-modal').classList.add('hidden');
+    updateGamificationStats(); // Atualiza o avatar no dashboard
+});
+
+function initCustomization() {
+    const grid = document.getElementById('customization-items-grid');
+    grid.innerHTML = '';
+
+    if (currentUser.inventory.length === 0) {
+        grid.innerHTML = '<p style="grid-column: 1/-1; font-size: 0.8rem; color: var(--text-secondary);">Você não possui acessórios ainda. Visite a Loja!</p>';
+    } else {
+        currentUser.inventory.forEach(itemId => {
+            const item = shopItems.find(i => i.id === itemId);
+            if(item) {
+                const isEquipped = currentUser.equippedItems.includes(itemId);
+                const itemEl = document.createElement('div');
+                itemEl.className = `inventory-item ${isEquipped ? 'equipped' : ''}`;
+                itemEl.style.cursor = 'pointer';
+                itemEl.title = item.name;
+                itemEl.innerHTML = `<span>${item.icon}</span>`;
+                itemEl.addEventListener('click', () => toggleEquip(itemId));
+                grid.appendChild(itemEl);
+            }
+        });
+    }
+    renderPreviewAvatar();
+}
+
+function toggleEquip(itemId) {
+    const index = currentUser.equippedItems.indexOf(itemId);
+    if (index > -1) {
+        currentUser.equippedItems.splice(index, 1);
+    } else {
+        currentUser.equippedItems.push(itemId);
+    }
+    saveStudentData();
+    initCustomization();
+}
+
+function renderPreviewAvatar() {
+    const container = document.getElementById('preview-accessories');
+    const img = document.getElementById('preview-avatar-img');
     
-    img.src = currentUser.gender === 'female' ? './assets/avatar_knight_female.png' : './assets/avatar_knight.png';
-    acc.innerHTML = '';
-    
-    currentUser.equippedItems.forEach(id => {
-        const item = shopItems.find(i => i.id === id);
+    if (currentUser.gender === 'female') {
+        img.src = './assets/avatar_knight_female.png';
+    } else {
+        img.src = './assets/avatar_knight.png';
+    }
+
+    container.innerHTML = '';
+    currentUser.equippedItems.forEach(itemId => {
+        const item = shopItems.find(i => i.id === itemId);
         if(item) {
             const icon = document.createElement('div');
             icon.className = 'equipped-icon-overlay';
             icon.innerText = item.icon;
-            acc.appendChild(icon);
+            container.appendChild(icon);
         }
     });
 }
 
-// ==========================================
-// SISTEMA DE BAÚS (TREASURE)
-// ==========================================
-// Checar se a Chave Mestra do inventário conta como chave
-function getAvailableKeys() {
-    let keys = currentUser.keys || 0;
-    // Chave Mestra na mochila também vale como chave
-    if (currentUser.inventory.includes('key_master')) keys += 999;
-    return keys;
-}
+function renderMainAvatar() {
+    const container = document.getElementById('avatar-accessories');
+    const img = document.getElementById('main-avatar-img');
+    if(!container || !img) return;
 
-document.getElementById('dashboard-chest')?.addEventListener('click', () => {
-    if (getAvailableKeys() > 0) openChest();
-    else showToast("Você precisa de uma Chave! Compre na loja ou complete missões. 🔑", "❌");
-});
-
-function openChest() {
-    const hasMasterKey = currentUser.inventory.includes('key_master');
-    const hasNormalKey = (currentUser.keys || 0) > 0;
-    
-    if (!hasMasterKey && !hasNormalKey) {
-        playSound('error');
-        const modal = document.getElementById('chest-modal');
-        const anim = document.getElementById('chest-animation-img');
-        const reward = document.getElementById('chest-reward');
-        const title = document.getElementById('chest-modal-title');
-        modal.classList.remove('hidden');
-        reward.classList.remove('hidden');
-        anim.src = './assets/chest_closed.png';
-        title.innerText = "BAÚ TRANCADO!";
-        document.getElementById('reward-item-display').innerHTML = `
-            <div style="font-size: 3rem; margin-bottom: 1rem;">🔒</div>
-            <p style="color: var(--error); font-weight:bold;">Você não possui uma Chave Mágica!</p>
-            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 10px;">Complete missões (30% de chance) ou compre a <strong>Chave Mestra</strong> na Loja do Reino por 1.200 moedas.</p>
-        `;
-        return;
+    if (currentUser.gender === 'female') {
+        img.src = './assets/avatar_knight_female.png';
+    } else {
+        img.src = './assets/avatar_knight.png';
     }
-    // Consome chave normal primeiro; Chave Mestra é permanente (não consome)
-    if (hasNormalKey) {
 
-        currentUser.keys--;
-        saveStudentData();
-        updateStatsBar('db');
-    }
-    
-    const modal = document.getElementById('chest-modal');
-    const anim = document.getElementById('chest-animation-img');
-    const reward = document.getElementById('chest-reward');
-    const title = document.getElementById('chest-modal-title');
-    
-    modal.classList.remove('hidden');
-    reward.classList.add('hidden');
-    anim.src = './assets/chest_closed.png';
-    title.innerText = "Abrindo Baú do Reino...";
-    
-    // Animação de tremor épico
-    anim.style.animation = 'shake 0.5s infinite';
-    playSound('click');
-    
-    setTimeout(() => {
-        anim.style.animation = 'none';
-        anim.src = './assets/chest_open.png';
-        playSound('correct');
-        title.innerText = "BAÚ ABERTO!";
-        
-        const possible = [
-            { type: 'coins', val: 250, txt: '250 Moedas de Ouro!', icon: '💰' },
-            { type: 'xp', val: 600, txt: '600 XP de Sabedoria!', icon: '✨' },
-            { type: 'coins', val: 1000, txt: 'TESOURO LENDÁRIO! 1000 Moedas', icon: '👑' }
-        ];
-        const r = possible[Math.floor(Math.random() * possible.length)];
-        
-        if(r.type === 'coins') currentUser.coins += r.val;
-        if(r.type === 'xp') currentUser.xp += r.val;
-        
-        document.getElementById('reward-item-display').innerHTML = `
-            <div style="font-size: 4rem; margin-bottom: 1rem; filter: drop-shadow(0 0 10px gold);">${r.icon}</div>
-            <p style="font-size: 1.4rem; font-weight: bold; color: var(--primary);">${r.txt}</p>
-        `;
-        reward.classList.remove('hidden');
-        saveStudentData();
-        updateStatsBar('db');
-        showToast("Recompensa Coletada!", "🎁");
-    }, 2000);
-}
-
-document.getElementById('close-chest-modal-btn')?.addEventListener('click', () => {
-    document.getElementById('chest-modal').classList.add('hidden');
-});
-
-// ==========================================
-// RANKING E ÁREA DO PROFESSOR
-// ==========================================
-function initRanking() {
-    const podium = document.getElementById('podium-container');
-    const list = document.getElementById('ranking-list');
-    if(!podium || !list) return;
-    
-    let students = JSON.parse(localStorage.getItem('ava_students')) || [];
-    students.sort((a,b) => (b.xp || 0) - (a.xp || 0));
-    
-    podium.innerHTML = '';
-    list.innerHTML = '';
-    
-    students.slice(0, 3).forEach((s, idx) => {
-        const p = document.createElement('div');
-        p.className = `podium-item podium-${idx+1}`;
-        p.innerHTML = `<div class="podium-name">${s.name}</div><div class="podium-rank-box">${idx+1}</div>`;
-        podium.appendChild(p);
+    container.innerHTML = '';
+    currentUser.equippedItems.forEach(itemId => {
+        const item = shopItems.find(i => i.id === itemId);
+        if(item) {
+            const icon = document.createElement('div');
+            icon.className = 'equipped-icon-overlay';
+            icon.innerText = item.icon;
+            container.appendChild(icon);
+        }
     });
+}
+
+// Sobrescrever updateGamificationStats para incluir o avatar
+const originalUpdateStats = updateGamificationStats;
+updateGamificationStats = function() {
+    originalUpdateStats();
+    renderMainAvatar();
+}
+
+function injectHiddenItem() {
+    // 25% de chance de aparecer um item escondido na lição
+    if (Math.random() > 0.25) return;
+
+    const article = document.getElementById('lesson-article');
+    const paragraphs = article.querySelectorAll('p');
+    if (paragraphs.length === 0) return;
+
+    const targetP = paragraphs[Math.floor(Math.random() * paragraphs.length)];
+    const item = document.createElement('span');
+    item.className = 'hidden-item-collectible';
     
-    students.forEach((s, idx) => {
+    const items = ['💎', '🪙', '🧪', '📜'];
+    const chosen = items[Math.floor(Math.random() * items.length)];
+    item.innerText = chosen;
+    item.title = "Clique para coletar!";
+    
+    item.onclick = (e) => {
+        e.stopPropagation();
+        const reward = 30 + Math.floor(Math.random() * 50);
+        currentUser.coins += reward;
+        playSound('coin');
+        showToast(`Item Escondido! +${reward} Moedas`, '✨');
+        item.style.display = 'none';
+        saveStudentData();
+        updateGamificationStats();
+    };
+
+    targetP.appendChild(item);
+}
+
+function renderModuleUnlocks() {
+    const container = document.getElementById('module-unlock-list');
+    const settings = JSON.parse(localStorage.getItem('ava_settings')) || { lockedModules: [] };
+    container.innerHTML = '';
+
+    courseModules.forEach(world => {
+        const item = document.createElement('div');
+        item.className = 'module-unlock-item';
+        const isLocked = settings.lockedModules.includes(world.id);
+        
+        item.innerHTML = `
+            <div>
+                <span style="font-size: 1.2rem;">${world.icon}</span>
+                <strong>${world.title}</strong>
+            </div>
+            <label class="switch">
+                <input type="checkbox" ${!isLocked ? 'checked' : ''} onchange="toggleModuleLock('${world.id}', this.checked)">
+                <span class="slider"></span>
+            </label>
+        `;
+        container.appendChild(item);
+    });
+}
+
+window.toggleModuleLock = function(moduleId, isUnlocked) {
+    let settings = JSON.parse(localStorage.getItem('ava_settings')) || { lockedModules: [] };
+    if (isUnlocked) {
+        settings.lockedModules = settings.lockedModules.filter(id => id !== moduleId);
+    } else {
+        if (!settings.lockedModules.includes(moduleId)) {
+            settings.lockedModules.push(moduleId);
+        }
+    }
+    localStorage.setItem('ava_settings', JSON.stringify(settings));
+    showToast(isUnlocked ? "Missão Liberada!" : "Missão Bloqueada!", isUnlocked ? "🔓" : "🔒");
+}
+
+// RANKING
+document.getElementById('back-from-ranking-btn').addEventListener('click', () => {
+    showScreen('teacher');
+});
+
+function initRanking() {
+    const students = JSON.parse(localStorage.getItem('ava_students')) || [];
+    const sorted = [...students].sort((a, b) => (b.xp || 0) - (a.xp || 0));
+    
+    // Podium
+    const podiumContainer = document.getElementById('podium-container');
+    podiumContainer.innerHTML = '';
+    
+    const top3 = sorted.slice(0, 3);
+    top3.forEach((s, i) => {
+        const item = document.createElement('div');
+        item.className = `podium-item podium-${i+1}`;
+        item.innerHTML = `
+            <div class="podium-rank-box">${i+1}</div>
+            <div class="podium-name">${s.name.split(' ')[0]}</div>
+            <div style="font-size: 0.7rem;">LVL ${s.level || 1}</div>
+        `;
+        podiumContainer.appendChild(item);
+    });
+
+    // List
+    const list = document.getElementById('ranking-list');
+    list.innerHTML = '';
+    sorted.forEach((s, i) => {
         const row = document.createElement('div');
         row.className = `ranking-row ${s.name === currentUser.name ? 'me' : ''}`;
-        row.innerHTML = `<span>#${idx+1}</span><span>${s.name}</span><span>Lvl ${Math.floor((s.xp||0)/1000)+1}</span><span>${s.xp||0} XP</span>`;
+        row.innerHTML = `
+            <div style="font-weight: bold;">#${i+1}</div>
+            <div>${s.name}</div>
+            <div>✨ ${s.xp || 0} XP</div>
+            <div>💰 ${s.coins || 0}</div>
+        `;
         list.appendChild(row);
     });
 }
 
-document.getElementById('teacher-btn')?.addEventListener('click', () => {
-    const pass = prompt("Senha do Mestre:");
-    if(pass === 'Joseneto2020') {
-        showScreen('teacher');
-        renderTeacherStudents();
-    } else if(pass !== null) alert("Acesso Negado!");
+// Importar Dados de Ranking
+document.getElementById('import-ranking-input').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const importedData = JSON.parse(e.target.result);
+            let students = JSON.parse(localStorage.getItem('ava_students')) || [];
+            
+            // Se for um array de estudantes
+            if (Array.isArray(importedData)) {
+                importedData.forEach(newS => {
+                    const idx = students.findIndex(s => s.name.toLowerCase() === newS.name.toLowerCase());
+                    if (idx > -1) {
+                        if ((newS.xp || 0) > (students[idx].xp || 0)) students[idx] = newS;
+                    } else {
+                        students.push(newS);
+                    }
+                });
+            } else if (importedData.name) { // Se for um único estudante
+                const idx = students.findIndex(s => s.name.toLowerCase() === importedData.name.toLowerCase());
+                if (idx > -1) {
+                    if ((importedData.xp || 0) > (students[idx].xp || 0)) students[idx] = importedData;
+                } else {
+                    students.push(importedData);
+                }
+            }
+            
+            localStorage.setItem('ava_students', JSON.stringify(students));
+            showToast("Dados Importados!", "📥");
+            if(currentUser) {
+                const updated = students.find(s => s.name === currentUser.name);
+                if(updated) currentUser = updated;
+            }
+            initRanking();
+        } catch(err) {
+            alert("Erro ao importar dados.");
+        }
+    };
+    reader.readAsText(file);
 });
 
-document.getElementById('teacher-access-btn')?.addEventListener('click', () => {
-    const pass = prompt("Senha do Mestre:");
-    if(pass === 'Joseneto2020') {
-        showScreen('teacher');
-        renderTeacherStudents();
-    } else if(pass !== null) alert("Acesso Negado!");
-});
-
-function renderTeacherStudents() {
-    const cont = document.getElementById('student-list-container');
-    if(!cont) return;
+function renderPendingApprovals() {
+    const container = document.getElementById('pending-list-container');
     const students = JSON.parse(localStorage.getItem('ava_students')) || [];
-    cont.innerHTML = '';
-    students.forEach(s => {
-        const li = document.createElement('li');
-        li.className = 'glass-card mb-2';
-        li.innerHTML = `<strong>${s.name}</strong> - XP: ${s.xp || 0} - Nível: ${Math.floor((s.xp||0)/1000)+1}`;
-        cont.appendChild(li);
+    container.innerHTML = '';
+    
+    let hasPending = false;
+    students.forEach(student => {
+        if(student.pendingProgress && student.pendingProgress.length > 0) {
+            hasPending = true;
+            student.pendingProgress.forEach(lessonId => {
+                const lesson = findLessonById(lessonId);
+                const item = document.createElement('div');
+                item.className = 'glass-card mb-4';
+                item.style.padding = '1rem';
+                item.style.marginBottom = '1rem';
+                
+                let answerDisplay = student.answers[lessonId];
+                if(answerDisplay && answerDisplay.startsWith('data:image')) {
+                    answerDisplay = `<img src="${answerDisplay}" style="max-width:200px; display:block; margin: 10px 0; border-radius: 8px;">`;
+                } else {
+                    answerDisplay = `<p style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; margin: 10px 0;">${answerDisplay || 'Sem resposta'}</p>`;
+                }
+
+                item.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <strong>${student.name}</strong>
+                        <span class="badge-level">LVL ${student.level || 1}</span>
+                    </div>
+                    <div style="font-size: 0.9rem; color: var(--primary); margin-top: 5px;">${lesson ? lesson.title : lessonId}</div>
+                    ${answerDisplay}
+                    <div style="display:flex; gap: 10px; margin-top: 10px;">
+                        <button class="btn success-btn" onclick="approveMission('${student.name}', '${lessonId}')">Aprovar ✓</button>
+                        <button class="btn error-btn" onclick="rejectMission('${student.name}', '${lessonId}')">Reprovar ✗</button>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
     });
+
+    if(!hasPending) {
+        container.innerHTML = '<p style="text-align:center; padding: 2rem; color: var(--text-secondary);">Nenhuma missão pendente de avaliação.</p>';
+    }
 }
 
-// ==========================================
-// LISTENERS AUXILIARES
-// ==========================================
-document.getElementById('back-to-worlds-btn')?.addEventListener('click', () => initWorldSelect());
-document.getElementById('back-to-dashboard')?.addEventListener('click', () => initDashboard(currentModule));
-document.getElementById('logout-btn')?.addEventListener('click', () => {
-    localStorage.removeItem('ava_current_user');
-    location.reload();
-});
-document.getElementById('open-shop-btn')?.addEventListener('click', () => { showScreen('shop'); initShop(); });
-document.getElementById('back-from-shop-btn')?.addEventListener('click', () => initWorldSelect());
-document.getElementById('back-to-login-btn')?.addEventListener('click', () => showScreen('login'));
-document.getElementById('back-from-ranking-btn')?.addEventListener('click', () => initWorldSelect());
-document.getElementById('open-ranking-btn')?.addEventListener('click', () => { showScreen('ranking'); initRanking(); });
-document.getElementById('dashboard-chest')?.addEventListener('click', () => openChest());
-
-// Tabs do Professor
-document.querySelectorAll('.teacher-tab-btn').forEach(btn => {
-    btn.onclick = () => {
-        document.querySelectorAll('.teacher-tab-btn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.teacher-tab-content').forEach(c => c.classList.add('hidden'));
-        btn.classList.add('active');
-        document.getElementById(`tab-${btn.dataset.tab}`).classList.remove('hidden');
-        if(btn.dataset.tab === 'students') renderTeacherStudents();
-    };
-});
-
-// ==========================================
-// INICIALIZAÇÃO FINAL
-// ==========================================
-(function init() {
-    const lastName = localStorage.getItem('ava_last_username');
-    if (lastName) {
-        const input = document.getElementById('student-name');
-        if (input) input.value = lastName;
+function findLessonById(id) {
+    for(const mod of courseModules) {
+        const l = mod.lessons.find(x => x.id === id);
+        if(l) return l;
     }
+    return null;
+}
 
-    const saved = localStorage.getItem('ava_current_user');
-    if (saved) {
-        currentUser = JSON.parse(saved);
-        if(!currentUser.keys) currentUser.keys = 1;
-        if(!currentUser.inventory) currentUser.inventory = [];
-        if(!currentUser.equippedItems) currentUser.equippedItems = [];
-        if(!currentUser.collectibles) currentUser.collectibles = [];
-        initWorldSelect();
-    } else {
-        showScreen('login');
+window.approveMission = function(studentName, lessonId) {
+    let students = JSON.parse(localStorage.getItem('ava_students')) || [];
+    const sIdx = students.findIndex(s => s.name === studentName);
+    if(sIdx === -1) return;
+    
+    const student = students[sIdx];
+    student.pendingProgress = student.pendingProgress.filter(id => id !== lessonId);
+    if(!student.progress.includes(lessonId)) {
+        student.progress.push(lessonId);
+        
+        // Award rewards
+        const lesson = findLessonById(lessonId);
+        if(lesson) {
+            let xpReward = lesson.xpReward;
+            let coinReward = 50;
+            student.xp = (student.xp || 0) + xpReward;
+            student.coins = (student.coins || 0) + coinReward;
+            
+            // Check module completion
+            courseModules.forEach(mod => {
+                if(mod.lessons.some(l => l.id === lessonId)) {
+                    const allDone = mod.lessons.every(l => student.progress.includes(l.id));
+                    if(allDone && !student.completedModules.includes(mod.id)) {
+                        student.completedModules.push(mod.id);
+                        student.badges.push({ title: mod.badgeTitle, icon: mod.badgeIcon });
+                    }
+                }
+            });
+        }
     }
-})();
+    
+    localStorage.setItem('ava_students', JSON.stringify(students));
+    renderPendingApprovals();
+    showToast(`Missão de ${studentName.split(' ')[0]} aprovada!`, "✅");
+}
+
+window.rejectMission = function(studentName, lessonId) {
+    if(!confirm("Deseja realmente reprovar esta resposta? O aluno terá que enviar novamente.")) return;
+    
+    let students = JSON.parse(localStorage.getItem('ava_students')) || [];
+    const sIdx = students.findIndex(s => s.name === studentName);
+    if(sIdx === -1) return;
+    
+    const student = students[sIdx];
+    student.pendingProgress = student.pendingProgress.filter(id => id !== lessonId);
+    // Removemos a resposta para que ele possa enviar de novo
+    delete student.answers[lessonId];
+    
+    localStorage.setItem('ava_students', JSON.stringify(students));
+    renderPendingApprovals();
+    showToast(`Missão de ${studentName.split(' ')[0]} reprovada.`, "❌");
+}
+
+// Inicialização
+updateLoginHistory();
